@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	android:orientation="vertical" >
+
+	<TextView
+		android:id="@+id/txtWelcome"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:text="@string/hello"
+		android:gravity="center"
+	/>
+	
+	<Button
+		android:id="@+id/btNewGame"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:text="Start New Game"
+		android:gravity="center_horizontal"
+	/>
+	
+	<Button
+		android:id="@+id/btHistory"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:text="View History"
+		android:gravity="center_horizontal"
+	/>
+	
+	<Button
+		android:id="@+id/btInfo"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:text="More Information"
+		android:gravity="center_horizontal"
+	/>
+	
+	<Button
+		android:id="@+id/btSettings"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:text="Change Settings"
+		android:gravity="center_horizontal"
+	/>
+
+</LinearLayout>
