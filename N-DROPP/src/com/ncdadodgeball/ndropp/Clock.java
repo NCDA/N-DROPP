@@ -1,3 +1,18 @@
+/**************************************************************************************************
+ * 
+ * _____   __     _______________________________________ 
+ * ___  | / /     ___  __ \__  __ \_  __ \__  __ \__  __ \
+ * __   |/ /________  / / /_  /_/ /  / / /_  /_/ /_  /_/ /
+ * _  /|  /_/_____/  /_/ /_  _, _// /_/ /_  ____/_  ____/		  ASCII ART:
+ * /_/ |_/        /_____/ /_/ |_| \____/ /_/     /_/      		  http://patorjk.com/software/taag/
+ * 
+ * 
+ * National Collegiate Dodgeball Association (NCDA)
+ * NCDA - Dodgeball Referee Officiating Application
+ * http://www.ncdadodgeball.com
+ * Copyright 2014. All Rights Reserved.
+ *************************************************************************************************/
+
 package com.ncdadodgeball.ndropp;
 
 import java.text.DecimalFormat;
