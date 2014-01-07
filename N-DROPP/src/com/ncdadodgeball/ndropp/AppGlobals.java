@@ -10,12 +10,19 @@
  * http://www.ncdadodgeball.com
  * Copyright 2014. All Rights Reserved.
  *************************************************************************************************/
- 
- Here lies the official NCDA Officiating application, otherwise known as N-DROPP.  This application
- serves to better the dodgeball community; more directly, the community of the NCDA and all its
- affiliates.  Consult the "Product Concept and UX Design.pdf" document for details on the
- application's purpose, proposed features, and proposed GUI/UX design.  Consult the "N-DROPP
- Source Design.docx" document for detailed design principles and conventions for this application.
- 
- ASCII ART made possible by http://patorjk.com/software/taag/.
- 
+
+package com.ncdadodgeball.ndropp;
+
+public class AppGlobals {
+	
+	//STRING CONSTANTS
+	public static final String DEBUG_TAG	= "N-DROPP D";
+	public static final String PACKAGE 		= "com.ncdadodgeball.ndropp";
+	public static final String EXTERNAL_DIR = "/mnt/sdcard/Android/data/";
+	public static final String RULEBOOK_FILE = "NCDA_rulebook.pdf";
+	public static final String NCDA_URL 	= "http://www.ncdadodgeball.com";
+	public static final String RULEBOOK_URL = "http://www.ncdadodgeball.com/rulebook/ncda-rules.pdf";
+	
+	//INTEGER CONSTANTS
+	public static final int 	BUFFER_SIZE = 51200;		//50K
+}
