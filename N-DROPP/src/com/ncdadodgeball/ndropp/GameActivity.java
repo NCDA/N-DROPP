@@ -63,7 +63,8 @@ public class GameActivity extends Activity{
         m_btStartReset 	= (Button)findViewById(R.id.btStartReset);
         m_btPauseResume	= (Button)findViewById(R.id.btPauseShotClock);
         
-        m_ShotClock = new Clock(m_ClockText, m_btPauseResume, true, 15000);
+        m_ShotClock = new Clock(m_ClockText, 15000, Clock.CENTISEC);
+//        m_ShotClock = new Clock(m_ClockText, m_btPauseResume, true, 15000);
         m_btStartReset.setOnClickListener(m_Listener);
         m_btPauseResume.setOnClickListener(m_Listener);
         m_btPauseResume.setClickable(false);
@@ -113,10 +114,14 @@ public class GameActivity extends Activity{
 				m_btPauseResume.setBackgroundColor(Color.WHITE);
 				
 				((Button)view).setText("Reset");
-				m_btPauseResume.setText("Pause");
 
 				clock.cancelClock();
-				clock.startClock();
+				clock.resetClock();
+				
+				if(clock.isRunning())
+					m_btPauseResume.setText("Pause");
+				else
+					m_btPauseResume.setText("Resume");
 			}
 			
 			//PAUSE/RESUME BUTTON

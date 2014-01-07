@@ -1,151 +1,208 @@
-/**************************************************************************************************
- * _____   __     _______________________________________ 
- * ___  | / /     ___  __ \__  __ \_  __ \__  __ \__  __ \
- * __   |/ /________  / / /_  /_/ /  / / /_  /_/ /_  /_/ /
- * _  /|  /_/_____/  /_/ /_  _, _// /_/ /_  ____/_  ____/
- * /_/ |_/        /_____/ /_/ |_| \____/ /_/     /_/
- * 
- * National Collegiate Dodgeball Association (NCDA)
- * NCDA - Dodgeball Referee Officiating Application
- * http://www.ncdadodgeball.com
- * Copyright 2014. All Rights Reserved.
- *************************************************************************************************/
-
 package com.ncdadodgeball.ndropp;
-
-import java.text.DecimalFormat;
 
 import android.graphics.Color;
 import android.os.CountDownTimer;
-import android.util.Log;
-import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
-public class Clock{
+public class Clock {
 	
-	public static final long SECONDS = 1000;
-	public static final long MINUTES = 60000;
-	public static final long MILLISEC = 10;
+	public static final long HOUR = 3600000;
+	public static final long MINUTE = 60000;
+	public static final long SECOND = 1000;
+	public static final long CENTISEC = 10;
+	
+	Timer tTimer;
+	TextView vClockText;
+	
+	int hours, minutes, seconds, centisec = 0;		//current time values
+	long duration, tick;							//total duration and tick values
+	boolean bCountDown;								//true == clock counts down (from duration->zero)
+	boolean bRunning;								//true == timer is currently running
+	boolean bPaused;
+	boolean bFinished;								//true == timer reached zero
+	
 
-	Timer			c_Timer;
-	TextView		c_ClockText;
-	Button			c_btPauseResume;
-	boolean			c_bCountUp;			//true == clock counts up
-	boolean			c_bIsRunning;		//true == clock is running
-	boolean			c_bIsPaused;		//true == clock is paused
-	boolean			c_bPauseTrigger;	//true == onTick has recognized that the clock is paused
-	long			c_lMaxTime;
-	long			c_lPauseTime;
+
 	
-	public Clock(TextView view, Button pauseButton, boolean countUp, long duration){
-		c_Timer = new Timer(duration);
-		c_ClockText = view;
-		c_btPauseResume = pauseButton;
-		c_bCountUp = countUp;
-		c_lMaxTime = c_lPauseTime = duration;
-		c_bIsRunning = c_bIsPaused = c_bPauseTrigger = false;
+	
+	/* Clock ( duration, tick )
+	 * @param duration : total countdown time in milliseconds
+	 * @param tick : tick time in milliseconds
+	 * 
+	 * Default to count down timer.
+	 */
+	public Clock(TextView view, long duration, long tick){
+		tTimer = new Timer(duration, tick);
+		this.duration = duration;
+		this.tick = tick;
+		bCountDown = true;
+		vClockText = view;
+		bPaused = false;
+		bFinished = false;
 	}
-
+	
+	/* Clock ( duration, tick, countDown )
+	 * @param duration : total countdown time in milliseconds
+	 * @param tick : tick time in milliseconds
+	 * @param countDown : true if clock should count down
+	 */
+	public Clock(TextView view, long duration, long tick, boolean countDown){
+		tTimer = new Timer(duration, tick);
+		this.duration = duration;
+		this.tick = tick;
+		bCountDown = countDown;
+		vClockText = view;
+		bPaused = false;
+	}
+	
 	public void cancelClock(){
-		c_Timer.cancel();
-		c_bIsRunning = false;
+		bRunning = false;
+		vClockText.setTextColor(Color.WHITE);
+		tTimer.cancel();
 	}
 	
 	public void startClock(){
-		if(c_bIsRunning)
-			c_Timer.cancel();
-		else
-			c_bIsRunning = true;
-		c_Timer = new Timer(c_lMaxTime);
-		c_Timer.start();
-		c_bIsPaused = c_bPauseTrigger = false;
-		c_btPauseResume.setBackgroundColor(Color.WHITE);
-		c_btPauseResume.setClickable(true);
+		bRunning = true;
+		if(bPaused){
+			tTimer = new Timer(duration, tick);
+			bPaused = false;
+		}
+		tTimer.start();
 	}
-	
 	
 	public void pauseClock(){
-		c_bIsPaused = true;
-		c_bIsRunning = false;
+		if(bRunning){
+			tTimer.cancel();
+			tTimer = new Timer( getTime(), tick );
+			bRunning = false;
+		}
+		bPaused = true;
+	}
+
+	public void resumeClock(){
+		if(!bFinished){
+			tTimer.start();
+			bRunning = true;
+			bPaused = false;
+		}
+		else{
+			tTimer = new Timer(duration, tick);
+			bRunning = bPaused = bFinished = false;
+		}
 	}
 	
-	public void resumeClock(){
-		cancelClock();
-		c_Timer = new Timer(c_lPauseTime);	//create timer with new time
-		c_bIsPaused = c_bPauseTrigger = false;
-		c_Timer.start();
-		c_bIsRunning = true;
+	public void resetClock(){
+		if(bPaused && !bRunning){
+			vClockText.setText(getSecondsTimeString(duration));
+			tTimer.cancel();
+			tTimer = new Timer(duration, tick);
+			bPaused = false;
+		}
+		else{
+			cancelClock();
+			tTimer = new Timer(duration, tick);
+			startClock();
+		}
 	}
 	
 	public boolean isRunning(){
-		return c_bIsRunning;
+		return bRunning;
 	}
 	
-	public boolean isPaused(){
-		return c_bIsPaused;
+	public long getHours(){
+		return hours;
 	}
 	
-	public void setClockDuration(int seconds){
-		c_lMaxTime = seconds * 1000;
+	public long getMinutes(){
+		return minutes;
+	}
+	
+	public long getSeconds(){
+		return seconds;
+	}
+	
+	public long getCentisec(){
+		return centisec;
 	}
 
+	private long getTime(){
+		return (hours*HOUR) + (minutes*MINUTE) + (seconds*SECOND) + (centisec*CENTISEC);
+	}
+	
+	public String getHoursTimeString(){
+		StringBuilder strTime = new StringBuilder();
+		strTime.append(String.format("%02d", hours));
+		strTime.append(":");
+		strTime.append(String.format("%02d", minutes));
+		strTime.append(":");
+		strTime.append(String.format("%02d", seconds));
+		return strTime.toString();
+	}
+	
+	public String getMinutesTimeString(){
+		StringBuilder strTime = new StringBuilder();
+		strTime.append(String.format("%02d", minutes));
+		strTime.append(":");
+		strTime.append(String.format("%02d", seconds));
+		strTime.append(":");
+		strTime.append(String.format("%02d", centisec));
+		return strTime.toString();
+	}
+	
+	public String getSecondsTimeString(){
+		StringBuilder strTime = new StringBuilder();
+		strTime.append(String.format("%02d", seconds));
+		strTime.append(":");
+		strTime.append(String.format("%02d", centisec));
+		return strTime.toString();
+	}
+	
+	public String getSecondsTimeString(long time){
+		StringBuilder strTime = new StringBuilder();
+		strTime.append(String.format("%02d", (int)(time/SECOND)));
+		time -= (long)((int)((time/SECOND) * SECOND));
+		strTime.append(":");
+		strTime.append(String.format("%02d", (int)(time/CENTISEC)));
+		return strTime.toString();
+	}
 	
 	
 	
-	
-	class Timer extends CountDownTimer{
-		public Timer(long duration){
-			super(duration, 100);
+	class Timer extends CountDownTimer
+	{
+		public Timer(long duration, long tick) {
+			super(duration, tick);
 		}
 
 		@Override
 		public void onFinish() {
-			if(c_bIsRunning){
-				c_bIsRunning = false;
-				cancel();
-				c_ClockText.setText("FINISHED!");
-				c_btPauseResume.setBackgroundColor(Color.GRAY);
-				c_btPauseResume.setClickable(false);
-			}
+			vClockText.setTextColor(Color.RED);
+			vClockText.setText("00:00");
+			MainActivity.LogD("Time's up!");
+			bRunning = false;
+			bFinished = true;
 		}
 
 		@Override
-		public void onTick(long millisUntilFinished) {		
-			//if the clock was paused, stop the clock and save current time
-			if(c_bIsPaused){
-				if(!c_bPauseTrigger){
-					c_lPauseTime = millisUntilFinished;
-					c_bPauseTrigger = true;
-					cancel();
-					c_bIsRunning = false;
-				}
-				return;
-			}
+		public void onTick(long tte) {
+			//update time values
+			if(!bCountDown)			//if we're counting up, flip the remaining time
+				tte = duration-tte;
 			
-			long minutes, seconds, millis;
-
-			//COUNT UP TIMER
-			if(c_bCountUp){
-				long time = c_lMaxTime - millisUntilFinished;
-				minutes = time/MINUTES;
-				seconds = (time-(minutes*MINUTES))/SECONDS;
-				millis  = (time-(minutes*MINUTES)-(seconds*SECONDS))/MILLISEC;
-			}
+			hours = (int)(tte/HOUR);
+			tte -= (hours*HOUR);
 			
-			//COUNT DOWN TIMER
-			else{
-				minutes = millisUntilFinished/MINUTES;
-				seconds = (millisUntilFinished-(minutes*MINUTES))/SECONDS;
-				millis  = (millisUntilFinished-(minutes*MINUTES)-(seconds*SECONDS))/MILLISEC;
-			}
+			minutes = (int)(tte/MINUTE);
+			tte -= (minutes*MINUTE);
 			
-			//display time
-			DecimalFormat df = new DecimalFormat("00");
-			if(c_lMaxTime > MINUTES)
-				c_ClockText.setText(df.format(minutes) + ":" + df.format(seconds) + ":" + df.format(millis));
-			else
-				c_ClockText.setText(df.format(seconds) + ":" + df.format(millis));
-		}	
+			seconds = (int)(tte/SECOND);
+			tte -= (seconds*SECOND);
+			
+			centisec = (int)(tte/CENTISEC);
+			
+			vClockText.setText(getSecondsTimeString());
+			//MainActivity.LogD(getSecondsTimeString());
+		}
 	}
 }
+
