@@ -1,0 +1,24 @@
+# 
+#
+# add all project files
+echo "adding project files..."
+git add -A N-DROPP/
+#
+# except the apk
+if [ -e "N-DROPP/bin/N-DROPP.apk" ]
+  then
+	echo "removing apk..."
+	git rm -f N-DROPP/bin/N-DROPP.apk
+else
+	echo "no apk found"
+fi
+#
+# add resource documents
+echo "adding resource documents..."
+git add "N-DROPP Source Design.docx"
+git add "README.md"
+#
+#
+# display git status
+echo ""
+git status
