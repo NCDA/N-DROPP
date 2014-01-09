@@ -1,10 +1,9 @@
 package com.ncdadodgeball.ndropp;
 
-import android.graphics.Color;
 import android.os.CountDownTimer;
 import android.widget.TextView;
 
-public class Clock {
+public abstract class Clock {
 	
 	public static final long HOUR = 3600000;
 	public static final long MINUTE = 60000;
@@ -15,15 +14,13 @@ public class Clock {
 	TextView vClockText;
 	
 	int hours, minutes, seconds, centisec = 0;		//current time values
-	long duration, tick;							//total duration and tick values
+	long duration, tick, pausedTime;				//total duration and tick values
 	boolean bCountDown;								//true == clock counts down (from duration->zero)
 	boolean bRunning;								//true == timer is currently running
-	boolean bPaused;
+	boolean bPaused;								//true == time paused
 	boolean bFinished;								//true == timer reached zero
 	
 
-
-	
 	
 	/* Clock ( duration, tick )
 	 * @param duration : total countdown time in milliseconds
@@ -31,14 +28,13 @@ public class Clock {
 	 * 
 	 * Default to count down timer.
 	 */
-	public Clock(TextView view, long duration, long tick){
+	public Clock(TextView clockText, long duration, long tick){
+		vClockText = clockText;
 		tTimer = new Timer(duration, tick);
 		this.duration = duration;
 		this.tick = tick;
 		bCountDown = true;
-		vClockText = view;
-		bPaused = false;
-		bFinished = false;
+		bPaused = bFinished = false;
 	}
 	
 	/* Clock ( duration, tick, countDown )
@@ -46,63 +42,45 @@ public class Clock {
 	 * @param tick : tick time in milliseconds
 	 * @param countDown : true if clock should count down
 	 */
-	public Clock(TextView view, long duration, long tick, boolean countDown){
+	public Clock(TextView clockText, long duration, long tick, boolean countDown){
+		vClockText = clockText;
 		tTimer = new Timer(duration, tick);
 		this.duration = duration;
 		this.tick = tick;
 		bCountDown = countDown;
-		vClockText = view;
-		bPaused = false;
+		bPaused = bFinished = false;
 	}
 	
-	public void cancelClock(){
-		bRunning = false;
-		vClockText.setTextColor(Color.WHITE);
+	private void cancelClock(){
 		tTimer.cancel();
+		bRunning = false;
 	}
 	
-	public void startClock(){
-		bRunning = true;
-		if(bPaused){
-			tTimer = new Timer(duration, tick);
-			bPaused = false;
-		}
+	protected void startClock(){
 		tTimer.start();
+		bRunning = true;
+		bPaused = bFinished = false;
 	}
 	
-	public void pauseClock(){
-		if(bRunning){
-			tTimer.cancel();
-			tTimer = new Timer( getTime(), tick );
-			bRunning = false;
-		}
+	protected void pauseClock(){
+		pausedTime = getTime();
+		tTimer.cancel();
+		tTimer = new Timer( pausedTime, tick );
+		bRunning = false;
 		bPaused = true;
 	}
 
-	public void resumeClock(){
-		if(!bFinished){
-			tTimer.start();
-			bRunning = true;
-			bPaused = false;
-		}
-		else{
-			tTimer = new Timer(duration, tick);
-			bRunning = bPaused = bFinished = false;
-		}
+	protected void resumeClock(){
+		tTimer.start();
+		bRunning = true;
+		bPaused = false;
 	}
 	
-	public void resetClock(){
-		if(bPaused && !bRunning){
-			vClockText.setText(getSecondsTimeString(duration));
-			tTimer.cancel();
-			tTimer = new Timer(duration, tick);
-			bPaused = false;
-		}
-		else{
-			cancelClock();
-			tTimer = new Timer(duration, tick);
-			startClock();
-		}
+	protected void resetClock(){
+		tTimer.cancel();
+		vClockText.setText(getSecondsTimeString(duration));
+		tTimer = new Timer(duration, tick);
+		bPaused = bFinished = bRunning = false;
 	}
 	
 	public boolean isRunning(){
@@ -124,7 +102,7 @@ public class Clock {
 	public long getCentisec(){
 		return centisec;
 	}
-
+	
 	private long getTime(){
 		return (hours*HOUR) + (minutes*MINUTE) + (seconds*SECOND) + (centisec*CENTISEC);
 	}
@@ -166,7 +144,7 @@ public class Clock {
 		return strTime.toString();
 	}
 	
-	
+	abstract protected void onClockExpired();
 	
 	class Timer extends CountDownTimer
 	{
@@ -176,11 +154,11 @@ public class Clock {
 
 		@Override
 		public void onFinish() {
-			vClockText.setTextColor(Color.RED);
 			vClockText.setText("00:00");
 			MainActivity.LogD("Time's up!");
 			bRunning = false;
 			bFinished = true;
+			onClockExpired();
 		}
 
 		@Override
