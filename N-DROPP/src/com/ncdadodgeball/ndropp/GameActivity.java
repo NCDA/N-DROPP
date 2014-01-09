@@ -108,36 +108,12 @@ public class GameActivity extends Activity{
 		public void onClick(View view) {
 			
 			//START/RESET BUTTON
-			if(view.getId() == findViewById(R.id.btStartReset).getId()){
-				ShotClock clock = (GameActivity.sInstance.getShotClock());
-				//m_btPauseResume.setClickable(true);
-				//m_btPauseResume.setBackgroundColor(Color.WHITE);
-				
-				//((Button)view).setText("Reset");
-
-				//clock.cancelClock();
-				//clock.resetClock();
-				
-				//if(clock.isRunning())
-				//	m_btPauseResume.setText("Pause");
-				//else
-				//	m_btPauseResume.setText("Resume");
-				clock.ieResetStartRestart();
-			}
+			if(view.getId() == findViewById(R.id.btStartReset).getId())
+				(GameActivity.sInstance.getShotClock()).ieResetStartRestart();
 			
 			//PAUSE/RESUME BUTTON
-			else if(view.getId() == findViewById(R.id.btPauseShotClock).getId()){
-				ShotClock clock = (GameActivity.sInstance.getShotClock());
-//				if(clock.isRunning()){
-//					clock.pauseClock();
-//					((Button)view).setText("Resume");
-//				}
-//				else{
-//					clock.resumeClock();
-//					((Button)view).setText("Pause");
-//				}
-				clock.iePauseResumeReset();
-			}
+			else if(view.getId() == findViewById(R.id.btPauseShotClock).getId())
+				(GameActivity.sInstance.getShotClock()).iePauseResumeReset();
 		}
     }
 }
