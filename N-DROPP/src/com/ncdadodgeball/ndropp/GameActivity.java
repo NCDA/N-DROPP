@@ -64,7 +64,6 @@ public class GameActivity extends Activity{
         m_btPauseResume	= (Button)findViewById(R.id.btPauseShotClock);
         
         m_ShotClock = new ShotClock(m_btStartReset, m_btPauseResume, m_ClockText, 15000, Clock.CENTISEC);
-//        m_ShotClock = new Clock(m_ClockText, m_btPauseResume, true, 15000);
         m_btStartReset.setOnClickListener(m_Listener);
         m_btPauseResume.setOnClickListener(m_Listener);
         m_btPauseResume.setClickable(false);

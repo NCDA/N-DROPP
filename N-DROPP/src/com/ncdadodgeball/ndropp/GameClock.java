@@ -10,18 +10,28 @@
  * http://www.ncdadodgeball.com
  * Copyright 2014. All Rights Reserved.
  *************************************************************************************************/
-
 package com.ncdadodgeball.ndropp;
 
-public class AppGlobals {
+import android.widget.Button;
+import android.widget.TextView;
+
+public class GameClock extends Clock {
 	
-	//STRING CONSTANTS
-	public static final String PACKAGE 		= "com.ncdadodgeball.ndropp";
-	public static final String EXTERNAL_DIR = "/mnt/sdcard/Android/data/";
-	public static final String RULEBOOK_FILE = "NCDA_rulebook.pdf";
-	public static final String NCDA_URL 	= "http://www.ncdadodgeball.com";
-	public static final String RULEBOOK_URL = "http://www.ncdadodgeball.com/rulebook/ncda-rules.pdf";
+	//class member variables
+	Button btStartPauseResume;
+
+	public GameClock(Button startPauseResume, TextView clockText, long duration, long tick) {
+		super(clockText, duration, tick);
+		btStartPauseResume = startPauseResume;
+	}
 	
-	//INTEGER CONSTANTS
-	public static final int 	BUFFER_SIZE = 51200;		//50K
+	public GameClock(Button startPauseResume, TextView clockText, long duration, long tick, boolean countDown) {
+		super(clockText, duration, tick, countDown);
+		btStartPauseResume = startPauseResume;
+	}
+
+	@Override
+	protected void onClockExpired() {
+	}
+
 }

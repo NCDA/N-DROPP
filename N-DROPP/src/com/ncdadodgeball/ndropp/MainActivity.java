@@ -13,20 +13,12 @@
 
 package com.ncdadodgeball.ndropp;
 
-import java.io.BufferedInputStream;
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.UnknownHostException;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -34,8 +26,6 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.ncdadodgeball.ndropp.R;
-
-
 
 
 public class MainActivity extends Activity {
@@ -106,7 +96,7 @@ public class MainActivity extends Activity {
 	                    startActivity(pdfViewIntent);
 	                } 
 	                catch (ActivityNotFoundException e) {
-	                	LogD("ERROR: No application to view PDF.");
+	                	Log.D("ERROR: No application to view PDF.");
 	                    Toast.makeText(MainActivity.sInstance, "Error: No application exists on this device to view PDF", Toast.LENGTH_LONG).show();
 	                }
 				}
@@ -132,10 +122,6 @@ public class MainActivity extends Activity {
 
 	public Button getBtSettings() {
 		return btSettings;
-	}
-	
-	public static void LogD(String message){
-		Log.d(AppGlobals.DEBUG_TAG, message);
 	}
 	
 	 @Override

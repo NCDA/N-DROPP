@@ -1,24 +1,54 @@
+/**************************************************************************************************
+ * _____   __     _______________________________________ 
+ * ___  | / /     ___  __ \__  __ \_  __ \__  __ \__  __ \
+ * __   |/ /________  / / /_  /_/ /  / / /_  /_/ /_  /_/ /
+ * _  /|  /_/_____/  /_/ /_  _, _// /_/ /_  ____/_  ____/
+ * /_/ |_/        /_____/ /_/ |_| \____/ /_/     /_/
+ * 
+ * National Collegiate Dodgeball Association (NCDA)
+ * NCDA - Dodgeball Referee Officiating Application
+ * http://www.ncdadodgeball.com
+ * Copyright 2014. All Rights Reserved.
+ *************************************************************************************************/
 package com.ncdadodgeball.ndropp;
 
 import android.graphics.Color;
 import android.widget.Button;
 import android.widget.TextView;
 
+
+/* ShotClock
+ * 		ShotClock uses the Clock class to maintain a timer in the realm of a dodgeball shotclock
+ * timer.  This class keeps track of the state the timer is in. This class additionally takes 2
+ * button widgets which is used by the ShotClock to change their visual appearance based on
+ * input events from the user and timer events.
+ */
 public class ShotClock extends Clock {
 	
+	//constants
 	private final String STR_START = "Start";
 	private final String STR_RESET = "Reset";
 	private final String STR_PAUSE = "Pause";
 	private final String STR_RESUME = "Resume";
 	private final String STR_RESTART = "Restart";
 	
+	//states
 	public enum ClockState { PausedTop, RollingTop, Paused, Resumed, Expired };
 
+	//class member variables
 	ClockState state;
 	Button btResetStart, btPauseResume;
 	TextView vClockText;
 	
-	
+	/** ShotClock
+	 * @param resetStart : button to represent the shot clock's reset/start/restart button
+	 * @param pauseResume : button to represent the shot clock's pause/resume/reset button
+	 * @param clockText : see @Clock
+	 * @param duration : see @Clock
+	 * @param tick : see @Clock
+	 * 
+	 * Initialize state and class variables.
+	 */
 	public ShotClock(Button resetStart, Button pauseResume, TextView clockText, long duration, long tick) {
 		super(clockText, duration, tick);
 		btResetStart = resetStart;
@@ -31,7 +61,16 @@ public class ShotClock extends Clock {
 		btPauseResume.setClickable(false);
 	}
 	
-	
+	/** ShotClock
+	 * @param resetStart : button to represent the shot clock's reset/start/restart button
+	 * @param pauseResume : button to represent the shot clock's pause/resume/reset button
+	 * @param clockText : see @Clock
+	 * @param duration : see @Clock
+	 * @param tick : see @Clock
+	 * @param countDown : see @Clock
+	 * 
+	 * Initialize state and class variables.
+	 */
 	public ShotClock( Button resetStart, Button pauseResume, TextView clockText, long duration, long tick, boolean countDown){
 		super(clockText, duration, tick, countDown);
 		btResetStart = resetStart;
@@ -45,8 +84,10 @@ public class ShotClock extends Clock {
 	}
 	
 	
-	/* input event Reset/Start/Restart
-	 * 
+	/* ieResetStartRestart
+	 * 		This function is called when the button that represents the ShotClock's
+	 * Reset/Start/Restart button. Based on this input event, the clock is moved to a
+	 * different state and the appropriate clock changes & visual changes are made.
 	 */
 	public void ieResetStartRestart(){
 		
@@ -89,13 +130,17 @@ public class ShotClock extends Clock {
 		}
 	}
 	
-	/* input event PauseResumeReset
-	 * 
+	/* iePauseResumeReset
+	 * 		This function is called when the button that represents the ShotClock's
+	 * Pause/Resume/Reset button. Based on this input event, the clock is moved to a
+	 * different state and the appropriate clock changes & visual changes are made.
 	 */
 	public void iePauseResumeReset(){
 		
 		if(state == ClockState.PausedTop){
-			throw new RuntimeException("ERROR: malformed state. In PausedTop state and received input event iePauseResumeReset");
+			String message = "ERROR: malformed state. In PausedTop state and received input event iePauseResumeReset";
+			Log.E(message);
+			throw new RuntimeException(message);
 		}
 		
 		else if(state == ClockState.RollingTop){
@@ -126,8 +171,9 @@ public class ShotClock extends Clock {
 		}
 	}
 
-	/* input event clockExpired
-	 * 
+	/* onClockExpired
+	 *	The subclass triggers this function when the timer expires. Here, we're
+	 *	able to make the necessary state & visual changes to the timer.
 	 */
 	@Override
 	protected void onClockExpired() {
@@ -136,7 +182,4 @@ public class ShotClock extends Clock {
 		btPauseResume.setText(STR_RESET);
 		vClockText.setTextColor(Color.RED);
 	}
-	
-	
-
 }

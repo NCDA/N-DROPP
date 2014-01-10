@@ -10,18 +10,23 @@
  * http://www.ncdadodgeball.com
  * Copyright 2014. All Rights Reserved.
  *************************************************************************************************/
-
 package com.ncdadodgeball.ndropp;
 
-public class AppGlobals {
+/*	Log
+ *		Used to send log messages to the device's logcat with the N-DROPP tag.
+ */
+public class Log {
 	
-	//STRING CONSTANTS
-	public static final String PACKAGE 		= "com.ncdadodgeball.ndropp";
-	public static final String EXTERNAL_DIR = "/mnt/sdcard/Android/data/";
-	public static final String RULEBOOK_FILE = "NCDA_rulebook.pdf";
-	public static final String NCDA_URL 	= "http://www.ncdadodgeball.com";
-	public static final String RULEBOOK_URL = "http://www.ncdadodgeball.com/rulebook/ncda-rules.pdf";
+	private static final String TAG_DEBUG = "N-DROPP D";
+	private static final String TAG_ERROR = "N-DROPP E";
 	
-	//INTEGER CONSTANTS
-	public static final int 	BUFFER_SIZE = 51200;		//50K
+	public static void D(String debugMessage){
+		android.util.Log.d(TAG_DEBUG, debugMessage);
+	}
+	
+	public static void E(String errMessage){
+		android.util.Log.e(TAG_ERROR, errMessage);
+	}
+	
+
 }
