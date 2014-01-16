@@ -1,17 +1,17 @@
 # 
 #
-# add all project files
-echo "adding project files..."
-git add -A N-DROPP/
-#
-# except the apk
+# delete the apk if it exists so we don't commit it
 if [ -e "N-DROPP/bin/N-DROPP.apk" ]
   then
 	echo "removing apk..."
-	git rm -f N-DROPP/bin/N-DROPP.apk
+	rm -f N-DROPP/bin/N-DROPP.apk
 else
 	echo "no apk found"
 fi
+#
+# add all project files
+echo "adding project files..."
+git add -A N-DROPP/
 #
 # add resource documents
 echo "adding resource documents..."

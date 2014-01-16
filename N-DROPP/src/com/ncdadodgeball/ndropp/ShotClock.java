@@ -33,12 +33,11 @@ public class ShotClock extends Clock {
 	private final String STR_RESTART = "Restart";
 	
 	//states
-	public enum ClockState { PausedTop, RollingTop, Paused, Resumed, Expired };
+	private enum ClockState { PausedTop, RollingTop, Paused, Resumed, Expired };
 
 	//class member variables
-	ClockState state;
-	Button btResetStart, btPauseResume;
-	TextView vClockText;
+	private ClockState state;
+	private Button btResetStart, btPauseResume;
 	
 	/** ShotClock
 	 * @param resetStart : button to represent the shot clock's reset/start/restart button
@@ -50,10 +49,9 @@ public class ShotClock extends Clock {
 	 * Initialize state and class variables.
 	 */
 	public ShotClock(Button resetStart, Button pauseResume, TextView clockText, long duration, long tick) {
-		super(clockText, duration, tick);
+		super(clockText, ClockTextFormat.SecondsString, duration, tick);
 		btResetStart = resetStart;
 		btPauseResume = pauseResume;
-		vClockText = clockText;
 		state = ClockState.PausedTop;
 		btResetStart.setText("Start");
 		btResetStart.setClickable(true);
@@ -72,10 +70,9 @@ public class ShotClock extends Clock {
 	 * Initialize state and class variables.
 	 */
 	public ShotClock( Button resetStart, Button pauseResume, TextView clockText, long duration, long tick, boolean countDown){
-		super(clockText, duration, tick, countDown);
+		super(clockText, ClockTextFormat.SecondsString, duration, tick, countDown);
 		btResetStart = resetStart;
 		btPauseResume = pauseResume;
-		vClockText = clockText;
 		state = ClockState.PausedTop;
 		btResetStart.setText("Start");
 		btResetStart.setClickable(true);
@@ -124,7 +121,7 @@ public class ShotClock extends Clock {
 			state = ClockState.RollingTop;
 			btResetStart.setText(STR_RESET);
 			btPauseResume.setText(STR_PAUSE);
-			vClockText.setTextColor(Color.WHITE);
+			getClockText().setTextColor(Color.WHITE);
 			resetClock();
 			startClock();
 		}
@@ -138,7 +135,8 @@ public class ShotClock extends Clock {
 	public void iePauseResumeReset(){
 		
 		if(state == ClockState.PausedTop){
-			String message = "ERROR: malformed state. In PausedTop state and received input event iePauseResumeReset";
+			String message = "ERROR: Malformed ShotClock state. In PausedTop state and" +
+							 "received input event iePauseResumeReset";
 			Log.E(message);
 			throw new RuntimeException(message);
 		}
@@ -166,7 +164,7 @@ public class ShotClock extends Clock {
 			btResetStart.setText(STR_START);
 			btPauseResume.setClickable(false);
 			btPauseResume.setBackgroundColor(Color.GRAY);
-			vClockText.setTextColor(Color.WHITE);
+			getClockText().setTextColor(Color.WHITE);
 			resetClock();
 		}
 	}
@@ -180,6 +178,6 @@ public class ShotClock extends Clock {
 		state = ClockState.Expired;
 		btResetStart.setText(STR_RESTART);
 		btPauseResume.setText(STR_RESET);
-		vClockText.setTextColor(Color.RED);
+		getClockText().setTextColor(Color.RED);
 	}
 }

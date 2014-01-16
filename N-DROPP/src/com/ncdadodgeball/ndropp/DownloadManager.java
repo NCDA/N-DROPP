@@ -27,7 +27,7 @@ public class DownloadManager
 		
 		//Download the rulebook if it's not on the device
 		if(!fRulebook.exists()){
-			MainActivity.LogD("Downloading Rulebook...");
+			Log.D("Downloading Rulebook...");
 			Toast.makeText(MainActivity.sInstance, "Downloading Rulebook...", Toast.LENGTH_SHORT);
 			URL url = null;
 			HttpURLConnection socket= null;
@@ -52,7 +52,7 @@ public class DownloadManager
 					bTryAgain = false;
 					istream.close();
 					ostream.close();
-					MainActivity.LogD("Download complete.");
+					Log.D("Download complete.");
 					Toast.makeText(MainActivity.sInstance, "Download complete.", Toast.LENGTH_SHORT);
 				}
 				//catch no internet connection. need better way to get user input
