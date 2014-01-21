@@ -15,7 +15,9 @@ package com.ncdadodgeball.ndropp;
 
 import java.io.File;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -58,27 +60,61 @@ public class MainActivity extends Activity {
         btHistory.setOnClickListener(btListener);
         btInfo.setOnClickListener(btListener);
         btSettings.setOnClickListener(btListener);
+        
+        //just add default settings for now
+        AppGlobals.gGameSettings = new GameSettings();
     }
     
+    private void launchSCRActivity(){
+    	Intent intent = new Intent(MainActivity.sInstance, SCRGameActivity.class);
+		intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+		startActivity(intent);
+    }
     
+    private void launchHRActivity(){
+    	Intent intent = new Intent(MainActivity.sInstance, HRGameActivity.class);
+		intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+		startActivity(intent);
+    }
 
 
     class ButtonListener implements OnClickListener{
-    	
-    	public ButtonListener sInstance;
-    	
-    	public ButtonListener(){
-    		super();
-    		sInstance = this;
-    	}
+    	public ButtonListener(){ super(); }
 
 		public void onClick(View view) {
-			
 			//NEW GAME
 			if(view.getId() == MainActivity.sInstance.getBtStart().getId()){
-				Intent intent = new Intent(MainActivity.sInstance, GameActivity.class);
-				intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-				startActivity(intent);
+				AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.sInstance);
+				builder.setTitle("New Game");
+				builder.setMessage("Select shot clock ref or head ref view");
+				builder.setCancelable(true);
+				
+				//cancel
+				builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
+					public void onClick(DialogInterface dialog, int id){
+						dialog.cancel();
+					}					
+				});
+				
+				//shot clock referee option
+				builder.setPositiveButton("Shot Clock Referee", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
+						Log.D("SCR selected");
+						MainActivity.sInstance.launchSCRActivity();
+					}
+				});
+				
+				//head referee option
+				builder.setNeutralButton("Head Referee", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
+						Log.D("HR selected");
+						MainActivity.sInstance.launchHRActivity();
+					}
+				});
+				
+				//show the dialog
+				AlertDialog dialog = builder.create();
+				dialog.show();
 			}
 			
 			//INFO

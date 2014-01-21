@@ -26,16 +26,15 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class GameActivity extends Activity{
+public class SCRGameActivity extends Activity{
 	
-	public static GameActivity	sInstance;
+	public static SCRGameActivity	sInstance;
 	ButtonListener	m_Listener;
 	GameSettings 	m_Settings;
 	ShotClock		m_ShotClock;
 	Clock			m_GameClock;
 	Button			m_btStartReset;
 	Button			m_btPauseResume;
-	TextView		m_ClockText;
 	
 //	public GameActivity(GameSettings settings){
 //		m_Settings = settings;
@@ -44,10 +43,9 @@ public class GameActivity extends Activity{
 //		m_Button = null;
 //	}
 	
-	public GameActivity(){
+	public SCRGameActivity(){
 		m_Settings = new GameSettings();
 		m_Listener = new ButtonListener();
-		m_ClockText = null;
 		m_ShotClock = null;
 		m_btStartReset = null;
 		m_btPauseResume = null;
@@ -57,13 +55,13 @@ public class GameActivity extends Activity{
 	 public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.game);
+        setContentView(R.layout.shot_clock_ref);
         sInstance = this;
-        m_ClockText = (TextView)findViewById(R.id.txtClock);
+        TextView clockText = (TextView)findViewById(R.id.txtClock);
         m_btStartReset 	= (Button)findViewById(R.id.btStartReset);
         m_btPauseResume	= (Button)findViewById(R.id.btPauseShotClock);
         
-        m_ShotClock = new ShotClock(m_btStartReset, m_btPauseResume, m_ClockText, 15000, Clock.CENTISEC);
+        m_ShotClock = new ShotClock(m_btStartReset, m_btPauseResume, clockText, 15000, Clock.CENTISEC);
         m_btStartReset.setOnClickListener(m_Listener);
         m_btPauseResume.setOnClickListener(m_Listener);
         m_btPauseResume.setClickable(false);
@@ -82,7 +80,7 @@ public class GameActivity extends Activity{
 		});
 		alert.setPositiveButton("Yes", new DialogInterface.OnClickListener(){
 			public void onClick(DialogInterface dialog, int id){
-				GameActivity.this.finish();
+				SCRGameActivity.this.finish();
 			}
 		});
 		AlertDialog dialog = alert.create();
@@ -108,11 +106,11 @@ public class GameActivity extends Activity{
 			
 			//START/RESET BUTTON
 			if(view.getId() == findViewById(R.id.btStartReset).getId())
-				(GameActivity.sInstance.getShotClock()).ieResetStartRestart();
+				(SCRGameActivity.sInstance.getShotClock()).ieResetStartRestart();
 			
 			//PAUSE/RESUME BUTTON
 			else if(view.getId() == findViewById(R.id.btPauseShotClock).getId())
-				(GameActivity.sInstance.getShotClock()).iePauseResumeReset();
+				(SCRGameActivity.sInstance.getShotClock()).iePauseResumeReset();
 		}
     }
 }

@@ -13,9 +13,16 @@
 package com.ncdadodgeball.ndropp;
 
 import android.graphics.Color;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+/* GameClock
+ * 		GameClock uses the Clock class to maintain a timer for the dodgeball game's match times.
+ * This class keeps track of the state the timer is in. This class additionally takes a
+ * button widgets which is used by the GameClock to change the visual appearance of the button
+ * based on input events from the user and timer.
+ */
 public class GameClock extends Clock {
 	
 	//constants
@@ -28,18 +35,32 @@ public class GameClock extends Clock {
 	
 	//class member variables
 	private Button 		btStartPauseResume;
+	private Button		btHalftime;
 	private ClockState 	state;
+	private boolean 	bHasHalftime;
+	private boolean		bIsFirstHalf;
 
-	public GameClock(Button startPauseResume, TextView clockText, long duration, long tick) {
+	/*
+	 * if halftime, duration is the length of one half.
+	 */
+	public GameClock(Button startPauseResume, Button halftime, TextView clockText, long duration, long tick) {
 		super(clockText, ClockTextFormat.MinutesString, duration, tick);
 		btStartPauseResume = startPauseResume;
 		state = ClockState.PausedTop;
+		bIsFirstHalf = true;
+		btHalftime = halftime;
+		btHalftime.setVisibility(View.INVISIBLE);
+		bHasHalftime = AppGlobals.gGameSettings.isHalftimeEnabled();
 	}
 	
-	public GameClock(Button startPauseResume, TextView clockText, long duration, long tick, boolean countDown) {
+	public GameClock(Button startPauseResume, Button halftime, TextView clockText, long duration, long tick, boolean countDown) {
 		super(clockText, ClockTextFormat.MinutesString, duration, tick, countDown);
 		btStartPauseResume = startPauseResume;
 		state = ClockState.PausedTop;
+		bIsFirstHalf = true;
+		btHalftime = halftime;
+		btHalftime.setVisibility(View.INVISIBLE);
+		bHasHalftime = AppGlobals.gGameSettings.isHalftimeEnabled();
 	}
 
 	
@@ -52,16 +73,34 @@ public class GameClock extends Clock {
 			state = ClockState.Running;
 			btStartPauseResume.setText(STR_PAUSE);
 			startClock();
+			
+			//remove halftime button if it's showing
+			if( btHalftime.isShown() ){
+				btHalftime.setClickable(false);
+				btHalftime.setVisibility(View.INVISIBLE);
+			}
 		}
 		else if( state == ClockState.Running ){
 			state = ClockState.Paused;
 			btStartPauseResume.setText(STR_RESUME);
 			pauseClock();
+			
+			//check time, if we're within halftime range (20% of duration of half), show halftime button
+			if( getTime() <= 0.2*getDuration() ){
+				btHalftime.setVisibility(View.VISIBLE);
+				btHalftime.setClickable(true);
+			}
 		}
 		else if ( state == ClockState.Paused ){
 			state = ClockState.Running;
 			btStartPauseResume.setText(STR_PAUSE);
 			startClock();
+			
+			//remove halftime button if it's showing
+			if( btHalftime.isShown() ){
+				btHalftime.setClickable(false);
+				btHalftime.setVisibility(View.INVISIBLE);
+			}
 		}
 		else if ( state == ClockState.Expired ){
 			String message = "ERROR: Malformed GameClock state. In Expired state and received" +
@@ -76,6 +115,12 @@ public class GameClock extends Clock {
 		state = ClockState.Expired;
 		btStartPauseResume.setClickable(false);
 		btStartPauseResume.setBackgroundColor(Color.GRAY);
+		
+		//show halftime button if it's still first half
+		if( bHasHalftime && bIsFirstHalf ){
+			btHalftime.setVisibility(View.VISIBLE);
+			btHalftime.setClickable(true);
+		}
 	}
 	
 	public void ieRolloverHalftime(){
@@ -90,6 +135,7 @@ public class GameClock extends Clock {
 		btStartPauseResume.setText(STR_START);
 		btStartPauseResume.setClickable(true);
 		btStartPauseResume.setBackgroundColor(Color.WHITE);
+		
+		bIsFirstHalf=false;
 	}
-
 }

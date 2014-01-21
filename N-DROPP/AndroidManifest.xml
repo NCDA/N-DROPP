@@ -24,8 +24,13 @@
 		</activity>
 		
 		<activity 
-			android:label="gameActivity"
-			android:name=".GameActivity" >			
+			android:label="SCRGameActivity"
+			android:name="com.ncdadodgeball.ndropp.SCRGameActivity" >			
+		</activity>
+		
+		<activity 
+			android:label="HRGameActivity"
+			android:name="com.ncdadodgeball.ndropp.HRGameActivity" >			
 		</activity>
 		
 		<activity

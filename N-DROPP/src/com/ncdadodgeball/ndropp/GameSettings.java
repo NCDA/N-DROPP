@@ -20,6 +20,7 @@ public class GameSettings {
 	boolean m_bShotClkAudio;
 	boolean m_bVibration;
 	boolean m_bHomeTeamLeft;
+	boolean m_bHalftimeEnabled;
 	int m_iTimeOuts;
 	long m_lShotClock;	//shot clock in milliseconds
 	long m_lGameClock;	//game clock in milliseconds
@@ -30,6 +31,7 @@ public class GameSettings {
 		m_bShotClkAudio = false;
 		m_bVibration = false;
 		m_bHomeTeamLeft = true;
+		m_bHalftimeEnabled = true;
 		m_iTimeOuts = 2;
 		m_lShotClock = 15000;		//shot clock 15 seconds
 		m_lGameClock = 1500000;		//game clock at 25 minutes
@@ -56,6 +58,14 @@ public class GameSettings {
 
 	public void setM_bShotClkCountUp(boolean m_bShotClkCountUp) {
 		this.m_bShotClkCountUp = m_bShotClkCountUp;
+	}
+	
+	public boolean isHalftimeEnabled(){
+		return m_bHalftimeEnabled;
+	}
+	
+	public void setHalftimeEnable(boolean enable){
+		m_bHalftimeEnabled = enable;
 	}
 
 

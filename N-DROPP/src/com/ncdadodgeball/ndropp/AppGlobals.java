@@ -24,4 +24,6 @@ public class AppGlobals {
 	
 	//INTEGER CONSTANTS
 	public static final int 	BUFFER_SIZE = 51200;		//50K
+	
+	public static GameSettings gGameSettings = null;
 }

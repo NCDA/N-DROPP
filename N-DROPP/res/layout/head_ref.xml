@@ -14,21 +14,19 @@
 	/>
 	
 	<TextView
-		android:id="@+id/txtClock"
+		android:id="@+id/txtHRGameClock"
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
 		android:layout_below="@id/txtGameWelcome"
 		android:paddingTop="30dp"
-		android:text="00:00:00"
 		android:gravity="center_horizontal"
 	/>
 	
 	<Button 
-		android:id="@+id/btStartReset"
+		android:id="@+id/btStartPauseResume"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:layout_below="@id/txtClock"
-		android:layout_alignParentLeft="true"
+		android:layout_below="@id/txtHRGameClock"
 		android:text="Start"
 		android:layout_margin="2dp"
 		android:gravity="center_horizontal"
@@ -36,17 +34,13 @@
 	/>
 	
 	<Button
-		android:id="@+id/btPauseShotClock"
+		android:id="@+id/btHalftime"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:layout_toRightOf="@id/btStartReset"
-		android:layout_below="@id/txtClock"
-		android:layout_alignParentRight="true"
-		android:text="Pause"
+		android:text="Halftime"
 		android:layout_margin="2dp"
 		android:gravity="center_horizontal"
 		android:clickable="false"
 	/>
-	
 
 </RelativeLayout>

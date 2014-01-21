@@ -58,6 +58,7 @@ public abstract class Clock {
 		this.duration = duration;
 		this.tick = tick;
 		bCountDown = true;
+		setClockText(duration);
 		bPaused = bFinished = false;
 	}
 	
@@ -77,6 +78,10 @@ public abstract class Clock {
 		this.tick = tick;
 		bCountDown = countDown;
 		bPaused = bFinished = false;
+		if(bCountDown)
+			setClockText(duration);
+		else
+			setClockText(0);
 	}
 	
 	/** startClock()
@@ -281,6 +286,7 @@ public abstract class Clock {
 		StringBuilder strTime = new StringBuilder();
 		strTime.append(String.format("%02d", (int)(time/MINUTE)));
 		time -= (long)((int)((time/MINUTE) * MINUTE));
+		strTime.append(":");
 		strTime.append(String.format("%02d", (int)(time/SECOND)));
 		time -= (long)((int)((time/SECOND) * SECOND));
 		strTime.append(":");
@@ -374,10 +380,11 @@ public abstract class Clock {
 
 		@Override
 		public void onTick(long tte) {
+			
 			//update time values
 			if(!bCountDown)			//if we're counting up, flip the remaining time
 				tte = duration-tte;
-			
+			long currentTime = tte;
 			hours = (int)(tte/HOUR);
 			tte -= (hours*HOUR);
 			
@@ -389,7 +396,7 @@ public abstract class Clock {
 			
 			centisec = (int)(tte/CENTISEC);
 			
-			setClockText(getSecondsTimeString());
+			setClockText(currentTime);
 		}
 	}
 }

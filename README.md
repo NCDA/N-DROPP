@@ -17,5 +17,8 @@
  application's purpose, proposed features, and proposed GUI/UX design.  Consult the "N-DROPP
  Source Design.docx" document for detailed design principles and conventions for this application.
  
+ All contributing developers should read the "N-DROPP Source Design" document and follow the
+ guidelines presented.
+ 
  ASCII ART made possible by http://patorjk.com/software/taag/.
  
