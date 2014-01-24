@@ -15,19 +15,43 @@ public final class R {
         public static final int ic_launcher=0x7f020001;
     }
     public static final class id {
-        public static final int btHalftime=0x7f050003;
-        public static final int btHistory=0x7f050006;
-        public static final int btInfo=0x7f050007;
-        public static final int btNewGame=0x7f050005;
-        public static final int btPauseShotClock=0x7f05000c;
-        public static final int btSettings=0x7f050008;
-        public static final int btStartPauseResume=0x7f050002;
-        public static final int btStartReset=0x7f05000b;
-        public static final int txtClock=0x7f05000a;
-        public static final int txtGameWelcome=0x7f050000;
-        public static final int txtHRGameClock=0x7f050001;
-        public static final int txtWelcome=0x7f050004;
-        public static final int webViewRulebook=0x7f050009;
+        public static final int btEditGameClock=0x7f050018;
+        public static final int btHalftime=0x7f050019;
+        public static final int btHistory=0x7f05001d;
+        public static final int btInfo=0x7f05001e;
+        public static final int btNewGame=0x7f05001c;
+        public static final int btPauseShotClock=0x7f050024;
+        public static final int btSettings=0x7f05001f;
+        public static final int btStartPauseResume=0x7f050017;
+        public static final int btStartReset=0x7f050023;
+        public static final int btWhistle=0x7f05001a;
+        public static final int gridAwayTeam=0x7f050013;
+        public static final int gridHomeTeam=0x7f050012;
+        public static final int hLinearClockButtons=0x7f050016;
+        public static final int hLinearGrids=0x7f050011;
+        public static final int hLinearNavButtons=0x7f050001;
+        public static final int hLinearScores=0x7f05000b;
+        public static final int hLinearTeams=0x7f050005;
+        public static final int headRefRootView=0x7f050000;
+        public static final int imgAwayLogo=0x7f050010;
+        public static final int imgHomeLogo=0x7f050008;
+        public static final int imgPenalty=0x7f050003;
+        public static final int imgRulebook=0x7f050002;
+        public static final int imgSettings=0x7f050004;
+        public static final int txtAwayScore=0x7f05000d;
+        public static final int txtAwayTeam=0x7f05000f;
+        public static final int txtClock=0x7f050022;
+        public static final int txtGameWelcome=0x7f050021;
+        public static final int txtHRGameClock=0x7f050015;
+        public static final int txtHomeScore=0x7f05000c;
+        public static final int txtHomeTeam=0x7f050007;
+        public static final int txtScoreLabel=0x7f05000a;
+        public static final int txtWelcome=0x7f05001b;
+        public static final int vLinearAwayTeam=0x7f05000e;
+        public static final int vLinearClockInfo=0x7f050014;
+        public static final int vLinearHomeTeam=0x7f050006;
+        public static final int vLinearScores=0x7f050009;
+        public static final int webViewRulebook=0x7f050020;
     }
     public static final class layout {
         public static final int head_ref=0x7f030000;

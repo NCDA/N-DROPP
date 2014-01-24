@@ -1,46 +1,242 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="fill_parent"
 	android:layout_height="fill_parent"
 	android:padding="5dp"
->
+	android:id="@+id/headRefRootView" 
+	android:orientation="vertical" >
 
-	<TextView
-		android:id="@+id/txtGameWelcome"
-		android:layout_width="fill_parent"
-		android:layout_height="wrap_content"
-		android:text="Start a New Game!"
-		android:gravity="top|center_horizontal"
-	/>
-	
-	<TextView
-		android:id="@+id/txtHRGameClock"
-		android:layout_width="fill_parent"
-		android:layout_height="wrap_content"
-		android:layout_below="@id/txtGameWelcome"
-		android:paddingTop="30dp"
-		android:gravity="center_horizontal"
-	/>
-	
-	<Button 
-		android:id="@+id/btStartPauseResume"
+	<!--  TOP SCREEN NAVIGATION BUTTONS  -->
+	<LinearLayout
+		android:id="@+id/hLinearNavButtons"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:layout_below="@id/txtHRGameClock"
-		android:text="Start"
-		android:layout_margin="2dp"
-		android:gravity="center_horizontal"
-		android:clickable="true"
-	/>
-	
-	<Button
-		android:id="@+id/btHalftime"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:text="Halftime"
-		android:layout_margin="2dp"
-		android:gravity="center_horizontal"
-		android:clickable="false"
-	/>
+		android:layout_alignRight="@+id/headRefRootView" 
+		android:orientation="horizontal" >
+		
+		<ImageButton
+			android:id="@+id/imgRulebook"
+			android:layout_width="50dp"
+			android:layout_height="50dp"
+			android:src="@drawable/ic_launcher" />
 
-</RelativeLayout>
+		<ImageButton
+			android:id="@+id/imgPenalty"
+			android:layout_width="50dp"
+			android:layout_height="50dp"
+			android:src="@drawable/ic_launcher" />
+
+		<ImageButton
+			android:id="@+id/imgSettings"
+			android:layout_width="50dp"
+			android:layout_height="50dp"
+			android:src="@drawable/ic_launcher" />
+		
+	</LinearLayout>
+	<!-- TOP HOME/AWAY SCORES AND LOGOS  -->
+	<LinearLayout
+		android:id="@+id/hLinearTeams"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:layout_below="@+id/hLinearNavButtons" 
+		android:orientation="horizontal"
+		android:gravity="center_horizontal" >
+		
+		<!--  HOME TEAM LOGO AND ACRONYM  -->
+		<LinearLayout
+			android:layout_width="wrap_content"
+			android:layout_height="fill_parent"
+			android:padding="5dp"
+			android:id="@+id/vLinearHomeTeam"
+			android:orientation="vertical"
+			android:layout_gravity="center_horizontal" >
+			
+			<TextView
+				android:id="@+id/txtHomeTeam"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:text="Home: "
+				android:gravity="center_horizontal" />
+			
+			<ImageView 
+				android:id="@+id/imgHomeLogo"
+				android:layout_width="80dp"
+				android:layout_height="80dp"
+				android:src="@drawable/ic_launcher"	/>
+		</LinearLayout>
+		
+		<!-- SCORES LABELS  -->
+		<LinearLayout 
+			android:layout_width="wrap_content"
+			android:layout_height="fill_parent"
+			android:padding="5dp"
+			android:id="@+id/vLinearScores"
+			android:orientation="vertical"
+			android:layout_gravity="center_horizontal" >
+			
+			<TextView
+				android:id="@+id/txtScoreLabel"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:text="Score"
+				android:gravity="center_horizontal"	/>
+			
+			<!--  SIDE BY SIDE SCORES  -->
+			<LinearLayout 
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:padding="5dp"
+				android:id="@+id/hLinearScores"
+				android:orientation="horizontal" >
+				
+				<TextView 
+					android:id="@+id/txtHomeScore"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="0"
+					android:padding="10dp"
+					android:gravity="center" />
+			
+				<TextView
+					android:id="@+id/txtAwayScore"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="0"
+					android:padding="10dp"
+					android:gravity="center" />
+				
+			</LinearLayout>
+		</LinearLayout>
+			
+		<!--  AWAY TEAM LOGO AND ACRONYM  -->
+		<LinearLayout 
+			android:layout_width="wrap_content"
+			android:layout_height="fill_parent"
+			android:padding="5dp"
+			android:id="@+id/vLinearAwayTeam"
+			android:orientation="vertical"
+			android:layout_gravity="center_horizontal" >
+			
+			<TextView
+				android:id="@+id/txtAwayTeam"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:text="Away: "
+				android:gravity="center_horizontal" />
+			
+			<ImageView 
+				android:id="@+id/imgAwayLogo"
+				android:layout_width="80dp"
+				android:layout_height="80dp"
+				android:src="@drawable/ic_launcher"	/>
+		</LinearLayout>
+	
+	</LinearLayout>
+	
+	<!-- GRID LAYOUTS FOR TEAMS -->
+	<LinearLayout 
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:padding="5dp"
+		android:id="@+id/hLinearGrids"
+		android:orientation="horizontal"
+		android:gravity="center_horizontal" >
+		
+		<GridView 
+			android:id="@+id/gridHomeTeam"
+			android:layout_width="100dp"
+			android:layout_height="100dp"
+			android:gravity="center"
+			android:horizontalSpacing="2dp"
+			android:padding="10dp"
+			android:numColumns="5"
+			android:stretchMode="none"	>
+		</GridView>
+		
+		<GridView 
+			android:id="@+id/gridAwayTeam"
+			android:layout_width="100dp"
+			android:layout_height="100dp"
+			android:gravity="center"
+			android:horizontalSpacing="2dp"
+			android:padding="10dp"
+			android:numColumns="5"
+			android:stretchMode="none"	>
+		</GridView>
+		
+	</LinearLayout>
+	
+	<!-- TIME, TIME BUTTONS, AND WHISTLE BUTTON -->
+	<LinearLayout
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent"
+		android:padding="5dp"
+		android:id="@+id/hLinearGrids"
+		android:orientation="horizontal"
+		android:layout_below="@+id/hLinearGrids" >
+		
+		<!-- GAME CLOCK TEXT AND BUTTONS -->
+		<LinearLayout
+			android:layout_width="wrap_content"
+			android:layout_height="fill_parent"
+			android:padding="5dp"
+			android:id="@+id/vLinearClockInfo"
+			android:orientation="vertical" >
+			
+			<TextView 
+				android:id="@+id/txtHRGameClock"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:text="00:00:00"
+				android:gravity="center_horizontal"/>
+			
+			<!-- SIDE BY SIDE BUTTONS (START/STOP, EDIT, HALFTIME/OVERTIME  -->
+			<LinearLayout
+				android:layout_width="fill_parent"
+				android:layout_height="fill_parent"
+				android:padding="5dp"
+				android:id="@+id/hLinearClockButtons"
+				android:orientation="horizontal" >
+				
+				<Button
+					android:id="@+id/btStartPauseResume"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:text="Start"
+	                android:layout_margin="2dp"
+	                android:gravity="center_horizontal"
+	                android:clickable="true" />
+				
+				<Button
+	                android:id="@+id/btEditGameClock"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:text="Edit"
+	                android:layout_margin="2dp"
+	                android:gravity="center_horizontal"
+	                android:clickable="true" />
+				
+				 <Button
+	                android:id="@+id/btHalftime"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:text="Halftime"
+	                android:layout_margin="2dp"
+	                android:gravity="center_horizontal" />
+				 
+			</LinearLayout> <!-- end side-by-side buttons  -->
+		</LinearLayout><!-- end game clock text and buttons -->
+		
+		<Button
+			android:id="@+id/btWhistle"
+			android:layout_width="100dp"
+			android:layout_height="100dp"
+			android:text="Whistle"
+			android:layout_margin="2dp"
+			android:gravity="center"
+			android:clickable="true" />
+		
+	</LinearLayout>
+	
+			
+</LinearLayout>
