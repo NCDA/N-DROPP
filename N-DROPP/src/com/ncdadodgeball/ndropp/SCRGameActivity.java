@@ -57,7 +57,7 @@ public class SCRGameActivity extends Activity{
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.shot_clock_ref);
         sInstance = this;
-        TextView clockText = (TextView)findViewById(R.id.txtClock);
+        TextView clockText = (TextView)findViewById(R.id.txtShotClock);
         m_btStartReset 	= (Button)findViewById(R.id.btStartReset);
         m_btPauseResume	= (Button)findViewById(R.id.btPauseShotClock);
         
