@@ -21,11 +21,17 @@ public class Log {
 	private static final String TAG_ERROR = "N-DROPP E";
 	
 	public static void D(String debugMessage){
-		android.util.Log.d(TAG_DEBUG, debugMessage);
+		android.util.Log.d(TAG_DEBUG, " ");
+		android.util.Log.d(TAG_DEBUG, "+++++++++++++++++++++++++++++++++++++++++++++++++++");
+		android.util.Log.d(TAG_DEBUG, " ");
+		android.util.Log.d(TAG_DEBUG, "<<<<<<<<<  " + debugMessage + "  >>>>>>>>");
+		android.util.Log.d(TAG_DEBUG, " ");
+		android.util.Log.d(TAG_DEBUG, "+++++++++++++++++++++++++++++++++++++++++++++++++++");
+		android.util.Log.d(TAG_DEBUG, " ");
 	}
 	
 	public static void E(String errMessage){
-		android.util.Log.e(TAG_ERROR, errMessage);
+		android.util.Log.e(TAG_ERROR, "--------  " + errMessage + "  --------" );
 	}
 	
 

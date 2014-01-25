@@ -98,7 +98,12 @@ public abstract class Clock {
 	 * 	that will start at the last saved time.
 	 */
 	protected void pauseClock(){
-		pausedTime = getTime();
+		//get the current time. if we're counting up, time is flipped
+		if(bCountDown)
+			pausedTime = getTime();
+		else
+			pausedTime = duration-getTime();
+		
 		tTimer.cancel();
 		tTimer = new Timer( pausedTime, tick );
 		bRunning = false;
@@ -121,7 +126,10 @@ public abstract class Clock {
 	 */
 	protected void resetClock(){
 		tTimer.cancel();
-		setClockText(duration);
+		if(bCountDown)
+			setClockText(duration);
+		else
+			setClockText(0L);
 		tTimer = new Timer(duration, tick);
 		bPaused = bFinished = bRunning = false;
 	}
@@ -371,7 +379,10 @@ public abstract class Clock {
 		@Override
 		public void onFinish() {
 			
-			setClockText(0L);
+			if(bCountDown)
+				setClockText(0L);
+			else
+				setClockText(duration);
 			Log.D("Time's up!");
 			bRunning = false;
 			bFinished = true;

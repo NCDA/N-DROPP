@@ -1,47 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="fill_parent"
 	android:layout_height="fill_parent"
-	android:orientation="vertical" >
+	android:id="@+id/mainMenuRootView" >
 
-	<TextView
-		android:id="@+id/txtWelcome"
-		android:layout_width="fill_parent"
-		android:layout_height="wrap_content"
-		android:text="@string/hello"
-		android:gravity="center"
-	/>
+	<ImageView
+		android:id="@+id/imgMenuLogo"
+		android:layout_width="100dp"
+		android:layout_height="100dp"
+		android:src="@drawable/ic_launcher"
+		android:padding="10dp"
+		android:layout_below="@+id/mainMenuRootView"
+		android:layout_centerHorizontal="true" />"
 	
 	<Button
 		android:id="@+id/btNewGame"
-		android:layout_width="match_parent"
+		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:text="Start New Game"
-		android:gravity="center_horizontal"
+		android:gravity="center"
+		android:padding="10dp"
+		android:layout_below="@+id/imgMenuLogo"
+		android:layout_centerHorizontal="true"
 	/>
 	
 	<Button
 		android:id="@+id/btHistory"
-		android:layout_width="match_parent"
+		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:text="View History"
-		android:gravity="center_horizontal"
+		android:gravity="center"
+		android:padding="10dp"
+		android:layout_below="@+id/btNewGame"
+		android:layout_centerHorizontal="true"
 	/>
 	
 	<Button
 		android:id="@+id/btInfo"
-		android:layout_width="match_parent"
+		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:text="More Information"
-		android:gravity="center_horizontal"
+		android:gravity="center"
+		android:padding="10dp"
+		android:layout_below="@+id/btHistory"
+		android:layout_centerHorizontal="true"
 	/>
 	
 	<Button
 		android:id="@+id/btSettings"
-		android:layout_width="match_parent"
+		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:text="Change Settings"
-		android:gravity="center_horizontal"
+		android:gravity="center"
+		android:padding="10dp"
+		android:layout_below="@+id/btInfo"
+		android:layout_centerHorizontal="true"
 	/>
-
-</LinearLayout>
+	
+	<ImageView 
+		android:id="@+id/imgNCDALogo"
+		android:layout_width="250dp"
+		android:layout_height="75dp"
+		android:src="@drawable/ic_launcher"
+		android:layout_alignParentBottom="true"
+		android:layout_centerHorizontal="true" />
+	
+	<TextView
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:text="Brought to you by the"
+		android:gravity="center_horizontal"
+		android:layout_above="@+id/imgNCDALogo"
+		android:layout_centerHorizontal="true" />
+	
+	
+</RelativeLayout>

@@ -17,13 +17,22 @@ import com.ncdadodgeball.ndropp.R;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.res.Resources;
 import android.graphics.Color;
+import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.view.Display;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.View.OnClickListener;
+import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class SCRGameActivity extends Activity{
@@ -61,11 +70,25 @@ public class SCRGameActivity extends Activity{
         m_btStartReset 	= (Button)findViewById(R.id.btStartReset);
         m_btPauseResume	= (Button)findViewById(R.id.btPauseShotClock);
         
-        m_ShotClock = new ShotClock(m_btStartReset, m_btPauseResume, clockText, 15000, Clock.CENTISEC);
+        m_ShotClock = new ShotClock(m_btStartReset, m_btPauseResume, clockText, 15000, Clock.CENTISEC, false);
         m_btStartReset.setOnClickListener(m_Listener);
         m_btPauseResume.setOnClickListener(m_Listener);
         m_btPauseResume.setClickable(false);
         m_btPauseResume.setBackgroundColor(Color.GRAY);
+        
+        //create gidview of players
+        GridView teamGrid = (GridView) findViewById(R.id.gridTeam);
+        teamGrid.setHorizontalSpacing((int)((getWindowManager().getDefaultDisplay().getWidth()*0.7)/5)/5);
+        teamGrid.setColumnWidth(25);
+        teamGrid.setMinimumWidth(100);
+        teamGrid.setMinimumHeight(150);
+        //teamGrid.setBackgroundColor(Color.WHITE);
+        teamGrid.setAdapter(new GridImageAdapter(this));   
+        
+        //change shot clock font
+    	clockText.setTypeface(Typeface.MONOSPACE, Typeface.BOLD);
+    	clockText.setTextSize(32);
+    	
     }
 
 	@Override
@@ -113,4 +136,39 @@ public class SCRGameActivity extends Activity{
 				(SCRGameActivity.sInstance.getShotClock()).iePauseResumeReset();
 		}
     }
+}
+
+class GridImageAdapter extends BaseAdapter
+{
+	private Context context;
+	View images[];
+	
+	public GridImageAdapter(Context ctx){
+		context=ctx;
+		images = new View[15];
+	}
+
+	public int getCount() {
+		return images.length;
+	}
+
+	public Object getItem(int index) {
+		return images[index];
+	}
+
+	public long getItemId(int index) {
+		return images[index].getId();
+	}
+
+	public View getView(int index, View view, ViewGroup parent) {
+		ImageView imageView = new ImageView(context);
+        imageView.setImageResource(R.drawable.silhouette_blue);
+        imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+        Display display = SCRGameActivity.sInstance.getWindowManager().getDefaultDisplay();
+        imageView.setLayoutParams(new GridView.LayoutParams((int)((display.getWidth()*0.7)/5), (int)((display.getHeight()*.25)/3)));
+        //imageView.setLayoutParams(new GridView.LayoutParams(34, 76));
+        imageView.setPadding(2, 2, 2, 2);
+        return imageView;
+	}
+	
 }

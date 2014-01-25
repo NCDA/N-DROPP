@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="fill_parent"
 	android:layout_height="fill_parent"
 	android:padding="5dp"
@@ -12,7 +12,8 @@
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
 		android:orientation="horizontal" 
-		android:gravity="center_vertical|right" >
+		android:gravity="center_vertical|right"
+		android:layout_below="@+id/SCRRootView" >
 		
 		<ImageButton
 			android:id="@+id/imgRulebook"
@@ -29,35 +30,38 @@
 	
 	<!-- TEAM LOGO, PLAYER GRID, AND PLAYER BUTTONS -->
 	<LinearLayout 
-		android:id="@+id/hLinearNavButtons_SCR"
+		android:id="@+id/hLinearTeamView_SCR"
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
 		android:orientation="horizontal" 
-		android:gravity="center" >
+		android:gravity="center"
+		android:layout_below="@+id/hLinearNavButtons_SCR"
+		android:layout_marginTop="20dp"
+		android:layout_marginBottom="20dp" >
 		
 		<ImageView 
 			android:id="@+id/imgTeamLogo"
 			android:layout_width="80dp"
 			android:layout_height="80dp"
 			android:src="@drawable/ic_launcher"
-			android:layout_gravity="center_vertical|left" />
+			android:layout_gravity="center" />
 		
 		<GridView 
 			android:id="@+id/gridTeam"
-			android:layout_width="100dp"
-			android:layout_height="100dp"
+			android:layout_width="125dp"
+			android:layout_height="wrap_content"
 			android:gravity="center"
-			android:horizontalSpacing="2dp"
-			android:padding="10dp"
+			android:horizontalSpacing="10dp"
+			android:padding="5dp"
 			android:numColumns="5"
-			android:stretchMode="none"	>
+			android:stretchMode="none" >
 		</GridView>
 		
 		<!-- TEAM MODIFICATION BUTTONS -->
 		<LinearLayout 
 			android:id="@+id/vLinearPlayerButtons"
 			android:layout_width="wrap_content"
-			android:layout_height="fill_parent"
+			android:layout_height="wrap_content"
 			android:orientation="vertical" 
 			android:gravity="center" >
 			
@@ -66,6 +70,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="+"
+                android:textSize="32dp"
+                android:typeface="monospace"
+                android:textStyle="bold"
                 android:layout_margin="2dp"
                 android:gravity="center"
                 android:clickable="true" />
@@ -75,6 +82,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="-"
+                android:textSize="32dp"
+                 android:typeface="monospace"
+                android:textStyle="bold"
                 android:layout_margin="2dp"
                 android:gravity="center"
                	android:clickable="true" />
@@ -87,7 +97,8 @@
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
 		android:orientation="horizontal" 
-		android:gravity="center">
+		android:gravity="center"
+		android:layout_below="@+id/hLinearTeamView_SCR" >
 		
 		<!-- CLOCK TEXT AND IMMEDIATE BUTTONS -->
 		<LinearLayout
@@ -102,7 +113,7 @@
 				android:layout_width="fill_parent"
 				android:layout_height="wrap_content"
 				android:text="00:00"
-				android:gravity="center"/>
+				android:gravity="center" />
 			
 			<!-- SHOT CLOCK BUTTONS -->
 			<LinearLayout 
@@ -150,6 +161,7 @@
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
 		android:text="25:00:00"
-		android:gravity="center" />
+		android:gravity="center"
+		android:layout_alignParentBottom="true" />
 
-</LinearLayout>
+</RelativeLayout>
