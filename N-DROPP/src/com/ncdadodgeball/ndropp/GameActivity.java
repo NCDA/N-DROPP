@@ -12,7 +12,13 @@
  *************************************************************************************************/
 package com.ncdadodgeball.ndropp;
 
+import java.io.File;
+
 import android.app.Activity;
+import android.content.ActivityNotFoundException;
+import android.content.Intent;
+import android.net.Uri;
+import android.widget.Toast;
 
 /*	GameActivity
  * 	Base class Activity for all other GameActivity objects. This class establishes
@@ -65,6 +71,43 @@ public abstract class GameActivity extends Activity
 	 */
 	protected boolean isOvertime(){
 		return m_bIsOvertime;
+	}
+	
+	/** onRulebookPressed
+	 * 	calls the DownloadManager to check to see if the rulebook exists. If the rulebook exists,
+	 * 	it is opened. Otherwise, error flag.
+	 */
+	protected void onRulebookPressed(){
+		//Rulebook - download/view
+		if(DownloadManager.DownloadRulebook()){
+			File fRulebook = new File(AppGlobals.EXTERNAL_DIR + AppGlobals.PACKAGE + "/" + AppGlobals.RULEBOOK_FILE);
+			Uri path = Uri.fromFile(fRulebook);
+            Intent pdfViewIntent = new Intent(Intent.ACTION_VIEW);
+            pdfViewIntent.setDataAndType(path, "application/pdf");
+            pdfViewIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+            try {
+                startActivity(pdfViewIntent);
+            } 
+            catch (ActivityNotFoundException e) {
+            	Log.D("ERROR: No application to view PDF.");
+                Toast.makeText(MainActivity.sInstance, "Error: No application exists on this device to view PDF", Toast.LENGTH_LONG).show();
+            }
+		}
+	}
+	
+	/** openSettings
+	 * 	//TODO
+	 */
+	protected void onSettingsPressed(){
+
+	}
+	
+	/** onPenaltyPressed
+	 * 	TODO 
+	 */
+	protected void onPenaltyPressed(){
+		
 	}
 	
 	//In-game event overrides

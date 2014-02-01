@@ -3,53 +3,57 @@
 	android:layout_width="fill_parent"
 	android:layout_height="fill_parent"
 	android:padding="5dp"
-	android:id="@+id/SCRRootView"
+	android:id="@+id/SCR_RootView"
 	android:orientation="vertical" >
 
 	<!--  TOP SCREEN NAVIGATION BUTTONS  -->
 	<LinearLayout
-		android:id="@+id/hLinearNavButtons_SCR"
+		android:id="@+id/SCR_hLinearNavButtons"
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
 		android:orientation="horizontal" 
 		android:gravity="center_vertical|right"
 		android:layout_below="@+id/SCRRootView" >
 		
-		<ImageButton
-			android:id="@+id/imgRulebook"
+		<ImageView
+			android:id="@+id/SCR_btRulebook"
 			android:layout_width="50dp"
 			android:layout_height="50dp"
-			android:src="@drawable/ic_launcher" />
+			android:src="@drawable/rulebook"
+			android:layout_margin="7dp"
+			android:clickable="true" />
 
-		<ImageButton
-			android:id="@+id/imgSettings"
+		<ImageView
+			android:id="@+id/SCR_btSettings"
 			android:layout_width="50dp"
 			android:layout_height="50dp"
-			android:src="@drawable/ic_launcher" />
+			android:src="@drawable/settings"
+			android:layout_margin="7dp"
+			android:clickable="true" />
 	</LinearLayout>
 	
 	<!-- TEAM LOGO -->
 	<ImageView 
-		android:id="@+id/imgTeamLogo"
+		android:id="@+id/SCR_imgTeamLogo"
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
 		android:layout_centerHorizontal="true"
 		android:layout_gravity="center"
-		android:layout_below="@+id/hLinearNavButtons_SCR" />
+		android:layout_below="@+id/SCR_hLinearNavButtons" />
 	
 	<!-- PLAYER GRID, AND PLAYER BUTTONS -->
 	<LinearLayout 
-		android:id="@+id/hLinearTeamView_SCR"
+		android:id="@+id/SCR_hLinearTeamView"
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
 		android:orientation="horizontal" 
 		android:gravity="center"
-		android:layout_below="@+id/imgTeamLogo"
+		android:layout_below="@+id/SCR_imgTeamLogo"
 		android:layout_marginTop="20dp"
 		android:layout_marginBottom="20dp" >
 		
 		<GridView 
-			android:id="@+id/gridTeam"
+			android:id="@+id/SCR_gridTeam"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:gravity="center"
@@ -61,7 +65,7 @@
 		
 		<!-- TEAM MODIFICATION BUTTONS -->
 		<LinearLayout 
-			android:id="@+id/vLinearPlayerButtons"
+			android:id="@+id/SCR_vLinearPlayerButtons"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:orientation="vertical" 
@@ -69,7 +73,7 @@
 			android:padding="5dp" >
 			
 			<Button
-                android:id="@+id/btAddPlayer"
+                android:id="@+id/SCR_btAddPlayer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="+"
@@ -78,11 +82,10 @@
                 android:textStyle="bold"
                 android:layout_margin="2dp"
                 android:gravity="center"
-                android:clickable="true"
-                android:onClick="onAddPlayerEvent" />
+                android:clickable="true" />
 			
 			 <Button
-                android:id="@+id/btRemovePlayer"
+                android:id="@+id/SCR_btRemovePlayer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="-"
@@ -91,30 +94,29 @@
                 android:textStyle="bold"
                 android:layout_margin="2dp"
                 android:gravity="center"
-               	android:clickable="true"
-               	android:onClick="onRemovePlayerEvent" />
+               	android:clickable="true" />
 		</LinearLayout>
 	</LinearLayout> <!-- end logo, grid, and player buttons -->
 	
 	<!-- CLOCK TEXT, CLOCK BUTTONS, and RESET BUTTON -->
 	<LinearLayout
-		android:id="@+id/hLinearShotClock"
+		android:id="@+id/SCR_hLinearShotClock"
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
 		android:orientation="horizontal" 
 		android:gravity="center"
-		android:layout_below="@+id/hLinearTeamView_SCR" >
+		android:layout_below="@+id/SCR_hLinearTeamView" >
 		
 		<!-- CLOCK TEXT AND IMMEDIATE BUTTONS -->
 		<LinearLayout
-			android:id="@+id/vLinearShotClock"
+			android:id="@+id/SCR_vLinearShotClock"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:orientation="vertical" 
 			android:gravity="center">
 			 
 			<TextView 
-				android:id="@+id/txtShotClock"
+				android:id="@+id/SCR_txtShotClock"
 				android:layout_width="fill_parent"
 				android:layout_height="wrap_content"
 				android:text="00:00"
@@ -122,14 +124,14 @@
 			
 			<!-- SHOT CLOCK BUTTONS -->
 			<LinearLayout 
-				android:id="@+id/hLinearSCButtons"
+				android:id="@+id/SCR_hLinearSCButtons"
 				android:layout_width="fill_parent"
 				android:layout_height="wrap_content"
 				android:orientation="horizontal" 
 				android:gravity="center" >
 				
 				<Button
-	                android:id="@+id/btEditSC"
+	                android:id="@+id/SCR_btEditSC"
 	                android:layout_width="wrap_content"
 	                android:layout_height="wrap_content"
 	                android:text="Edit"
@@ -138,7 +140,7 @@
 	               	android:clickable="true" />
 				
 				<Button
-	                android:id="@+id/btPauseShotClock"
+	                android:id="@+id/SCR_btPauseShotClock"
 	                android:layout_width="wrap_content"
 	                android:layout_height="wrap_content"
 	                android:text="Pause"
@@ -150,7 +152,7 @@
 		</LinearLayout> <!-- end shot clock text and buttons -->
 		
 		<Button 
-			android:id="@+id/btStartReset"
+			android:id="@+id/SCR_btStartReset"
 			android:layout_width="100dp"
 			android:layout_height="100dp"
 			android:text="Start"
@@ -162,12 +164,12 @@
 	
 	<!-- GAME CLOCK -->
 	<TextView 
-		android:id="@+id/txtSCRGameClock"
+		android:id="@+id/SCR_txtGameClock"
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
 		android:text="25:00:00"
 		android:gravity="center"
 		android:layout_marginTop="20dp"
-		android:layout_below="@+id/hLinearShotClock" />
+		android:layout_below="@+id/SCR_hLinearShotClock" />
 
 </RelativeLayout>

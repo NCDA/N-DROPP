@@ -76,10 +76,24 @@ public class SCRGameActivity extends  GameActivity{
         
         sInstance = this;
         
+        int screenW = getWindowManager().getDefaultDisplay().getWidth();
+        int screenH = getWindowManager().getDefaultDisplay().getHeight();
+        
+        //set up navigation buttons (rulebook, settings)
+        ImageView vNav = (ImageView)findViewById(R.id.SCR_btSettings);
+        int side = (int)AppGlobals.NAV_IMG_HEIGHT_PERCENT * screenH;
+        vNav.setMinimumHeight(side);
+        vNav.setMinimumWidth(side);
+        vNav.setOnClickListener(m_Listener);
+        vNav = (ImageView)findViewById(R.id.SCR_btRulebook);
+        vNav.setMinimumHeight(side);
+        vNav.setMinimumWidth(side);
+        vNav.setOnClickListener(m_Listener);
+        
         //set up shot clock
-        TextView clockText = (TextView)findViewById(R.id.txtShotClock);
-        m_btStartReset 	= (Button)findViewById(R.id.btStartReset);
-        m_btPauseResume	= (Button)findViewById(R.id.btPauseShotClock);
+        TextView clockText = (TextView)findViewById(R.id.SCR_txtShotClock);
+        m_btStartReset 	= (Button)findViewById(R.id.SCR_btStartReset);
+        m_btPauseResume	= (Button)findViewById(R.id.SCR_btPauseShotClock);
         m_ShotClock = new ShotClock(m_btStartReset, m_btPauseResume, clockText, 15*Clock.SECOND, false);
         m_btStartReset.setOnClickListener(m_Listener);
         m_btPauseResume.setOnClickListener(m_Listener);
@@ -89,15 +103,13 @@ public class SCRGameActivity extends  GameActivity{
     	clockText.setTextSize(36);
         
         //set up GridView dimensions
-        int screenW = getWindowManager().getDefaultDisplay().getWidth();
-        int screenH = getWindowManager().getDefaultDisplay().getHeight();
         int colWidth = (int)(( screenW * AppGlobals.SCR_GRID_WIDTH_PERCENT) / 5 );
         int rowHeight = (int)(( screenH * AppGlobals.SCR_GRID_HEIGHT_PERCENT) / 3 );
         int gridWidth = colWidth*5;
         int gridHeight = rowHeight*3;
         
         //grab correct team logo
-        ImageView vLogo = (ImageView) findViewById(R.id.imgTeamLogo);
+        ImageView vLogo = (ImageView) findViewById(R.id.SCR_imgTeamLogo);
         Resources res = getResources();
         int imgID = res.getIdentifier("logo_gvsu", "drawable", AppGlobals.PACKAGE);		//TODO
         LayoutParams layout = vLogo.getLayoutParams();
@@ -106,7 +118,7 @@ public class SCRGameActivity extends  GameActivity{
         vLogo.setBackgroundDrawable(res.getDrawable(imgID));
         
         //establish GridView of players
-        m_vTeamGrid = (GridView) findViewById(R.id.gridTeam);
+        m_vTeamGrid = (GridView) findViewById(R.id.SCR_gridTeam);
         layout = m_vTeamGrid.getLayoutParams();
         layout.width = gridWidth;
         layout.height = gridHeight;
@@ -118,15 +130,15 @@ public class SCRGameActivity extends  GameActivity{
         m_vTeamGrid.setFocusable(false);
         
         //setup add/remove player buttons
-        m_btAddPlayer = (Button) findViewById(R.id.btAddPlayer);
-        m_btRemovePlayer = (Button) findViewById(R.id.btRemovePlayer);
+        m_btAddPlayer = (Button) findViewById(R.id.SCR_btAddPlayer);
+        m_btRemovePlayer = (Button) findViewById(R.id.SCR_btRemovePlayer);
         m_btAddPlayer.setOnClickListener(m_Listener);
         m_btRemovePlayer.setOnClickListener(m_Listener);
         
         //set up game clock - put game clock midway between shot clock and bottom of screen
-    	int bottom = findViewById(R.id.hLinearShotClock).getBottom();
-    	findViewById(R.id.txtSCRGameClock).getLayoutParams().height = screenH-bottom;
-    	TextView gameClockText = (TextView) findViewById(R.id.txtSCRGameClock);
+    	int bottom = findViewById(R.id.SCR_hLinearShotClock).getBottom();
+    	findViewById(R.id.SCR_txtGameClock).getLayoutParams().height = screenH-bottom;
+    	TextView gameClockText = (TextView) findViewById(R.id.SCR_txtGameClock);
     	gameClockText.setTypeface(Typeface.MONOSPACE, Typeface.BOLD);
     	clockText.setTextSize(28);
     }
@@ -294,20 +306,28 @@ public class SCRGameActivity extends  GameActivity{
 			int id = view.getId();
 			
 			//START/RESET BUTTON
-			if(id == findViewById(R.id.btStartReset).getId())
+			if(id == findViewById(R.id.SCR_btStartReset).getId())
 				(SCRGameActivity.sInstance.getShotClock()).onResetStartRestart();
 			
 			//PAUSE/RESUME BUTTON
-			else if(id == findViewById(R.id.btPauseShotClock).getId())
+			else if(id == findViewById(R.id.SCR_btPauseShotClock).getId())
 				(SCRGameActivity.sInstance.getShotClock()).onPauseResumeReset();
 			
 			//ADD PLAYER BUTTON
-			else if( id == findViewById(R.id.btAddPlayer).getId() )
+			else if( id == findViewById(R.id.SCR_btAddPlayer).getId() )
 				onAddPlayerEvent();
 			
 			//REMOVE PLAYER BUTTON
-			else if( id == findViewById(R.id.btRemovePlayer).getId() )
+			else if( id == findViewById(R.id.SCR_btRemovePlayer).getId() )
 				onRemovePlayerEvent();
+			
+			//SETTINGS BUTTON
+			else if( id == findViewById(R.id.SCR_btSettings).getId() )
+				onSettingsPressed();
+			
+			//RULEBOOK BUTTON
+			else if( id == findViewById(R.id.SCR_btRulebook).getId() )
+				onRulebookPressed();
 		}
     }
 }

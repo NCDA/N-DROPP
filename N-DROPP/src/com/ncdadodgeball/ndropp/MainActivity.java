@@ -51,10 +51,10 @@ public class MainActivity extends Activity {
         sInstance = this;
         
         //grab buttons and set listener
-        btStart 	= (Button)findViewById(R.id.btNewGame);
-        btHistory 	= (Button)findViewById(R.id.btHistory);
-        btInfo		= (Button)findViewById(R.id.btInfo);
-        btSettings	= (Button)findViewById(R.id.btSettings);
+        btStart 	= (Button)findViewById(R.id.MAIN_btNewGame);
+        btHistory 	= (Button)findViewById(R.id.MAIN_btHistory);
+        btInfo		= (Button)findViewById(R.id.MAIN_btInfo);
+        btSettings	= (Button)findViewById(R.id.MAIN_btSettings);
         btStart.setVisibility(View.VISIBLE);
         btHistory.setVisibility(View.VISIBLE);
         btInfo.setVisibility(View.VISIBLE);

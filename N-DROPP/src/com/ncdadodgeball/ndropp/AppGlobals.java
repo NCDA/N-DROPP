@@ -45,9 +45,10 @@ public class AppGlobals {
 	public static final int NUM_MAX_OVERTIME_PLAYERS	= 6;
 	
 	//DOUBLE CONSTANTS
-	public static final double LOGO_ASPECT_RATIO 		= 0.60;
-	public static final double SCR_GRID_WIDTH_PERCENT 	= 0.45;
-	public static final double SCR_GRID_HEIGHT_PERCENT 	= 0.25;
+	public static final double LOGO_ASPECT_RATIO		= 0.60;
+	public static final double NAV_IMG_HEIGHT_PERCENT	= 0.15;		//navigation images height percentage
+	public static final double SCR_GRID_WIDTH_PERCENT	= 0.45;
+	public static final double SCR_GRID_HEIGHT_PERCENT	= 0.25;
 	public static final double SCR_LOGO_WIDTH_PERCENT 	= 0.40;
 	
 	//GLOBAL OBJECTS

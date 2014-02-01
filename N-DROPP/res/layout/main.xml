@@ -2,63 +2,63 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="fill_parent"
 	android:layout_height="fill_parent"
-	android:id="@+id/mainMenuRootView" >
+	android:id="@+id/MAIN_RootView" >
 
 	<ImageView
-		android:id="@+id/imgMenuLogo"
+		android:id="@+id/MAIN_imgMenuLogo"
 		android:layout_width="100dp"
 		android:layout_height="100dp"
-		android:src="@drawable/ic_launcher"
+		android:src="@drawable/app_logo"
 		android:padding="10dp"
-		android:layout_below="@+id/mainMenuRootView"
+		android:layout_below="@+id/MAIN_RootView"
 		android:layout_centerHorizontal="true" />"
 	
 	<Button
-		android:id="@+id/btNewGame"
+		android:id="@+id/MAIN_btNewGame"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:text="Start New Game"
 		android:gravity="center"
 		android:padding="10dp"
-		android:layout_below="@+id/imgMenuLogo"
+		android:layout_below="@+id/MAIN_imgMenuLogo"
 		android:layout_centerHorizontal="true"
 	/>
 	
 	<Button
-		android:id="@+id/btHistory"
+		android:id="@+id/MAIN_btHistory"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:text="View History"
 		android:gravity="center"
 		android:padding="10dp"
-		android:layout_below="@+id/btNewGame"
+		android:layout_below="@+id/MAIN_btNewGame"
 		android:layout_centerHorizontal="true"
 	/>
 	
 	<Button
-		android:id="@+id/btInfo"
+		android:id="@+id/MAIN_btInfo"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:text="More Information"
 		android:gravity="center"
 		android:padding="10dp"
-		android:layout_below="@+id/btHistory"
+		android:layout_below="@+id/MAIN_btHistory"
 		android:layout_centerHorizontal="true"
 	/>
 	
 	<Button
-		android:id="@+id/btSettings"
+		android:id="@+id/MAIN_btSettings"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:text="Change Settings"
 		android:gravity="center"
 		android:padding="10dp"
-		android:layout_below="@+id/btInfo"
+		android:layout_below="@+id/MAIN_btInfo"
 		android:layout_centerHorizontal="true"
 	/>
 	
 	<ImageView 
-		android:id="@+id/imgNCDALogo"
+		android:id="@+id/MAIN_imgNCDALogo"
 		android:layout_width="250dp"
 		android:layout_height="75dp"
 		android:src="@drawable/ic_launcher"
@@ -70,7 +70,7 @@
 		android:layout_height="wrap_content"
 		android:text="Brought to you by the"
 		android:gravity="center_horizontal"
-		android:layout_above="@+id/imgNCDALogo"
+		android:layout_above="@+id/MAIN_imgNCDALogo"
 		android:layout_centerHorizontal="true" />
 	
 	
