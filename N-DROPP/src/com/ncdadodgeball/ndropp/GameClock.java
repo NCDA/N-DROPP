@@ -40,11 +40,18 @@ public class GameClock extends Clock {
 	private boolean 	bHasHalftime;
 	private boolean		bIsFirstHalf;
 
-	/*
-	 * if halftime, duration is the length of one half.
+	/**	Gameclock( startPauseResume, halftime, clockText, duration ) -- CONSTRUCTOR
+	 * 
+	 * @param startPauseResume : Button for starting, pausing, and resuming the GameClock timer
+	 * @param halftime : Button for initiating halftime
+	 * @param clockText : Textview to display the text of the game clock
+	 * @param duration : time (milliseconds) of the length of one half (length of game if no halftime)
+	 * 
+	 *	Create GameClock object - defaults to a countdown timer. If the current game has halftime,
+	 *	the duration should be set to the length of one half.
 	 */
-	public GameClock(Button startPauseResume, Button halftime, TextView clockText, long duration, long tick) {
-		super(clockText, ClockTextFormat.MinutesString, duration, tick);
+	public GameClock(Button startPauseResume, Button halftime, TextView clockText, long duration) {
+		super(clockText, ClockTextFormat.MinutesString, duration, true);
 		btStartPauseResume = startPauseResume;
 		state = ClockState.PausedTop;
 		bIsFirstHalf = true;
@@ -53,22 +60,22 @@ public class GameClock extends Clock {
 		bHasHalftime = AppGlobals.gGameSettings.isHalftimeEnabled();
 	}
 	
-	public GameClock(Button startPauseResume, Button halftime, TextView clockText, long duration, long tick, boolean countDown) {
-		super(clockText, ClockTextFormat.MinutesString, duration, tick, countDown);
-		btStartPauseResume = startPauseResume;
-		state = ClockState.PausedTop;
-		bIsFirstHalf = true;
-		btHalftime = halftime;
-		btHalftime.setVisibility(View.INVISIBLE);
-		bHasHalftime = AppGlobals.gGameSettings.isHalftimeEnabled();
-	}
+//	public GameClock(Button startPauseResume, Button halftime, TextView clockText, long duration, boolean countDown) {
+//		super(clockText, ClockTextFormat.MinutesString, duration, tick, countDown);
+//		btStartPauseResume = startPauseResume;
+//		state = ClockState.PausedTop;
+//		bIsFirstHalf = true;
+//		btHalftime = halftime;
+//		btHalftime.setVisibility(View.INVISIBLE);
+//		bHasHalftime = AppGlobals.gGameSettings.isHalftimeEnabled();
+//	}
 
 	
-	/** ieStartPauseResume()
+	/** onStartPauseResume()
 	 * 	Input-event caused by a button press for the button controlling "start",
 	 *  "pause", and "resume".  This changes the state of the clock.
 	 */
-	public void ieStartPauseResume(){
+	public void onStartPauseResume(){
 		if( state == ClockState.PausedTop ){
 			state = ClockState.Running;
 			btStartPauseResume.setText(STR_PAUSE);
@@ -111,6 +118,10 @@ public class GameClock extends Clock {
 	}
 	
 	@Override
+	/** onClockExpired
+	 *	Called by the base Clock class when the clock expires. Changes the state of
+	 *	the clock to Expired and changes GUI accordingly
+	 */
 	protected void onClockExpired() {
 		state = ClockState.Expired;
 		btStartPauseResume.setClickable(false);
@@ -123,7 +134,11 @@ public class GameClock extends Clock {
 		}
 	}
 	
-	public void ieRolloverHalftime(){
+	/**	onRolloverHalftime
+	 * 	Input event to rollover the first half to the next half and pause for halftime.
+	 * 	Takes the current time on the clock and adds it to the duration of a half.
+	 */
+	public void onRolloverHalftime(){
 		if( state != ClockState.Paused || state != ClockState.Expired){
 			String message = "ERROR: Malformed GameClock state exception. Cannot rollover halftime.";
 			Log.E(message);

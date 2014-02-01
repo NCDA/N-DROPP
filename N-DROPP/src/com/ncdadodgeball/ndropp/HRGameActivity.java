@@ -19,6 +19,9 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 
+/*	HRGameActivity
+ * 	Manages the Head Referee's GUI and functions.
+ */
 public class HRGameActivity extends GameActivity {
 	public static 	HRGameActivity	sInstance;
 	ButtonListener	m_Listener;
@@ -29,13 +32,9 @@ public class HRGameActivity extends GameActivity {
 	Button			m_btStartPauseResume;
 	Button			m_btHalftime;
 	
-//	public GameActivity(GameSettings settings){
-//		m_Settings = settings;
-//		m_ClockText = (TextView)findViewById(R.id.txtClock);
-//		m_ShotClock = new Clock(m_ClockText, true, 15000);
-//		m_Button = null;
-//	}
-	
+	/** HRGameActivity -- CONSTRUCTOR
+	 * 	
+	 */
 	public HRGameActivity(){
 		m_Settings = new GameSettings();
 		m_Listener = new ButtonListener();
@@ -47,6 +46,9 @@ public class HRGameActivity extends GameActivity {
 	}
 	
 	@Override
+	/** onCreate
+	 * 	Set up HR interface
+	 */
 	 public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.D("onCreate HR");
@@ -58,71 +60,93 @@ public class HRGameActivity extends GameActivity {
         m_btStartPauseResume = (Button)findViewById(R.id.btStartPauseResume);
         m_btHalftime = (Button) findViewById(R.id.btHalftime);
         
-        m_GameClock = new GameClock(m_btStartPauseResume, m_btHalftime, clockText, 20*Clock.SECOND, Clock.CENTISEC);
+        m_GameClock = new GameClock(m_btStartPauseResume, m_btHalftime, clockText, 20*Clock.SECOND);
         m_btStartPauseResume.setOnClickListener(m_Listener);
         m_btHalftime.setOnClickListener(m_Listener);
         Log.D("done create");
     }
 	
+	/*	ButtonListener
+	 * 	onClickListener for GUI buttons
+	 */
 	class ButtonListener implements OnClickListener{
 
+		/** onClick
+		 * 	Find the view that was selected and initiate the associated event
+		 */
 		public void onClick(View view) {
 			
 			//START/PAUSE/RESUME BUTTON
 			if(view.getId() == findViewById(R.id.btStartPauseResume).getId())
-				m_GameClock.ieStartPauseResume();
+				m_GameClock.onStartPauseResume();
 			
 			//PAUSE/RESUME BUTTON
 			else if(view.getId() == m_btHalftime.getId())
-				m_GameClock.ieRolloverHalftime();
+				m_GameClock.onRolloverHalftime();
 		}
     }
 
 	@Override
+	/** onAddPlayerEvent
+	 * 	TODO
+	 */
 	protected void onAddPlayerEvent() {
-		// TODO Auto-generated method stub
-		
+	
 	}
 
 	@Override
+	/** onRemovePlayerEvent
+	 * 	TODO
+	 */
 	protected void onRemovePlayerEvent() {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
+	/** onTimeoutEvent
+	 * 	TODO
+	 */
 	protected void onTimeoutEvent() {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
+	/** onOvertimeEvent
+	 * 	TODO
+	 */
 	protected void onOvertimeEvent() {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
+	/** onHalftimeEvent
+	 * 	TODO
+	 */
 	protected void onHalftimeEvent() {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
+	/** onPenaltyEvent
+	 * 	TODO
+	 */
 	protected void onPenaltyEvent() {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
+	/** onRoundCompletedEvent
+	 * 	TODO
+	 */
 	protected void onRoundCompleteEvent() {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
+	/** onGameOverEvent
+	 * 	TODO
+	 */
 	protected void onGameOverEvent() {
-		// TODO Auto-generated method stub
 		
 	}
 }

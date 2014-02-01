@@ -34,20 +34,28 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+/*	SCRGameActivity
+ *	Shotclock Referee Game Activity sets up the Shot Clock referee's interface and all associated functions
+ */
 public class SCRGameActivity extends  GameActivity{
 	
 	public static SCRGameActivity	sInstance;
-	ButtonListener	m_Listener;
-	GameSettings 	m_Settings;
-	ShotClock		m_ShotClock;
-	Clock			m_GameClock;
-	Button			m_btStartReset;
-	Button			m_btPauseResume;
-	Button			m_btAddPlayer;
-	Button			m_btRemovePlayer;
-	GridView		m_vTeamGrid;
-	int				m_nPlayersOnCourt;
 	
+	//class member variables
+	private ButtonListener	m_Listener;
+	private GameSettings 	m_Settings;
+	private ShotClock		m_ShotClock;
+	private GameClock			m_GameClock;
+	private Button			m_btStartReset;
+	private Button			m_btPauseResume;
+	private Button			m_btAddPlayer;
+	private Button			m_btRemovePlayer;
+	private GridView		m_vTeamGrid;
+	private int				m_nPlayersOnCourt;
+	
+	/** SCRGameActivity -- CONSTRUCTOR
+	 *	Set up game
+	 */
 	public SCRGameActivity(){
 		m_Settings = new GameSettings();
 		m_Listener = new ButtonListener();
@@ -58,6 +66,9 @@ public class SCRGameActivity extends  GameActivity{
 	}
 	
 	@Override
+	/** onCreate
+	 * 	set up SCR UI and features
+	 */
 	 public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -69,7 +80,7 @@ public class SCRGameActivity extends  GameActivity{
         TextView clockText = (TextView)findViewById(R.id.txtShotClock);
         m_btStartReset 	= (Button)findViewById(R.id.btStartReset);
         m_btPauseResume	= (Button)findViewById(R.id.btPauseShotClock);
-        m_ShotClock = new ShotClock(m_btStartReset, m_btPauseResume, clockText, 15000, Clock.CENTISEC, false);
+        m_ShotClock = new ShotClock(m_btStartReset, m_btPauseResume, clockText, 15*Clock.SECOND, false);
         m_btStartReset.setOnClickListener(m_Listener);
         m_btPauseResume.setOnClickListener(m_Listener);
         m_btPauseResume.setClickable(false);
@@ -121,6 +132,9 @@ public class SCRGameActivity extends  GameActivity{
     }
 
 	@Override
+	/** onBackPressed
+	 * 	Called when Back soft-key button is pressed by user.  Throw up a dialog confirming exit
+	 */
 	public void onBackPressed(){
 		AlertDialog.Builder alert = new AlertDialog.Builder(this);
 		alert.setMessage("Are you sure you want to quit?  All current game content will be lost.");
@@ -139,20 +153,27 @@ public class SCRGameActivity extends  GameActivity{
 		dialog.show();
 	}
 	
-	public GameSettings getSettings() {
-		return m_Settings;
-	}
-	public Clock getGameTimer() {
+	/** getGameTimer
+	 * 
+	 * @return GameClock representing the game timer
+	 */
+	public GameClock getGameTimer() {
 		return m_GameClock;
 	}
+	
+	/** getShotClock
+	 * 
+	 * @return ShotClock object representing the shot clock
+	 */
 	public ShotClock getShotClock() {
 		return m_ShotClock;
 	}
-	public void setShotClock(ShotClock shotClock) {
-		m_ShotClock = shotClock;
-	}
+	
 
 	@Override
+	/** onAddPlayerEvent
+	 * 	Add a player to the Gridview of players
+	 */
 	protected void onAddPlayerEvent(){
 		int maxPlayers = 0;
 		if( isOvertime() )
@@ -175,6 +196,9 @@ public class SCRGameActivity extends  GameActivity{
 	}
 
 	@Override
+	/** onRemovePlayerEvent
+	 * 	remove player from the Gridview of players
+	 */
 	protected void onRemovePlayerEvent() {
 		if(m_nPlayersOnCourt > 0){
 			BaseAdapter adapter = (BaseAdapter)SCRGameActivity.sInstance.m_vTeamGrid.getAdapter();
@@ -189,54 +213,93 @@ public class SCRGameActivity extends  GameActivity{
 	}
 
 	@Override
+	/** onTimeoutEvent
+	 * 	TODO
+	 */
 	protected void onTimeoutEvent() {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
+	/** onOvertimeEvent
+	 * 	TODO
+	 */
 	protected void onOvertimeEvent() {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
+	/** onHalftimeEvent
+	 * 	TODO
+	 */
 	protected void onHalftimeEvent() {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
+	/** onPenaltyEvent
+	 * 	TODO
+	 */
 	protected void onPenaltyEvent() {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
+	/** onRoundCompletedEvent
+	 * 	TODO
+	 */
 	protected void onRoundCompleteEvent() {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
+	/** onGameOverEvent
+	 * 	TODO
+	 */
 	protected void onGameOverEvent() {
-		// TODO Auto-generated method stub
 		
 	}
 	
+	@Override
+	/** onPause
+	 * 	TODO
+	 */
+	public void onPause(){
+		super.onPause();
+	}
+	
+	@Override
+	/** onResume
+	 * 	TODO
+	 */
+	public void onResume(){
+		super.onResume();
+	}
+	
+	@Override
+	public void onDestroy(){
+		super.onDestroy();
+	}
+	
+	/*	ButtonListener
+	 * 	onClickListener for the elements of SCR GUI
+	 */
 	class ButtonListener implements OnClickListener{
 
+		/** onClick
+		 * 	Find the GUI element selected and initiate the associated event
+		 */
 		public void onClick(View view) {
 			
 			int id = view.getId();
 			
 			//START/RESET BUTTON
 			if(id == findViewById(R.id.btStartReset).getId())
-				(SCRGameActivity.sInstance.getShotClock()).ieResetStartRestart();
+				(SCRGameActivity.sInstance.getShotClock()).onResetStartRestart();
 			
 			//PAUSE/RESUME BUTTON
 			else if(id == findViewById(R.id.btPauseShotClock).getId())
-				(SCRGameActivity.sInstance.getShotClock()).iePauseResumeReset();
+				(SCRGameActivity.sInstance.getShotClock()).onPauseResumeReset();
 			
 			//ADD PLAYER BUTTON
 			else if( id == findViewById(R.id.btAddPlayer).getId() )
@@ -249,28 +312,60 @@ public class SCRGameActivity extends  GameActivity{
     }
 }
 
+/*	GridImageAdapter
+ * 	ListAdapter that keeps track of the image elements in the gridview
+ */
 class GridImageAdapter extends BaseAdapter
 {
 	private Context context;
 	ImageView images[];
 	
+	/** GridImageAdapter
+	 * 
+	 * @param ctx : application context
+	 * 
+	 * Create an adapter list of 15 elements
+	 */
 	public GridImageAdapter(Context ctx){
 		context=ctx;
 		images = new ImageView[15];
 	}
 
+	/** getCount
+	 * 	return size of gridview
+	 */
 	public int getCount() {
 		return images.length;
 	}
 
+	/** getItem
+	 *  
+	 *  @param index : array index of element
+	 *  
+	 *  @return ImageView of the associated element
+	 */
 	public ImageView getItem(int index) {
 		return images[index];
 	}
 
+	/** getItemId
+	 * 	
+	 * 	@param index : array index of element in the gridview
+	 * 
+	 *	@return ImageView id of the assiciated ImageView
+	 */
 	public long getItemId(int index) {
 		return images[index].getId();
 	}
 
+	/** getView
+	 * 	
+	 *	@param index : index of element
+	 *	@param view : view to store at the specified index
+	 *	@param parent : parent view
+	 *
+	 *	@return the created ImageView at the specific location
+	 */
 	public View getView(int index, View view, ViewGroup parent) {
 		ImageView imageView = new ImageView(context);
 		int imgID = SCRGameActivity.sInstance.getResources().getIdentifier(AppGlobals.SIL_BLUE, "drawable", AppGlobals.PACKAGE);	//TODO

@@ -43,14 +43,13 @@ public class ShotClock extends Clock {
 	/** ShotClock
 	 * @param resetStart : button to represent the shot clock's reset/start/restart button
 	 * @param pauseResume : button to represent the shot clock's pause/resume/reset button
-	 * @param clockText : see @Clock
-	 * @param duration : see @Clock
-	 * @param tick : see @Clock
+	 * @param clockText : @see @Clock
+	 * @param duration : @see @Clock
 	 * 
 	 * Initialize state and class variables.
 	 */
-	public ShotClock(Button resetStart, Button pauseResume, TextView clockText, long duration, long tick) {
-		super(clockText, ClockTextFormat.SecondsString, duration, tick);
+	public ShotClock(Button resetStart, Button pauseResume, TextView clockText, long duration) {
+		super(clockText, ClockTextFormat.SecondsString, duration);
 		btResetStart = resetStart;
 		btPauseResume = pauseResume;
 		state = ClockState.PausedTop;
@@ -63,15 +62,14 @@ public class ShotClock extends Clock {
 	/** ShotClock
 	 * @param resetStart : button to represent the shot clock's reset/start/restart button
 	 * @param pauseResume : button to represent the shot clock's pause/resume/reset button
-	 * @param clockText : see @Clock
-	 * @param duration : see @Clock
-	 * @param tick : see @Clock
-	 * @param countDown : see @Clock
+	 * @param clockText : @see @Clock
+	 * @param duration : @see @Clock
+	 * @param countDown : @see @Clock
 	 * 
 	 * Initialize state and class variables.
 	 */
-	public ShotClock( Button resetStart, Button pauseResume, TextView clockText, long duration, long tick, boolean countDown){
-		super(clockText, ClockTextFormat.SecondsString, duration, tick, countDown);
+	public ShotClock( Button resetStart, Button pauseResume, TextView clockText, long duration, boolean countDown){
+		super(clockText, ClockTextFormat.SecondsString, duration, countDown);
 		btResetStart = resetStart;
 		btPauseResume = pauseResume;
 		state = ClockState.PausedTop;
@@ -82,12 +80,12 @@ public class ShotClock extends Clock {
 	}
 	
 	
-	/* ieResetStartRestart
+	/** onResetStartRestart
 	 * 		This function is called when the button that represents the ShotClock's
 	 * Reset/Start/Restart button. Based on this input event, the clock is moved to a
 	 * different state and the appropriate clock changes & visual changes are made.
 	 */
-	public void ieResetStartRestart(){
+	public void onResetStartRestart(){
 		
 		if(state == ClockState.PausedTop){
 			state = ClockState.RollingTop;
@@ -128,12 +126,12 @@ public class ShotClock extends Clock {
 		}
 	}
 	
-	/* iePauseResumeReset
+	/** onPauseResumeReset
 	 * 		This function is called when the button that represents the ShotClock's
 	 * Pause/Resume/Reset button. Based on this input event, the clock is moved to a
 	 * different state and the appropriate clock changes & visual changes are made.
 	 */
-	public void iePauseResumeReset(){
+	public void onPauseResumeReset(){
 		
 		if(state == ClockState.PausedTop){
 			String message = "ERROR: Malformed ShotClock state. In PausedTop state and" +
@@ -170,7 +168,7 @@ public class ShotClock extends Clock {
 		}
 	}
 
-	/* onClockExpired
+	/** onClockExpired
 	 *	The subclass triggers this function when the timer expires. Here, we're
 	 *	able to make the necessary state & visual changes to the timer.
 	 */

@@ -14,18 +14,20 @@ package com.ncdadodgeball.ndropp;
 
 import android.app.Activity;
 
+/*	GameActivity
+ * 	Base class Activity for all other GameActivity objects. This class establishes
+ * 	game context and requires derived classes to override several in-game events.
+ */
 public abstract class GameActivity extends Activity
 {
 //	private boolean m_bHasHalftime;					//can be acheived with GameSettings object in AppGlobals
 	private boolean m_bIsHalftime, m_bIsOvertime;
 	
+	/**	GameActivity -- CONSTRUCTOR
+	 * 
+	 */
 	public GameActivity(){
 //		m_bHasHalftime = true;
-		m_bIsHalftime = m_bIsOvertime = false;
-	}
-	
-	public GameActivity(boolean hasHalftime){
-//		m_bHasHalftime = hasHalftime;
 		m_bIsHalftime = m_bIsOvertime = false;
 	}
 	
@@ -33,26 +35,39 @@ public abstract class GameActivity extends Activity
 //		m_bHasHalftime = hasHalftime;
 //	}
 	
+	/** setIsHalftime
+	 * 
+	 * @param isHalftime : true if it is currently halftime
+	 */
 	protected void setIsHalftime(boolean isHalftime){
 		m_bIsHalftime = isHalftime;
 	}
 	
+	/** setIsOvertime
+	 * 
+	 * @param isOvertime : true if it is currently overtime
+	 */
 	protected void setIsOvertime(boolean isOvertime){
 		m_bIsOvertime = isOvertime;
 	}
 	
-//	protected boolean hasHalftime(){
-//		return m_bHasHalftime;
-//	}
-	
+	/** isHalftime
+	 * 
+	 * @return true if it is currently halftime
+	 */
 	protected boolean isHalftime(){
 		return m_bIsHalftime;
 	}
 	
+	/** isOvertime
+	 * 
+	 * @return true if it is currently overtime
+	 */
 	protected boolean isOvertime(){
 		return m_bIsOvertime;
 	}
 	
+	//In-game event overrides
 	abstract protected void onAddPlayerEvent();
 	abstract protected void onRemovePlayerEvent();
 	abstract protected void onTimeoutEvent();

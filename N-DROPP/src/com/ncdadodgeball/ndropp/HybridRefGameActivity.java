@@ -18,6 +18,9 @@ import android.view.Window;
 public class HybridRefGameActivity extends GameActivity {
 
 	@Override
+	/** onCreate
+	 * 	set up Hybrid Referee interface
+	 */
 	 public void onCreate(Bundle savedInstanceState) {
        super.onCreate(savedInstanceState);
        requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -25,50 +28,66 @@ public class HybridRefGameActivity extends GameActivity {
    }
 
 	@Override
+	/** onAddPlayerEvent
+	 * 	TODO
+	 */
 	protected void onAddPlayerEvent() {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
+	/** onRemovePlayerEvent
+	 * 	TODO
+	 */
 	protected void onRemovePlayerEvent() {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
+	/** onTimeoutEvent
+	 * 	TODO
+	 */
 	protected void onTimeoutEvent() {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
+	/** onOvertimeEvent
+	 * 	TODO
+	 */
 	protected void onOvertimeEvent() {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
+	/** onHalftimeEvent
+	 * 	TODO
+	 */
 	protected void onHalftimeEvent() {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
+	/** onPenaltyEvent
+	 * 	TODO
+	 */
 	protected void onPenaltyEvent() {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
+	/** onRoundCompleteEvent
+	 * 	TODO
+	 */
 	protected void onRoundCompleteEvent() {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
+	/** onGameOverEvent
+	 * 	TODO
+	 */
 	protected void onGameOverEvent() {
-		// TODO Auto-generated method stub
 		
 	}
 }

@@ -36,7 +36,7 @@ public abstract class Clock {
 	private TextView vClockText;
 	private ClockTextFormat clockFormat;
 	private int hours, minutes, seconds, centisec = 0;		//current time values
-	private long duration, tick, pausedTime;				//total duration and tick values
+	private long duration, pausedTime;				//total duration and tick values
 	private boolean bCountDown;								//true == clock counts down (from duration->zero)
 	private boolean bRunning;								//true == timer is currently running
 	private boolean bPaused;								//true == time paused
@@ -47,16 +47,14 @@ public abstract class Clock {
 	/** Clock ( clockText, duration, tick )  -- CONSTRUCTOR
 	 * @param clockText : TextView widget to display the clock's time
 	 * @param duration : total countdown time in milliseconds
-	 * @param tick : tick time in milliseconds
 	 * 
 	 * Initialize clock variables. Default to count down timer.
 	 */
-	public Clock(TextView clockText, ClockTextFormat format, long duration, long tick){
+	public Clock(TextView clockText, ClockTextFormat format, long duration){
 		vClockText = clockText;
 		clockFormat = format;
-		tTimer = new Timer(duration, tick);
+		tTimer = new Timer(duration, CENTISEC);
 		this.duration = duration;
-		this.tick = tick;
 		bCountDown = true;
 		setClockText(duration);
 		bPaused = bFinished = false;
@@ -70,12 +68,11 @@ public abstract class Clock {
 	 * 
 	 * Initialize clock variables.
 	 */
-	public Clock(TextView clockText, ClockTextFormat format, long duration, long tick, boolean countDown){
+	public Clock(TextView clockText, ClockTextFormat format, long duration, boolean countDown){
 		vClockText = clockText;
 		clockFormat = format;
-		tTimer = new Timer(duration, tick);
+		tTimer = new Timer(duration, CENTISEC);
 		this.duration = duration;
-		this.tick = tick;
 		bCountDown = countDown;
 		bPaused = bFinished = false;
 		if(bCountDown)
@@ -105,7 +102,7 @@ public abstract class Clock {
 			pausedTime = duration-getTime();
 		
 		tTimer.cancel();
-		tTimer = new Timer( pausedTime, tick );
+		tTimer = new Timer( pausedTime, CENTISEC );
 		bRunning = false;
 		bPaused = true;
 	}
@@ -130,7 +127,7 @@ public abstract class Clock {
 			setClockText(duration);
 		else
 			setClockText(0L);
-		tTimer = new Timer(duration, tick);
+		tTimer = new Timer(duration, CENTISEC);
 		bPaused = bFinished = bRunning = false;
 	}
 	
@@ -218,7 +215,7 @@ public abstract class Clock {
 	 */
 	protected void setTime(long time){
 		tTimer.cancel();
-		tTimer = new Timer(time, tick);
+		tTimer = new Timer(time, CENTISEC);
 		setClockText(time);
 		bFinished = bPaused = bRunning = false;
 	}

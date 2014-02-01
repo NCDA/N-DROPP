@@ -13,14 +13,17 @@
 
 package com.ncdadodgeball.ndropp;
 
+/*	AppGlobals
+ * 	Class specifically for the purpose of declaring Application-wide global variables and constants
+ */
 public class AppGlobals {
 	
 	//STRING CONSTANTS
-	public static final String PACKAGE 		= "com.ncdadodgeball.ndropp";
-	public static final String EXTERNAL_DIR = "/mnt/sdcard/Android/data/";
-	public static final String RULEBOOK_FILE = "NCDA_rulebook.pdf";
-	public static final String NCDA_URL 	= "http://www.ncdadodgeball.com";
-	public static final String RULEBOOK_URL = "http://www.ncdadodgeball.com/rulebook/ncda-rules.pdf";
+	public static final String PACKAGE 			= "com.ncdadodgeball.ndropp";
+	public static final String EXTERNAL_DIR 	= "/mnt/sdcard/Android/data/";
+	public static final String RULEBOOK_FILE 	= "NCDA_rulebook.pdf";
+	public static final String NCDA_URL 		= "http://www.ncdadodgeball.com";
+	public static final String RULEBOOK_URL 	= "http://www.ncdadodgeball.com/rulebook/ncda-rules.pdf";
 	
 	public static final String SIL_BLACK	= "silhouette_black";
 	public static final String SIL_BLUE		= "silhouette_blue";

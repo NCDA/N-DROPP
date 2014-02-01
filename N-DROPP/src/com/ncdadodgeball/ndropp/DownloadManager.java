@@ -11,8 +11,16 @@ import java.net.UnknownHostException;
 import android.widget.Toast;
 
 
+/*	DownloadManager
+ * 	Class meant to handle all download processes within the application.
+ */
 public class DownloadManager
 {
+	
+	/**	establishDirectory
+	 * 	Creates this application's personal directory on the device's "external" (sdcard)
+	 * 	storage device if it currently does not exist.  If it does exist, function returns.
+	 */
 	private static void establishDirectory(){
 		//create directory if not already created
 		File fPackageDir = new File(AppGlobals.EXTERNAL_DIR + AppGlobals.PACKAGE);
@@ -21,6 +29,13 @@ public class DownloadManager
 		fPackageDir = null;
 	}
 	
+	/**	DownloadRulebook
+	 * 	
+	 * 	@return true if the rulebook exists in the application's external directory
+	 * 
+	 * 	Static function that checks to see if the rulebook exists in the application's external
+	 * 	directory.  If it doesn't exist, the rulebook is downloaded from the NCDA website.
+	 */
 	public static boolean DownloadRulebook(){
 		establishDirectory();
 		File fRulebook = new File(AppGlobals.EXTERNAL_DIR + AppGlobals.PACKAGE + "/" + AppGlobals.RULEBOOK_FILE);
@@ -28,7 +43,7 @@ public class DownloadManager
 		//Download the rulebook if it's not on the device
 		if(!fRulebook.exists()){
 			Log.D("Downloading Rulebook...");
-			Toast.makeText(MainActivity.sInstance, "Downloading Rulebook...", Toast.LENGTH_SHORT);
+			Toast.makeText(MainActivity.sInstance, "Downloading Rulebook...", Toast.LENGTH_SHORT).show();
 			URL url = null;
 			HttpURLConnection socket= null;
 			boolean bTryAgain = true;
@@ -53,7 +68,7 @@ public class DownloadManager
 					istream.close();
 					ostream.close();
 					Log.D("Download complete.");
-					Toast.makeText(MainActivity.sInstance, "Download complete.", Toast.LENGTH_SHORT);
+					Toast.makeText(MainActivity.sInstance, "Download complete.", Toast.LENGTH_SHORT).show();
 				}
 				//catch no internet connection. need better way to get user input
 				catch (UnknownHostException uhe){

@@ -13,13 +13,17 @@
 package com.ncdadodgeball.ndropp;
 
 /*	Log
- *		Used to send log messages to the device's logcat with the N-DROPP tag.
+ *	Used to send log messages to the device's logcat with the N-DROPP tag.
  */
 public class Log {
 	
 	private static final String TAG_DEBUG = "N-DROPP D";
 	private static final String TAG_ERROR = "N-DROPP E";
 	
+	/** D
+	 * 
+	 * @param debugMessage : debug message to print in the logcat
+	 */
 	public static void D(String debugMessage){
 		android.util.Log.d(TAG_DEBUG, " ");
 		android.util.Log.d(TAG_DEBUG, "+++++++++++++++++++++++++++++++++++++++++++++++++++");
@@ -30,6 +34,10 @@ public class Log {
 		android.util.Log.d(TAG_DEBUG, " ");
 	}
 	
+	/** E
+	 * 
+	 * @param errMessage : error message to print in the logcat
+	 */
 	public static void E(String errMessage){
 		android.util.Log.e(TAG_ERROR, "--------  " + errMessage + "  --------" );
 	}

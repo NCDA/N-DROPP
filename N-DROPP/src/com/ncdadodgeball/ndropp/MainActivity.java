@@ -29,7 +29,9 @@ import android.widget.Toast;
 
 import com.ncdadodgeball.ndropp.R;
 
-
+/*	MainActivity
+ * 	Class to set up the start of the application and introduce the main menu
+ */
 public class MainActivity extends Activity {
     
 	ButtonListener btListener;
@@ -40,6 +42,9 @@ public class MainActivity extends Activity {
 	public static MainActivity sInstance;
 	
     @Override
+    /** onCreate
+     * 	Set up the Main Menu interface
+     */
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
@@ -64,25 +69,36 @@ public class MainActivity extends Activity {
         AppGlobals.gGameSettings = new GameSettings();
     }
     
+    /** launchSCRActivity
+     * 	Fires an intent to start the Shot Clock Referee Activity in front of this Activity
+     */
     private void launchSCRActivity(){
     	Intent intent = new Intent(MainActivity.sInstance, SCRGameActivity.class);
 		intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 		startActivity(intent);
     }
     
+    /** launchHRActivity
+     * 	Fires an intent to start the Head-Referee Activity in front of this Activity
+     */
     private void launchHRActivity(){
     	Intent intent = new Intent(MainActivity.sInstance, HRGameActivity.class);
 		intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 		startActivity(intent);
     }
 
-
+    /*	ButtonListener
+     * 	onClickListener for all GUI elements in this Activity
+     */
     class ButtonListener implements OnClickListener{
     	public ButtonListener(){ super(); }
 
+    	/** onClick
+    	 * 	determine which GUI element was selected and initiate the appropriate event
+    	 */
 		public void onClick(View view) {
 			//NEW GAME
-			if(view.getId() == MainActivity.sInstance.getBtStart().getId()){
+			if(view.getId() == MainActivity.sInstance.btStart.getId()){
 				AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.sInstance);
 				builder.setTitle("New Game");
 				builder.setMessage("Select shot clock ref or head ref view");
@@ -117,7 +133,7 @@ public class MainActivity extends Activity {
 			}
 			
 			//INFO
-			if(view.getId() == MainActivity.sInstance.getBtInfo().getId()){
+			if(view.getId() == MainActivity.sInstance.btInfo.getId()){
 		
 				//Rulebook - download/view
 				if(DownloadManager.DownloadRulebook()){
@@ -138,26 +154,6 @@ public class MainActivity extends Activity {
 			}
 		}    	
     }
-    
-    public ButtonListener getBtListener() {
-		return btListener;
-	}
-
-	public Button getBtStart() {
-		return btStart;
-	}
-
-	public Button getBtHistory() {
-		return btHistory;
-	}
-
-	public Button getBtInfo() {
-		return btInfo;
-	}
-
-	public Button getBtSettings() {
-		return btSettings;
-	}
 	
 	 @Override
     public void onPause(){

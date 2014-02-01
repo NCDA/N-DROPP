@@ -13,127 +13,159 @@
 
 package com.ncdadodgeball.ndropp;
 
+/*	GameSettings
+ * 	Oject describing the entire set of settings for this user/device
+ */
 public class GameSettings {
 
-	boolean m_bVolume;
-	boolean m_bShotClkCountUp;
-	boolean m_bShotClkAudio;
+	boolean m_bMute;
+	boolean m_bShotClockCountDown;
+	boolean m_bShotClockAudio;
 	boolean m_bVibration;
-	boolean m_bHomeTeamLeft;
-	boolean m_bHalftimeEnabled;
-	int m_iTimeOuts;
-	long m_lShotClock;	//shot clock in milliseconds
-	long m_lGameClock;	//game clock in milliseconds
+	boolean m_bHasHalftime;
+	int m_nTimeouts;
+	long m_nShotClockDuration;	//shot clock in milliseconds
+	long m_nGameClockDuration;	//game clock in milliseconds
 
+	/** GameSettings
+	 * 	Create default settings
+	 */
 	public GameSettings(){
-		m_bVolume = true;
-		m_bShotClkCountUp = true;
-		m_bShotClkAudio = false;
+		m_bMute = false;
+		m_bShotClockCountDown = false;
+		m_bShotClockAudio = false;
 		m_bVibration = false;
-		m_bHomeTeamLeft = true;
-		m_bHalftimeEnabled = true;
-		m_iTimeOuts = 2;
-		m_lShotClock = 15000;		//shot clock 15 seconds
-		m_lGameClock = 1500000;		//game clock at 25 minutes
+		m_bHasHalftime = true;
+		m_nTimeouts = 2;
+		m_nShotClockDuration = Clock.SECOND * 15;		//shot clock 15 seconds
+		m_nGameClockDuration = Clock.MINUTE * 25;		//game clock at 25 minutes
 	}
 	
+	/** isMute
+	 * 
+	 * @return true if application is muted (no audio should be playing)
+	 */
+	public boolean isMute() {
+		return m_bMute;
+	}
+
+	/** setIsMute
+	 * 
+	 * @param mute : true if the application should be muted (no audio)
+	 */
+	public void setMute(boolean mute) {
+		m_bMute = mute;
+	}
+
+	/** isShotClockCountDown
+	 * 
+	 * @return true if the shotclock is set to countdown mode
+	 */
+	public boolean isShotClockCountDown() {
+		return m_bShotClockCountDown;
+	}
+
+	/** setShotClockCountMode ( countDown )
+	 * 
+	 * @param countDown : true if the shot clock should count down
+	 */
+	public void setShotClockCountMode(boolean countDown) {
+		m_bShotClockCountDown = countDown;
+	}
 	
-	public boolean isM_bVolume() {
-		return m_bVolume;
-	}
-
-
-
-	public void setM_bVolume(boolean m_bVolume) {
-		this.m_bVolume = m_bVolume;
-	}
-
-
-
-	public boolean isM_bShotClkCountUp() {
-		return m_bShotClkCountUp;
-	}
-
-
-
-	public void setM_bShotClkCountUp(boolean m_bShotClkCountUp) {
-		this.m_bShotClkCountUp = m_bShotClkCountUp;
-	}
-	
+	/** isHalftimeEnabled
+	 * 
+	 * @return true if the game has halftime
+	 */
 	public boolean isHalftimeEnabled(){
-		return m_bHalftimeEnabled;
+		return m_bHasHalftime;
 	}
 	
-	public void setHalftimeEnable(boolean enable){
-		m_bHalftimeEnabled = enable;
+	/** setHalftimeEnabled
+	 * 
+	 * @param enable : true if the game should have a halftime (2 distinct halves)
+	 */
+	public void setHalftimeEnabled(boolean enable){
+		m_bHasHalftime = enable;
 	}
 
-
-
+	/** isShotClockAudioEnabled()
+	 * 
+	 * @return true if the shot clock is currently set to audible
+	 */
 	public boolean isM_bShotClkAudio() {
-		return m_bShotClkAudio;
+		return m_bShotClockAudio;
 	}
 
-
-
-	public void setM_bShotClkAudio(boolean m_bShotClkAudio) {
-		this.m_bShotClkAudio = m_bShotClkAudio;
+	/** setShotClockAudioEnabled( enable )
+	 * 
+	 * @param enable : true if the shot clock should count audably
+	 */
+	public void setM_bShotClkAudio(boolean enable) {
+		m_bShotClockAudio = enable;
 	}
 
-
-
+	/** isVibrationEnabled
+	 * 
+	 * @return true if vibration is enabled
+	 */
 	public boolean isM_bVibration() {
 		return m_bVibration;
 	}
 
-
-
-	public void setM_bVibration(boolean m_bVibration) {
-		this.m_bVibration = m_bVibration;
+	/** setVibrationEnabled (enable)
+	 * 
+	 * @param enable : true if vibration should be enabled throughout the application
+	 */
+	public void setM_bVibration(boolean enable) {
+		m_bVibration = enable;
 	}
 
-
-
-	public boolean isM_bHomeTeamLeft() {
-		return m_bHomeTeamLeft;
+	/** getTotalTimeouts
+	 * 
+	 * @return the total number of timeouts a team should receive per half
+	 */
+	public int getTotalTimeouts() {
+		return m_nTimeouts;
 	}
 
-
-
-	public void setM_bHomeTeamLeft(boolean homeTeamLeft) {
-		m_bHomeTeamLeft = homeTeamLeft;
-	}
-
-
-
-	public int getM_iTimeOuts() {
-		return m_iTimeOuts;
-	}
-
-
-
-	public void setM_iTimeOuts(int timeOuts) {
-		m_iTimeOuts = timeOuts;
+	/** setTotalTimeouts (timeouts)
+	 * 
+	 * @param timeouts : number of timeouts a team should receive per half
+	 */
+	public void setM_iTimeOuts(int timeouts) {
+		m_nTimeouts = timeouts;
 	}
 	
-	
+	/** getShotClockDuration
+	 * 
+	 * @return time (milliseconds) of the duration of the shotclock
+	 */
 	public long getShotClock() {
-		return m_lShotClock;
+		return m_nShotClockDuration;
 	}
 
-
-	public void setShotClock(long milliseconds) {
-		m_lShotClock = milliseconds;
+	/** setShotClockDuration
+	 * 
+	 * @param duration : time in milliseconds the shotclock should be set to
+	 */
+	public void setShotClock(long duration) {
+		m_nShotClockDuration = duration;
 	}
 
-
+	/** getGameClockDuration
+	 * 
+	 * @return time (milliseconds) of the GameClock's total set duration
+	 */
 	public long getGameClock() {
-		return m_lGameClock;
+		return m_nGameClockDuration;
 	}
 
-
-	public void setGameClock(long milliseconds) {
-		m_lGameClock = milliseconds;
+	/** setGameClockDuration
+	 * 
+	 * @param duration : time (milliseconds) the game clock should be set to for a single half
+	 */
+	public void setGameClock(long duration) {
+		m_nGameClockDuration = duration;
 	}
-
 }
