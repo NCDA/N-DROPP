@@ -1,23 +1,21 @@
 # 
 #
-# delete the apk if it exists so we don't commit it
-if [ -e "N-DROPP/bin/N-DROPP.apk" ]
-  then
-	echo "removing apk..."
-	rm -f N-DROPP/bin/N-DROPP.apk
-else
-	echo "no apk found"
-fi
 #
 # add all project files
 echo "adding project files..."
 git add -A N-DROPP/
+#
+# remove all binary files from index
+echo "removing binaries from index..."
+git rm -r -q --cached N-DROPP/bin/
 #
 # add resource documents
 echo "adding resource documents..."
 git add "N-DROPP Source Design.docx"
 git add "README.md"
 #
+# add this file in case it has changed
+git add commitFiles
 #
 # display git status
 echo ""
