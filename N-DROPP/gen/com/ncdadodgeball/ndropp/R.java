@@ -13,8 +13,9 @@ public final class R {
     public static final class drawable {
         public static final int app_logo=0x7f020000;
         public static final int ic_launcher=0x7f020001;
-        public static final int silhouette_blue=0x7f020002;
-        public static final int silhouette_green=0x7f020003;
+        public static final int logo_gvsu=0x7f020002;
+        public static final int silhouette_blue=0x7f020003;
+        public static final int silhouette_green=0x7f020004;
     }
     public static final class id {
         public static final int SCRRootView=0x7f050023;
@@ -41,7 +42,7 @@ public final class R {
         public static final int hLinearSCButtons=0x7f05002e;
         public static final int hLinearScores=0x7f05000b;
         public static final int hLinearShotClock=0x7f05002b;
-        public static final int hLinearTeamView_SCR=0x7f050025;
+        public static final int hLinearTeamView_SCR=0x7f050026;
         public static final int hLinearTeams=0x7f050005;
         public static final int headRefRootView=0x7f050000;
         public static final int imgAwayLogo=0x7f050010;
@@ -51,7 +52,7 @@ public final class R {
         public static final int imgPenalty=0x7f050003;
         public static final int imgRulebook=0x7f050002;
         public static final int imgSettings=0x7f050004;
-        public static final int imgTeamLogo=0x7f050026;
+        public static final int imgTeamLogo=0x7f050025;
         public static final int mainMenuRootView=0x7f05001b;
         public static final int txtAwayScore=0x7f05000d;
         public static final int txtAwayTeam=0x7f05000f;

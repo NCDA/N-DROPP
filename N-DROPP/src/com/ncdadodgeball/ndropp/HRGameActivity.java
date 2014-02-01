@@ -12,7 +12,6 @@
  *************************************************************************************************/
 package com.ncdadodgeball.ndropp;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -20,7 +19,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class HRGameActivity extends Activity {
+public class HRGameActivity extends GameActivity {
 	public static 	HRGameActivity	sInstance;
 	ButtonListener	m_Listener;
 	GameSettings 	m_Settings;
@@ -78,4 +77,52 @@ public class HRGameActivity extends Activity {
 				m_GameClock.ieRolloverHalftime();
 		}
     }
+
+	@Override
+	protected void onAddPlayerEvent() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected void onRemovePlayerEvent() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected void onTimeoutEvent() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected void onOvertimeEvent() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected void onHalftimeEvent() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected void onPenaltyEvent() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected void onRoundCompleteEvent() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected void onGameOverEvent() {
+		// TODO Auto-generated method stub
+		
+	}
 }

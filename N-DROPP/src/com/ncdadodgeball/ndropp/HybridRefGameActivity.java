@@ -12,11 +12,10 @@
  *************************************************************************************************/
 package com.ncdadodgeball.ndropp;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.view.Window;
 
-public class HybridRefGameActivity extends Activity {
+public class HybridRefGameActivity extends GameActivity {
 
 	@Override
 	 public void onCreate(Bundle savedInstanceState) {
@@ -24,4 +23,52 @@ public class HybridRefGameActivity extends Activity {
        requestWindowFeature(Window.FEATURE_NO_TITLE);
        //setContentView(R.layout.shot_clock_ref);
    }
+
+	@Override
+	protected void onAddPlayerEvent() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected void onRemovePlayerEvent() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected void onTimeoutEvent() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected void onOvertimeEvent() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected void onHalftimeEvent() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected void onPenaltyEvent() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected void onRoundCompleteEvent() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected void onGameOverEvent() {
+		// TODO Auto-generated method stub
+		
+	}
 }

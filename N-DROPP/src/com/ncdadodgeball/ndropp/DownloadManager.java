@@ -42,11 +42,11 @@ public class DownloadManager
 					socket.connect();
 					InputStream istream = new BufferedInputStream(socket.getInputStream(), 8*1024);
 					OutputStream ostream = new FileOutputStream(fRulebook.getAbsolutePath(), false);
-					byte [] input = new byte[AppGlobals.BUFFER_SIZE];
-					int numBytes = istream.read(input, 0, AppGlobals.BUFFER_SIZE); 
+					byte [] input = new byte[AppGlobals.NUM_DL_BUFF_SIZE];
+					int numBytes = istream.read(input, 0, AppGlobals.NUM_DL_BUFF_SIZE); 
 					while(numBytes != -1){
 						ostream.write(input, 0, numBytes);
-						numBytes = istream.read(input, 0, AppGlobals.BUFFER_SIZE); 
+						numBytes = istream.read(input, 0, AppGlobals.NUM_DL_BUFF_SIZE); 
 					}
 					
 					bTryAgain = false;
