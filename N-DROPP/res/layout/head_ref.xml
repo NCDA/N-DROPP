@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="fill_parent"
 	android:layout_height="fill_parent"
 	android:padding="5dp"
-	android:id="@+id/HR_RootView" 
-	android:orientation="vertical" >
+	android:id="@+id/HR_RootView"  >
 
 	<!--  TOP SCREEN NAVIGATION BUTTONS  -->
 	<LinearLayout
@@ -12,7 +11,7 @@
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
 		android:orientation="horizontal" 
-		android:gravity="top|right" >
+		android:gravity="center_vertical|right" >
 		
 		<ImageView
 			android:id="@+id/HR_btRulebook"
@@ -21,7 +20,7 @@
 			android:src="@drawable/rulebook"
 			android:layout_margin="7dp"
 			android:clickable="true" />
-
+		
 		<ImageView
 			android:id="@+id/HR_btPenalty"
 			android:layout_width="50dp"
@@ -37,7 +36,6 @@
 			android:src="@drawable/settings"
 			android:layout_margin="7dp"
 			android:clickable="true" />
-		
 	</LinearLayout>
 	<!-- TOP HOME/AWAY SCORES AND LOGOS  -->
 	<LinearLayout
@@ -46,7 +44,7 @@
 		android:layout_height="wrap_content"
 		android:layout_below="@+id/HR_hLinearNavButtons" 
 		android:orientation="horizontal"
-		android:gravity="center_horizontal" >
+		android:gravity="center" >
 		
 		<!--  HOME TEAM LOGO AND ACRONYM  -->
 		<LinearLayout
@@ -55,7 +53,7 @@
 			android:padding="5dp"
 			android:id="@+id/HR_vLinearHomeTeam"
 			android:orientation="vertical"
-			android:layout_gravity="center_horizontal" >
+			android:layout_gravity="center" >
 			
 			<TextView
 				android:id="@+id/HR_txtHomeTeam"
@@ -66,9 +64,9 @@
 			
 			<ImageView 
 				android:id="@+id/HR_imgHomeLogo"
-				android:layout_width="80dp"
-				android:layout_height="80dp"
-				android:src="@drawable/ic_launcher"	/>
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:gravity="center" />
 		</LinearLayout>
 		
 		<!-- SCORES LABELS  -->
@@ -100,7 +98,7 @@
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:text="0"
-					android:padding="10dp"
+					android:layout_margin="7dp"
 					android:gravity="center" />
 			
 				<TextView
@@ -108,9 +106,8 @@
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:text="0"
-					android:padding="10dp"
+					android:layout_margin="7dp"
 					android:gravity="center" />
-				
 			</LinearLayout>
 		</LinearLayout>
 			
@@ -132,12 +129,11 @@
 			
 			<ImageView 
 				android:id="@+id/HR_imgAwayLogo"
-				android:layout_width="80dp"
-				android:layout_height="80dp"
-				android:src="@drawable/ic_launcher"	/>
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:gravity="center" />
 		</LinearLayout>
-	
-	</LinearLayout>
+	</LinearLayout>	<!-- close horizontal home/away team section -->
 	
 	<!-- GRID LAYOUTS FOR TEAMS -->
 	<LinearLayout 
@@ -146,30 +142,30 @@
 		android:padding="5dp"
 		android:id="@+id/HR_hLinearGrids"
 		android:orientation="horizontal"
-		android:gravity="center_horizontal" >
+		android:gravity="center"
+		android:layout_below="@+id/HR_hLinearTeams" >
 		
 		<GridView 
 			android:id="@+id/HR_gridHomeTeam"
-			android:layout_width="100dp"
-			android:layout_height="100dp"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
 			android:gravity="center"
-			android:horizontalSpacing="2dp"
-			android:padding="10dp"
+			android:layout_margin="5dp"
 			android:numColumns="5"
-			android:stretchMode="none"	>
+			android:stretchMode="none"
+			android:listSelector="#00000000" >
 		</GridView>
 		
 		<GridView 
 			android:id="@+id/HR_gridAwayTeam"
-			android:layout_width="100dp"
-			android:layout_height="100dp"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
 			android:gravity="center"
-			android:horizontalSpacing="2dp"
-			android:padding="10dp"
+			android:layout_margin="5dp"
 			android:numColumns="5"
-			android:stretchMode="none"	>
+			android:stretchMode="none"
+			android:listSelector="#00000000" >
 		</GridView>
-		
 	</LinearLayout>
 	
 	<!-- TIME, TIME BUTTONS, AND WHISTLE BUTTON -->
@@ -177,9 +173,10 @@
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
 		android:padding="5dp"
-		android:id="@+id/HR_hLinearGrids"
+		android:id="@+id/HR_hLinearClockAndWhistle"
 		android:orientation="horizontal"
-		android:gravity="center_horizontal" >
+		android:gravity="center"
+		android:layout_below="@+id/HR_hLinearGrids" >
 		
 		<!-- GAME CLOCK TEXT AND BUTTONS -->
 		<LinearLayout
@@ -194,7 +191,9 @@
 				android:layout_width="fill_parent"
 				android:layout_height="wrap_content"
 				android:text="00:00:00"
-				android:gravity="center_horizontal"/>
+				android:gravity="center_horizontal"
+				android:typeface="monospace"
+				android:textStyle="bold" />
 			
 			<!-- SIDE BY SIDE BUTTONS (START/STOP, EDIT, HALFTIME/OVERTIME  -->
 			<LinearLayout
@@ -223,10 +222,9 @@
 	                android:clickable="true" />
 				
 				 <Button
-	                android:id="@+id/HR_btHalftime"
+	                android:id="@+id/HR_btHalftimeOvertime"
 	                android:layout_width="wrap_content"
 	                android:layout_height="wrap_content"
-	                android:text="Halftime"
 	                android:layout_margin="2dp"
 	                android:gravity="center"
 	               	android:clickable="false" />
@@ -243,7 +241,5 @@
 			android:gravity="center"
 			android:clickable="true" />
 		
-	</LinearLayout>
-	
-			
-</LinearLayout>
+	</LinearLayout>	
+</RelativeLayout>

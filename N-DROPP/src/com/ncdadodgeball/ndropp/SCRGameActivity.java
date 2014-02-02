@@ -71,7 +71,6 @@ public class SCRGameActivity extends  GameActivity{
 	 */
 	 public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.shot_clock_ref);
         
         sInstance = this;
@@ -99,14 +98,13 @@ public class SCRGameActivity extends  GameActivity{
         m_btPauseResume.setOnClickListener(m_Listener);
         m_btPauseResume.setClickable(false);
         m_btPauseResume.setBackgroundColor(Color.GRAY);
-    	clockText.setTypeface(Typeface.MONOSPACE, Typeface.BOLD);		//change shot clock font
     	clockText.setTextSize(36);
         
         //set up GridView dimensions
         int colWidth = (int)(( screenW * AppGlobals.SCR_GRID_WIDTH_PERCENT) / 5 );
         int rowHeight = (int)(( screenH * AppGlobals.SCR_GRID_HEIGHT_PERCENT) / 3 );
-        int gridWidth = colWidth*5;
-        int gridHeight = rowHeight*3;
+        int gridWidth = colWidth*5 + 5;
+        int gridHeight = rowHeight*3 + 5;	// the +5 is a little extra buffer - otherwise gridView becomes scrollable
         
         //grab correct team logo
         ImageView vLogo = (ImageView) findViewById(R.id.SCR_imgTeamLogo);
@@ -124,7 +122,8 @@ public class SCRGameActivity extends  GameActivity{
         layout.height = gridHeight;
         m_vTeamGrid.setColumnWidth(colWidth);
         m_vTeamGrid.setMinimumWidth(gridWidth);
-        m_vTeamGrid.setAdapter(new GridImageAdapter(this)); 
+        m_vTeamGrid.setAdapter(new GridImageAdapter(this, 
+        		AppGlobals.SIL_BLUE, AppGlobals.SCR_GRID_WIDTH_PERCENT, AppGlobals.SCR_GRID_HEIGHT_PERCENT)); 	//TODO - determine team and color
         m_vTeamGrid.setClickable(false);
         m_vTeamGrid.setSelected(false);
         m_vTeamGrid.setFocusable(false);
@@ -198,13 +197,12 @@ public class SCRGameActivity extends  GameActivity{
 			Toast.makeText(SCRGameActivity.sInstance, "Max players on court", Toast.LENGTH_SHORT).show();
 		//court is not full, add a player
 		else{
-			BaseAdapter adapter = (BaseAdapter)SCRGameActivity.sInstance.m_vTeamGrid.getAdapter();
-			((ImageView)adapter.getItem(m_nPlayersOnCourt)).setVisibility(View.VISIBLE);	//TODO - restore colored image
+			//TODO - restore team's colored image
+			ImageView img = (ImageView)((BaseAdapter)m_vTeamGrid.getAdapter()).getItem(m_nPlayersOnCourt);
+			int imgID = getResources().getIdentifier(AppGlobals.SIL_BLUE, "drawable", AppGlobals.PACKAGE);
+			img.setImageResource(imgID);			
 			m_nPlayersOnCourt++;
 		}
-		
-		if(m_nPlayersOnCourt == 1)
-			SCRGameActivity.sInstance.m_vTeamGrid.setVisibility(View.VISIBLE);
 	}
 
 	@Override
@@ -213,15 +211,14 @@ public class SCRGameActivity extends  GameActivity{
 	 */
 	protected void onRemovePlayerEvent() {
 		if(m_nPlayersOnCourt > 0){
-			BaseAdapter adapter = (BaseAdapter)SCRGameActivity.sInstance.m_vTeamGrid.getAdapter();
-			((ImageView)adapter.getItem(m_nPlayersOnCourt - 1)).setVisibility(View.INVISIBLE);	//TODO - grey out image
+			ImageView img = (ImageView)((BaseAdapter)m_vTeamGrid.getAdapter()).getItem(m_nPlayersOnCourt-1);
+			int greyID = getResources().getIdentifier(AppGlobals.SIL_GREY, "drawable", AppGlobals.PACKAGE);
+			img.setImageResource(greyID);	
 			m_nPlayersOnCourt--;
 		}
 		
-		if( m_nPlayersOnCourt == 0 ){
-			SCRGameActivity.sInstance.m_vTeamGrid.setVisibility(View.INVISIBLE);		//for some reason, GridView NEEDS to be showing something so the last player never gets hidden.  Instead, we'll just hid the whole view
+		if( m_nPlayersOnCourt == 0 )
 			onRoundCompleteEvent();
-		}
 	}
 
 	@Override
@@ -305,8 +302,16 @@ public class SCRGameActivity extends  GameActivity{
 			
 			int id = view.getId();
 			
+			//RULEBOOK BUTTON
+			if( id == findViewById(R.id.SCR_btRulebook).getId() )
+				onRulebookPressed();
+			
+			//SETTINGS BUTTON
+			else if( id == findViewById(R.id.SCR_btSettings).getId() )
+				onSettingsPressed();
+			
 			//START/RESET BUTTON
-			if(id == findViewById(R.id.SCR_btStartReset).getId())
+			else if(id == findViewById(R.id.SCR_btStartReset).getId())
 				(SCRGameActivity.sInstance.getShotClock()).onResetStartRestart();
 			
 			//PAUSE/RESUME BUTTON
@@ -320,85 +325,6 @@ public class SCRGameActivity extends  GameActivity{
 			//REMOVE PLAYER BUTTON
 			else if( id == findViewById(R.id.SCR_btRemovePlayer).getId() )
 				onRemovePlayerEvent();
-			
-			//SETTINGS BUTTON
-			else if( id == findViewById(R.id.SCR_btSettings).getId() )
-				onSettingsPressed();
-			
-			//RULEBOOK BUTTON
-			else if( id == findViewById(R.id.SCR_btRulebook).getId() )
-				onRulebookPressed();
 		}
     }
-}
-
-/*	GridImageAdapter
- * 	ListAdapter that keeps track of the image elements in the gridview
- */
-class GridImageAdapter extends BaseAdapter
-{
-	private Context context;
-	ImageView images[];
-	
-	/** GridImageAdapter
-	 * 
-	 * @param ctx : application context
-	 * 
-	 * Create an adapter list of 15 elements
-	 */
-	public GridImageAdapter(Context ctx){
-		context=ctx;
-		images = new ImageView[15];
-	}
-
-	/** getCount
-	 * 	return size of gridview
-	 */
-	public int getCount() {
-		return images.length;
-	}
-
-	/** getItem
-	 *  
-	 *  @param index : array index of element
-	 *  
-	 *  @return ImageView of the associated element
-	 */
-	public ImageView getItem(int index) {
-		return images[index];
-	}
-
-	/** getItemId
-	 * 	
-	 * 	@param index : array index of element in the gridview
-	 * 
-	 *	@return ImageView id of the assiciated ImageView
-	 */
-	public long getItemId(int index) {
-		return images[index].getId();
-	}
-
-	/** getView
-	 * 	
-	 *	@param index : index of element
-	 *	@param view : view to store at the specified index
-	 *	@param parent : parent view
-	 *
-	 *	@return the created ImageView at the specific location
-	 */
-	public View getView(int index, View view, ViewGroup parent) {
-		ImageView imageView = new ImageView(context);
-		int imgID = SCRGameActivity.sInstance.getResources().getIdentifier(AppGlobals.SIL_BLUE, "drawable", AppGlobals.PACKAGE);	//TODO
-        imageView.setImageResource(imgID);
-        imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-        Display display = SCRGameActivity.sInstance.getWindowManager().getDefaultDisplay();
-        imageView.setLayoutParams(new GridView.LayoutParams(
-        		(int)(( display.getWidth() * AppGlobals.SCR_GRID_WIDTH_PERCENT) / 5 ), 
-        		(int)(( display.getHeight() * AppGlobals.SCR_GRID_HEIGHT_PERCENT) / 3 )));
-        imageView.setClickable(false);
-        imageView.setFocusable(false);
-        imageView.setSelected(false);
-        images[index] = imageView;
-        return imageView;
-	}
 }

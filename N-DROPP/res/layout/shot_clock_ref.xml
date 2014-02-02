@@ -3,8 +3,7 @@
 	android:layout_width="fill_parent"
 	android:layout_height="fill_parent"
 	android:padding="5dp"
-	android:id="@+id/SCR_RootView"
-	android:orientation="vertical" >
+	android:id="@+id/SCR_RootView" >
 
 	<!--  TOP SCREEN NAVIGATION BUTTONS  -->
 	<LinearLayout
@@ -12,8 +11,7 @@
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
 		android:orientation="horizontal" 
-		android:gravity="center_vertical|right"
-		android:layout_below="@+id/SCRRootView" >
+		android:gravity="center_vertical|right" >
 		
 		<ImageView
 			android:id="@+id/SCR_btRulebook"
@@ -35,7 +33,7 @@
 	<!-- TEAM LOGO -->
 	<ImageView 
 		android:id="@+id/SCR_imgTeamLogo"
-		android:layout_width="fill_parent"
+		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:layout_centerHorizontal="true"
 		android:layout_gravity="center"
@@ -120,7 +118,9 @@
 				android:layout_width="fill_parent"
 				android:layout_height="wrap_content"
 				android:text="00:00"
-				android:gravity="center" />
+				android:gravity="center"
+				android:typeface="monospace"
+				android:textStyle="bold" />
 			
 			<!-- SHOT CLOCK BUTTONS -->
 			<LinearLayout 

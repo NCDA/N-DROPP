@@ -18,14 +18,14 @@ package com.ncdadodgeball.ndropp;
  */
 public class GameSettings {
 
-	boolean m_bMute;
-	boolean m_bShotClockCountDown;
-	boolean m_bShotClockAudio;
-	boolean m_bVibration;
-	boolean m_bHasHalftime;
-	int m_nTimeouts;
-	long m_nShotClockDuration;	//shot clock in milliseconds
-	long m_nGameClockDuration;	//game clock in milliseconds
+	private boolean m_bMute;
+	private boolean m_bShotClockCountDown;
+	private boolean m_bShotClockAudio;
+	private boolean m_bVibration;
+	private boolean m_bHasHalftime;
+	private int m_nTimeouts;
+	private long m_nShotClockDuration;	//shot clock in milliseconds
+	private long m_nGameClockDuration;	//game clock in milliseconds
 
 	/** GameSettings
 	 * 	Create default settings

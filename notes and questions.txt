@@ -1,0 +1,33 @@
+QUESTIONS:
+
+1. Team info on website so it can be loaded into on-app database
+	<xml>
+	<version>1.0</version>
+	<ncda-teams>
+		<team>
+			<name>Bowling Green State University</name>
+			<acronym>BGSU</acronym>
+			<logo>
+				<filename>bgsu-logo.png</filename>
+				<primary>orange</primary>
+				<secondary>white</secondary>
+			</logo>
+			<city>Bowling Green</city>
+			<state>Ohio</state>
+		</team>
+		.
+		.
+		.
+	</ncda-teams>
+	</xml>
+
+
+2. Shot-Clock Referee.  Should +/- buttons read "+"/"-" or maybe "catch"/"out"?
+
+3. Submit bug reports. posting to NCDA forum? emails? Get device info and error log if crash
+
+4. On HR screen, show shotclock times for each team
+
+5. Clock buttons should be fixed size, not change depending on text
+
+6. 

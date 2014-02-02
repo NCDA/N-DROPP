@@ -35,28 +35,29 @@ public class GameClock extends Clock {
 	
 	//class member variables
 	private Button 		btStartPauseResume;
-	private Button		btHalftime;
+	private Button		btHalftimeOvertime;
 	private ClockState 	state;
 	private boolean 	bHasHalftime;
 	private boolean		bIsFirstHalf;
 
-	/**	Gameclock( startPauseResume, halftime, clockText, duration ) -- CONSTRUCTOR
+	/**	Gameclock( startPauseResume, halftimeOvertime, clockText, duration ) -- CONSTRUCTOR
 	 * 
 	 * @param startPauseResume : Button for starting, pausing, and resuming the GameClock timer
-	 * @param halftime : Button for initiating halftime
+	 * @param halftimeOvertime : Button for initiating halftime and/or overtime
 	 * @param clockText : Textview to display the text of the game clock
 	 * @param duration : time (milliseconds) of the length of one half (length of game if no halftime)
 	 * 
 	 *	Create GameClock object - defaults to a countdown timer. If the current game has halftime,
 	 *	the duration should be set to the length of one half.
 	 */
-	public GameClock(Button startPauseResume, Button halftime, TextView clockText, long duration) {
+	public GameClock(Button startPauseResume, Button halftimeOvertime, TextView clockText, long duration) {
 		super(clockText, ClockTextFormat.MinutesString, duration, true);
 		btStartPauseResume = startPauseResume;
 		state = ClockState.PausedTop;
 		bIsFirstHalf = true;
-		btHalftime = halftime;
-		btHalftime.setVisibility(View.INVISIBLE);
+		btHalftimeOvertime = halftimeOvertime;
+		btHalftimeOvertime.setClickable(false);
+		btHalftimeOvertime.setBackgroundColor(Color.GRAY);
 		bHasHalftime = AppGlobals.gGameSettings.isHalftimeEnabled();
 	}
 	
@@ -81,10 +82,10 @@ public class GameClock extends Clock {
 			btStartPauseResume.setText(STR_PAUSE);
 			startClock();
 			
-			//remove halftime button if it's showing
-			if( btHalftime.isShown() ){
-				btHalftime.setClickable(false);
-				btHalftime.setVisibility(View.INVISIBLE);
+			//grey out halftimeOvertime button if it's clickable
+			if( btHalftimeOvertime.isClickable() ){
+				btHalftimeOvertime.setClickable(false);
+				btHalftimeOvertime.setBackgroundColor(Color.GRAY);
 			}
 		}
 		else if( state == ClockState.Running ){
@@ -93,9 +94,9 @@ public class GameClock extends Clock {
 			pauseClock();
 			
 			//check time, if we're within halftime range (20% of duration of half), show halftime button
-			if( getTime() <= 0.2*getDuration() ){
-				btHalftime.setVisibility(View.VISIBLE);
-				btHalftime.setClickable(true);
+			if( bHasHalftime && bIsFirstHalf && (getTime() <= 0.2*getDuration()) ){
+				btHalftimeOvertime.setBackgroundColor(Color.WHITE);
+				btHalftimeOvertime.setClickable(true);
 			}
 		}
 		else if ( state == ClockState.Paused ){
@@ -103,10 +104,10 @@ public class GameClock extends Clock {
 			btStartPauseResume.setText(STR_PAUSE);
 			startClock();
 			
-			//remove halftime button if it's showing
-			if( btHalftime.isShown() ){
-				btHalftime.setClickable(false);
-				btHalftime.setVisibility(View.INVISIBLE);
+			//disable halftimeOvertime button if it's showing
+			if( btHalftimeOvertime.isClickable() ){
+				btHalftimeOvertime.setClickable(false);
+				btHalftimeOvertime.setBackgroundColor(Color.GRAY);
 			}
 		}
 		else if ( state == ClockState.Expired ){
@@ -129,9 +130,10 @@ public class GameClock extends Clock {
 		
 		//show halftime button if it's still first half
 		if( bHasHalftime && bIsFirstHalf ){
-			btHalftime.setVisibility(View.VISIBLE);
-			btHalftime.setClickable(true);
+			btHalftimeOvertime.setBackgroundColor(Color.WHITE);
+			btHalftimeOvertime.setClickable(true);
 		}
+		// TODO - show overtime text
 	}
 	
 	/**	onRolloverHalftime

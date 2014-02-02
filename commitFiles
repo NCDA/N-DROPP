@@ -13,6 +13,7 @@ git rm -r -q --cached N-DROPP/bin/
 echo "adding resource documents..."
 git add "N-DROPP Source Design.docx"
 git add "README.md"
+git add "notes and questions.txt"
 #
 # add this file in case it has changed
 git add commitFiles

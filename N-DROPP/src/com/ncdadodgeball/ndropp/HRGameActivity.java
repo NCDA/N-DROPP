@@ -12,25 +12,32 @@
  *************************************************************************************************/
 package com.ncdadodgeball.ndropp;
 
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.View;
-import android.view.Window;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
+import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 /*	HRGameActivity
  * 	Manages the Head Referee's GUI and functions.
  */
 public class HRGameActivity extends GameActivity {
+	
 	public static 	HRGameActivity	sInstance;
+	private static final String STR_HALFTIME = "Halftime";
+	private static final String STR_OVERTIME = "Overtime";
+	
 	ButtonListener	m_Listener;
 	GameSettings 	m_Settings;
 	GameClock		m_GameClock;
 	ShotClock		m_HomeShotClock;
 	ShotClock		m_AwayShotClock;
 	Button			m_btStartPauseResume;
-	Button			m_btHalftime;
+	Button			m_btHalftimeOvertime;
 	
 	/** HRGameActivity -- CONSTRUCTOR
 	 * 	
@@ -42,7 +49,7 @@ public class HRGameActivity extends GameActivity {
 		m_HomeShotClock = null;
 		m_AwayShotClock = null;
 		m_btStartPauseResume = null;
-		m_btHalftime = null;
+		m_btHalftimeOvertime = null;
 	}
 	
 	@Override
@@ -51,19 +58,95 @@ public class HRGameActivity extends GameActivity {
 	 */
 	 public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.D("onCreate HR");
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.head_ref);
-        Log.D("set layout");
-        sInstance = this;
-        TextView clockText = (TextView)findViewById(R.id.HR_txtGameClock);
-        m_btStartPauseResume = (Button)findViewById(R.id.HR_btStartPauseResume);
-        m_btHalftime = (Button) findViewById(R.id.HR_btHalftime);
         
-        m_GameClock = new GameClock(m_btStartPauseResume, m_btHalftime, clockText, 20*Clock.SECOND);
+        sInstance = this;
+        
+        int screenW = getWindowManager().getDefaultDisplay().getWidth();
+        int screenH = getWindowManager().getDefaultDisplay().getHeight();
+        
+        //set up navigation buttons (rulebook, penalty, settings)
+        ImageView vNav = (ImageView)findViewById(R.id.HR_btRulebook);
+        int side = (int)AppGlobals.NAV_IMG_HEIGHT_PERCENT * screenH;
+        vNav.setMinimumHeight(side);
+        vNav.setMinimumWidth(side);
+        vNav.setOnClickListener(m_Listener);
+        vNav = (ImageView)findViewById(R.id.HR_btPenalty);
+        vNav.setMinimumHeight(side);
+        vNav.setMinimumWidth(side);
+        vNav.setOnClickListener(m_Listener);
+        vNav = (ImageView)findViewById(R.id.HR_btSettings);
+        vNav.setMinimumHeight(side);
+        vNav.setMinimumWidth(side);
+        vNav.setOnClickListener(m_Listener);
+       
+        //Set team names
+        TextView teamName = (TextView)findViewById(R.id.HR_txtHomeTeam);
+        teamName.setText(teamName.getText() + "GVSU");
+        teamName = (TextView)findViewById(R.id.HR_txtAwayTeam);
+        teamName.setText(teamName.getText() + "MSU");
+        
+        //Load team logos
+        ImageView vLogo = (ImageView)findViewById(R.id.HR_imgHomeLogo);
+        Resources res = getResources();
+        int imgID = res.getIdentifier("logo_gvsu", "drawable", AppGlobals.PACKAGE);		//TODO - team logo
+        LayoutParams layout = vLogo.getLayoutParams();
+        layout.width = (int)(screenW * AppGlobals.HR_LOGO_WIDTH_PERCENT);
+        layout.height = (int) (layout.width * AppGlobals.LOGO_ASPECT_RATIO);
+        vLogo.setBackgroundDrawable(res.getDrawable(imgID));
+        
+        vLogo = (ImageView)findViewById(R.id.HR_imgAwayLogo);
+        imgID = res.getIdentifier("logo_msu", "drawable", AppGlobals.PACKAGE);			//TODO - team logo
+        layout = vLogo.getLayoutParams();
+        layout.width = (int)(screenW * AppGlobals.HR_LOGO_WIDTH_PERCENT);
+        layout.height = (int)(layout.width * AppGlobals.LOGO_ASPECT_RATIO);
+        vLogo.setBackgroundDrawable(res.getDrawable(imgID));
+        
+        //set up GridView dimensions
+        int colWidth = (int)(( screenW * AppGlobals.HR_GRID_WIDTH_PERCENT) / 5 );
+        int rowHeight = (int)(( screenH * AppGlobals.HR_GRID_HEIGHT_PERCENT) / 3 );
+        int gridWidth = colWidth*5 + 5;
+        int gridHeight = rowHeight*3 + 5;	// the +5 is a little extra buffer - otherwise gridView becomes scrollable
+        
+        //set up GridViews of players
+        GridView vGrid = (GridView) findViewById(R.id.HR_gridHomeTeam);
+        layout = vGrid.getLayoutParams();
+        layout.width = gridWidth;
+        layout.height = gridHeight;
+        vGrid.setColumnWidth(colWidth);
+        vGrid.setMinimumWidth(gridWidth);
+        vGrid.setAdapter(new GridImageAdapter(this, 
+        		AppGlobals.SIL_BLUE, AppGlobals.HR_GRID_WIDTH_PERCENT, AppGlobals.HR_GRID_HEIGHT_PERCENT)); 	//TODO - determine team and color
+        vGrid.setClickable(false);
+        vGrid.setSelected(false);
+        vGrid.setFocusable(false);
+        
+        vGrid = (GridView) findViewById(R.id.HR_gridAwayTeam);
+        layout = vGrid.getLayoutParams();
+        layout.width = gridWidth;
+        layout.height = gridHeight;
+        vGrid.setColumnWidth(colWidth);
+        vGrid.setMinimumWidth(gridWidth);
+        vGrid.setAdapter(new GridImageAdapter(this, 
+        		AppGlobals.SIL_GREEN, AppGlobals.HR_GRID_WIDTH_PERCENT, AppGlobals.HR_GRID_HEIGHT_PERCENT)); 	//TODO - determine team and color
+        vGrid.setClickable(false);
+        vGrid.setSelected(false);
+        vGrid.setFocusable(false);
+        
+        //set up game clock
+        TextView clockText = (TextView)findViewById(R.id.HR_txtGameClock);
+        clockText.setTextSize(36);
+        
+        //set up clock buttons
+        m_btStartPauseResume = (Button)findViewById(R.id.HR_btStartPauseResume);
+        m_btHalftimeOvertime = (Button) findViewById(R.id.HR_btHalftimeOvertime);
+        m_GameClock = new GameClock(m_btStartPauseResume, m_btHalftimeOvertime, clockText, 25*Clock.MINUTE);
         m_btStartPauseResume.setOnClickListener(m_Listener);
-        m_btHalftime.setOnClickListener(m_Listener);
-        Log.D("done create");
+        m_btHalftimeOvertime.setOnClickListener(m_Listener);
+        if( AppGlobals.gGameSettings.isHalftimeEnabled() )
+        	m_btHalftimeOvertime.setText(STR_HALFTIME);
+        else
+        	m_btHalftimeOvertime.setText(STR_OVERTIME);        
     }
 	
 	/*	ButtonListener
@@ -76,12 +159,26 @@ public class HRGameActivity extends GameActivity {
 		 */
 		public void onClick(View view) {
 			
+			int id = view.getId();
+			
+			//RULEBOOK BUTTON
+			if( id == findViewById(R.id.HR_btRulebook).getId() )
+				onRulebookPressed();
+			
+			//PENALTY BUTTON
+			if( id == findViewById(R.id.HR_btPenalty).getId() )
+				onPenaltyPressed();
+				
+			//SETTINGS BUTTON
+			else if( id == findViewById(R.id.HR_btSettings).getId() )
+				onSettingsPressed();
+			
 			//START/PAUSE/RESUME BUTTON
-			if(view.getId() == findViewById(R.id.HR_btStartPauseResume).getId())
+			else if( id == findViewById(R.id.HR_btStartPauseResume).getId() )
 				m_GameClock.onStartPauseResume();
 			
 			//PAUSE/RESUME BUTTON
-			else if(view.getId() == m_btHalftime.getId())
+			else if( id == m_btHalftimeOvertime.getId() )
 				m_GameClock.onRolloverHalftime();
 		}
     }

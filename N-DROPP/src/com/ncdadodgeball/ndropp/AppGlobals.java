@@ -50,6 +50,9 @@ public class AppGlobals {
 	public static final double SCR_GRID_WIDTH_PERCENT	= 0.45;
 	public static final double SCR_GRID_HEIGHT_PERCENT	= 0.25;
 	public static final double SCR_LOGO_WIDTH_PERCENT 	= 0.40;
+	public static final double HR_GRID_WIDTH_PERCENT	= 0.33;
+	public static final double HR_GRID_HEIGHT_PERCENT	= 0.20;
+	public static final double HR_LOGO_WIDTH_PERCENT	= 0.40;
 	
 	//GLOBAL OBJECTS
 	public static GameSettings gGameSettings = null;
