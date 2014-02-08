@@ -14,6 +14,13 @@
 package com.ncdadodgeball.ndropp;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
@@ -23,7 +30,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -65,8 +71,8 @@ public class MainActivity extends Activity {
         btInfo.setOnClickListener(btListener);
         btSettings.setOnClickListener(btListener);
         
-        //just add default settings for now
-        AppGlobals.gGameSettings = new GameSettings();
+        GameSettings.loadSettings(this);
+        
     }
     
     /** launchSCRActivity
@@ -137,7 +143,7 @@ public class MainActivity extends Activity {
 		
 				//Rulebook - download/view
 				if(DownloadManager.DownloadRulebook()){
-					File fRulebook = new File(AppGlobals.EXTERNAL_DIR + AppGlobals.PACKAGE + "/" + AppGlobals.RULEBOOK_FILE);
+					File fRulebook = new File(AppGlobals.EXTERNAL_DIR + "/" + AppGlobals.RULEBOOK_FILE);
 					Uri path = Uri.fromFile(fRulebook);
 	                Intent pdfViewIntent = new Intent(Intent.ACTION_VIEW);
 	                pdfViewIntent.setDataAndType(path, "application/pdf");
@@ -154,19 +160,25 @@ public class MainActivity extends Activity {
 			}
 		}    	
     }
+
 	
-	 @Override
-    public void onPause(){
-    	super.onPause();
-    }
-    
-    @Override
-    public void onResume(){
-    	super.onResume();
-    }
-    
-    @Override
-    public void onDestroy(){
-    	super.onDestroy();
-    }
+//	 @Override
+//    public void onPause(){
+//    	super.onPause();
+//    }
+//    
+//    @Override
+//    public void onResume(){
+//    	super.onResume();
+//    }
+//    
+//    @Override
+//    public void onDestroy(){
+//    	super.onDestroy();
+//    }
+//    
+//    @Override
+//    public void onBackPressed(){
+//    	this.finish();
+//    }
 }

@@ -80,7 +80,7 @@ public abstract class GameActivity extends Activity
 	protected void onRulebookPressed(){
 		//Rulebook - download/view
 		if(DownloadManager.DownloadRulebook()){
-			File fRulebook = new File(AppGlobals.EXTERNAL_DIR + AppGlobals.PACKAGE + "/" + AppGlobals.RULEBOOK_FILE);
+			File fRulebook = new File(AppGlobals.EXTERNAL_DIR + "/" + AppGlobals.RULEBOOK_FILE);
 			Uri path = Uri.fromFile(fRulebook);
             Intent pdfViewIntent = new Intent(Intent.ACTION_VIEW);
             pdfViewIntent.setDataAndType(path, "application/pdf");

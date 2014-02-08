@@ -15,17 +15,14 @@ package com.ncdadodgeball.ndropp;
 
 import com.ncdadodgeball.ndropp.R;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
+import android.content.pm.ActivityInfo;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.view.Display;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
-import android.view.Window;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
@@ -43,7 +40,6 @@ public class SCRGameActivity extends  GameActivity{
 	
 	//class member variables
 	private ButtonListener	m_Listener;
-	private GameSettings 	m_Settings;
 	private ShotClock		m_ShotClock;
 	private GameClock			m_GameClock;
 	private Button			m_btStartReset;
@@ -57,7 +53,6 @@ public class SCRGameActivity extends  GameActivity{
 	 *	Set up game
 	 */
 	public SCRGameActivity(){
-		m_Settings = new GameSettings();
 		m_Listener = new ButtonListener();
 		m_ShotClock = null;
 		m_btStartReset = null;
@@ -72,6 +67,7 @@ public class SCRGameActivity extends  GameActivity{
 	 public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
         setContentView(R.layout.shot_clock_ref);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);
         
         sInstance = this;
         

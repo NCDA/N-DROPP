@@ -8,6 +8,10 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.UnknownHostException;
+
+import android.app.Activity;
+import android.content.Context;
+import android.os.AsyncTask;
 import android.widget.Toast;
 
 
@@ -17,17 +21,17 @@ import android.widget.Toast;
 public class DownloadManager
 {
 	
-	/**	establishDirectory
-	 * 	Creates this application's personal directory on the device's "external" (sdcard)
-	 * 	storage device if it currently does not exist.  If it does exist, function returns.
-	 */
-	private static void establishDirectory(){
-		//create directory if not already created
-		File fPackageDir = new File(AppGlobals.EXTERNAL_DIR + AppGlobals.PACKAGE);
-		if(!fPackageDir.exists())
-			fPackageDir.mkdirs();
-		fPackageDir = null;
-	}
+//	/**	establishDirectory
+//	 * 	Creates this application's personal directory on the device's "external" (sdcard)
+//	 * 	storage device if it currently does not exist.  If it does exist, function returns.
+//	 */
+//	private static void establishDirectory(){
+//		//create directory if not already created
+//		File fPackageDir = new File(AppGlobals.EXTERNAL_DIR);
+//		if(!fPackageDir.exists())
+//			fPackageDir.mkdirs();
+//		fPackageDir = null;
+//	}
 	
 	/**	DownloadRulebook
 	 * 	
@@ -37,13 +41,38 @@ public class DownloadManager
 	 * 	directory.  If it doesn't exist, the rulebook is downloaded from the NCDA website.
 	 */
 	public static boolean DownloadRulebook(){
-		establishDirectory();
-		File fRulebook = new File(AppGlobals.EXTERNAL_DIR + AppGlobals.PACKAGE + "/" + AppGlobals.RULEBOOK_FILE);
+//		establishDirectory(context);
+		File fRulebook = new File(AppGlobals.EXTERNAL_DIR + "/" + AppGlobals.RULEBOOK_FILE);
 		
 		//Download the rulebook if it's not on the device
 		if(!fRulebook.exists()){
+			DownloadRulebookTask task = new DownloadRulebookTask(fRulebook);
+			Thread taskThread = new Thread(task);
+			taskThread.start();
+			try {
+				taskThread.join();
+				Log.D("Thread joined");
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			return fRulebook.exists();
+		}
+		else
+			return true;	//rulebook exists, return true
+	}
+	
+	static class DownloadRulebookTask implements Runnable
+	{
+		
+		File fRulebook;
+		
+		public DownloadRulebookTask(File file){
+			fRulebook = file;
+		}
+
+		public void run(){
 			Log.D("Downloading Rulebook...");
-			Toast.makeText(MainActivity.sInstance, "Downloading Rulebook...", Toast.LENGTH_SHORT).show();
+			//Toast.makeText(context, "Downloading Rulebook...", Toast.LENGTH_SHORT).show();
 			URL url = null;
 			HttpURLConnection socket= null;
 			boolean bTryAgain = true;
@@ -68,7 +97,7 @@ public class DownloadManager
 					istream.close();
 					ostream.close();
 					Log.D("Download complete.");
-					Toast.makeText(MainActivity.sInstance, "Download complete.", Toast.LENGTH_SHORT).show();
+					//Toast.makeText(MainActivity.sInstance, "Download complete.", Toast.LENGTH_SHORT).show();
 				}
 				//catch no internet connection. need better way to get user input
 				catch (UnknownHostException uhe){
@@ -77,16 +106,12 @@ public class DownloadManager
 				}
 				catch (Exception e) {
 					/* TODO: launch dialog: try again, cancel */
-					throw new RuntimeException("An error occured. Sorry :( ");
+					throw new RuntimeException(e.getMessage());
 				}
 				finally{
 					socket.disconnect();
 				}
 			}
-			
-			return fRulebook.exists();	
 		}
-		else
-			return true;	//rulebook exists, return true
 	}
 }

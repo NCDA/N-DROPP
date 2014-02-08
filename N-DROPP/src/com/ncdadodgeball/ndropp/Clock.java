@@ -357,12 +357,13 @@ public abstract class Clock {
 		}
 	}
 	
-	/** setClockText
-	 * @param clockText : String indicating the text the clock should read
-	 */
-	private void setClockText(String clockText){
-		vClockText.setText(clockText);
-	}
+	///** setClockText
+	// * TODO ??
+	// * @param clockText : String indicating the text the clock should read
+	// */
+	//private void setClockText(String clockText){
+	//	vClockText.setText(clockText);
+	//}
 	
 	/* Timer extends CountDownTimer
 	 * Private Timer class. This creates a new thread to run the timer.

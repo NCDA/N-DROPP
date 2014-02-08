@@ -13,17 +13,32 @@
 
 package com.ncdadodgeball.ndropp;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.Serializable;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+
+import android.content.Context;
+import android.widget.Toast;
+
 /*	GameSettings
  * 	Oject describing the entire set of settings for this user/device
  */
-public class GameSettings {
+public class GameSettings implements Serializable {
 
+	private static final long serialVersionUID = 0L;
+	
 	private boolean m_bMute;
 	private boolean m_bShotClockCountDown;
 	private boolean m_bShotClockAudio;
 	private boolean m_bVibration;
 	private boolean m_bHasHalftime;
+	
 	private int m_nTimeouts;
+	
 	private long m_nShotClockDuration;	//shot clock in milliseconds
 	private long m_nGameClockDuration;	//game clock in milliseconds
 
@@ -31,6 +46,10 @@ public class GameSettings {
 	 * 	Create default settings
 	 */
 	public GameSettings(){
+		resetToDefaults();
+	}
+	
+	public void resetToDefaults(){
 		m_bMute = false;
 		m_bShotClockCountDown = false;
 		m_bShotClockAudio = false;
@@ -39,6 +58,42 @@ public class GameSettings {
 		m_nTimeouts = 2;
 		m_nShotClockDuration = Clock.SECOND * 15;		//shot clock 15 seconds
 		m_nGameClockDuration = Clock.MINUTE * 25;		//game clock at 25 minutes
+	}
+	
+	
+	/**	loadSettings
+	 * 
+	 * @param ctx - application context
+	 * 
+	 * Load an existing "game_settings" file from the application storage or create a new
+	 * settings object if it doesn't exist/is corrupt.  The GameSettings object is loaded
+	 * into AppGlobals.mGameSettings.
+	 */
+	public static void loadSettings(Context ctx){
+		//load settings from file
+        File fSettings = new File( AppGlobals.INTERNAL_DIR + "/" + AppGlobals.SETTINGS_FILE );
+        boolean bLoaded = false;
+        if(fSettings.exists()){
+        	try{
+        		AppGlobals.gGameSettings = GameSettings.readSettings(new ObjectInputStream( new FileInputStream(fSettings)));
+        		bLoaded = true;
+        		Log.D("Settings read from app data");
+        	}
+        	catch(Exception e){
+        		Toast.makeText(ctx, "Settings data is corrupt. Resetting to defaults", Toast.LENGTH_LONG).show();
+        	}
+        }
+        
+        //if we didn't load settings (corrupt or doesn't exist), create new settings
+        if(!bLoaded){
+        	AppGlobals.gGameSettings = new GameSettings();
+        	try{
+        		GameSettings.writeSettings(AppGlobals.gGameSettings, new ObjectOutputStream(new FileOutputStream(fSettings)));
+        	}
+        	catch(Exception e){
+        		throw new RuntimeException(e.getMessage());
+        	}
+        }
 	}
 	
 	/** isMute
@@ -141,7 +196,7 @@ public class GameSettings {
 	 * 
 	 * @return time (milliseconds) of the duration of the shotclock
 	 */
-	public long getShotClock() {
+	public long getShotClockDuration() {
 		return m_nShotClockDuration;
 	}
 
@@ -157,7 +212,7 @@ public class GameSettings {
 	 * 
 	 * @return time (milliseconds) of the GameClock's total set duration
 	 */
-	public long getGameClock() {
+	public long getGameClockDuration() {
 		return m_nGameClockDuration;
 	}
 
@@ -167,5 +222,24 @@ public class GameSettings {
 	 */
 	public void setGameClock(long duration) {
 		m_nGameClockDuration = duration;
+	}
+	
+	/** writeSettings
+	 * 
+	 * @param out
+	 * @throws IOException
+	 */
+	public static void writeSettings(GameSettings settings, ObjectOutputStream out) throws IOException {
+		     out.writeObject(settings);
+	}  
+
+	/** readSettings
+	 * 
+	 * @param in
+	 * @throws IOException
+	 * @throws ClassNotFoundException
+	 */
+	public static GameSettings readSettings(ObjectInputStream in) throws IOException, ClassNotFoundException {
+		return (GameSettings) in.readObject();
 	}
 }

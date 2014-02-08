@@ -149,6 +149,14 @@ public class HRGameActivity extends GameActivity {
         	m_btHalftimeOvertime.setText(STR_OVERTIME);        
     }
 	
+	private void onStartTenCountEvent(){
+		
+	}
+	
+	private void onEndTenCountEvent(){
+		
+	}
+	
 	/*	ButtonListener
 	 * 	onClickListener for GUI buttons
 	 */
@@ -177,7 +185,7 @@ public class HRGameActivity extends GameActivity {
 			else if( id == findViewById(R.id.HR_btStartPauseResume).getId() )
 				m_GameClock.onStartPauseResume();
 			
-			//PAUSE/RESUME BUTTON
+			//TODO - HALFTIME/OVERTIME BUTTON
 			else if( id == m_btHalftimeOvertime.getId() )
 				m_GameClock.onRolloverHalftime();
 		}
