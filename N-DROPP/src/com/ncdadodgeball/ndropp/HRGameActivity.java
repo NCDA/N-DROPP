@@ -32,7 +32,6 @@ public class HRGameActivity extends GameActivity {
 	private static final String STR_OVERTIME = "Overtime";
 	
 	ButtonListener	m_Listener;
-	GameSettings 	m_Settings;
 	GameClock		m_GameClock;
 	ShotClock		m_HomeShotClock;
 	ShotClock		m_AwayShotClock;
@@ -43,7 +42,6 @@ public class HRGameActivity extends GameActivity {
 	 * 	
 	 */
 	public HRGameActivity(){
-		m_Settings = new GameSettings();
 		m_Listener = new ButtonListener();
 		m_GameClock = null;
 		m_HomeShotClock = null;
@@ -143,7 +141,7 @@ public class HRGameActivity extends GameActivity {
         m_GameClock = new GameClock(m_btStartPauseResume, m_btHalftimeOvertime, clockText, 25*Clock.MINUTE);
         m_btStartPauseResume.setOnClickListener(m_Listener);
         m_btHalftimeOvertime.setOnClickListener(m_Listener);
-        if( AppGlobals.gGameSettings.isHalftimeEnabled() )
+        if( getSettings().isHalftimeEnabled() )
         	m_btHalftimeOvertime.setText(STR_HALFTIME);
         else
         	m_btHalftimeOvertime.setText(STR_OVERTIME);        

@@ -13,7 +13,7 @@
 
 package com.ncdadodgeball.ndropp;
 
-import android.os.Environment;
+import android.app.Activity;
 
 /*	AppGlobals
  * 	Class specifically for the purpose of declaring Application-wide global variables and constants
@@ -21,13 +21,14 @@ import android.os.Environment;
 public class AppGlobals {
 	
 	//STRING CONSTANTS
+	public static final String APP_TITLE		= "N-DROPP";
 	public static final String PACKAGE 			= "com.ncdadodgeball.ndropp";
-	public static final String EXTERNAL_DIR		= MainActivity.sInstance.getExternalFilesDir(null).getAbsolutePath();
-	public static final String INTERNAL_DIR		= MainActivity.sInstance.getFilesDir().getAbsolutePath();
 	public static final String RULEBOOK_FILE 	= "ncda_rulebook.pdf";
 	public static final String SETTINGS_FILE	= "game_settings";
 	public static final String NCDA_URL 		= "http://www.ncdadodgeball.com";
 	public static final String RULEBOOK_URL 	= "http://www.ncdadodgeball.com/rulebook/ncda-rules.pdf";
+	public static final String BT_UUID			= "04032014-0006-0005-0001-000D0D8EBA11";
+												//<today-date>-<#MDCs>-<#Nationals>-<#Beast>-<dodgeball>
 	
 	public static final String SIL_BLACK	= "silhouette_black";
 	public static final String SIL_BLUE		= "silhouette_blue";
@@ -60,7 +61,17 @@ public class AppGlobals {
 	
 	//Enum
 	public static enum TEAM { HOME, AWAY };
+	public static enum STAFF { HR, SCR };		//TODO -- assistant ref, commentator, etc.
 	
 	//GLOBAL OBJECTS
 	public static GameSettings gGameSettings = null;
+	public static BluetoothManager gBTM = null;
+	
+	public static String getExternalDir(Activity parent){
+		return parent.getExternalFilesDir(null).getAbsolutePath();
+	}
+	
+	public static String getInternalDir(Activity parent){
+		return parent.getFilesDir().getAbsolutePath();
+	}
 }

@@ -42,7 +42,7 @@ public class DownloadManager
 	 */
 	public static boolean DownloadRulebook(){
 //		establishDirectory(context);
-		File fRulebook = new File(AppGlobals.EXTERNAL_DIR + "/" + AppGlobals.RULEBOOK_FILE);
+		File fRulebook = new File(AppGlobals.getExternalDir(MainActivity.sInstance) + "/" + AppGlobals.RULEBOOK_FILE);
 		
 		//Download the rulebook if it's not on the device
 		if(!fRulebook.exists()){

@@ -25,13 +25,7 @@ public class Log {
 	 * @param debugMessage : debug message to print in the logcat
 	 */
 	public static void D(String debugMessage){
-		android.util.Log.d(TAG_DEBUG, " ");
-		android.util.Log.d(TAG_DEBUG, "+++++++++++++++++++++++++++++++++++++++++++++++++++");
-		android.util.Log.d(TAG_DEBUG, " ");
-		android.util.Log.d(TAG_DEBUG, "<<<<<<<<<  " + debugMessage + "  >>>>>>>>");
-		android.util.Log.d(TAG_DEBUG, " ");
-		android.util.Log.d(TAG_DEBUG, "+++++++++++++++++++++++++++++++++++++++++++++++++++");
-		android.util.Log.d(TAG_DEBUG, " ");
+		android.util.Log.d(TAG_DEBUG, "<<    " + debugMessage + "    >>");
 	}
 	
 	/** E
@@ -39,7 +33,9 @@ public class Log {
 	 * @param errMessage : error message to print in the logcat
 	 */
 	public static void E(String errMessage){
-		android.util.Log.e(TAG_ERROR, "--------  " + errMessage + "  --------" );
+		android.util.Log.e(TAG_ERROR, "<<<<" );
+		android.util.Log.e(TAG_ERROR, errMessage);
+		android.util.Log.e(TAG_ERROR, ">>>>" );
 	}
 	
 

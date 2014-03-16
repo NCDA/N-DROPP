@@ -13,6 +13,8 @@
 
 package com.ncdadodgeball.ndropp;
 
+import com.ncdadodgeball.ndropp.AppGlobals.*;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -21,6 +23,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
+import android.app.Activity;
 import android.content.Context;
 import android.widget.Toast;
 
@@ -41,6 +44,11 @@ public class GameSettings implements Serializable {
 	
 	private long m_nShotClockDuration;	//shot clock in milliseconds
 	private long m_nGameClockDuration;	//game clock in milliseconds
+	
+	private STAFF	m_eStaffType;
+	private TEAM	m_eTeam;
+	
+	private BluetoothManager m_BTM;
 
 	/** GameSettings
 	 * 	Create default settings
@@ -58,6 +66,9 @@ public class GameSettings implements Serializable {
 		m_nTimeouts = 2;
 		m_nShotClockDuration = Clock.SECOND * 15;		//shot clock 15 seconds
 		m_nGameClockDuration = Clock.MINUTE * 25;		//game clock at 25 minutes
+		
+		m_eStaffType = null;
+		m_eTeam = null;
 	}
 	
 	
@@ -69,18 +80,19 @@ public class GameSettings implements Serializable {
 	 * settings object if it doesn't exist/is corrupt.  The GameSettings object is loaded
 	 * into AppGlobals.mGameSettings.
 	 */
-	public static void loadSettings(Context ctx){
+	public static GameSettings loadSettings(Activity parent){
 		//load settings from file
-        File fSettings = new File( AppGlobals.INTERNAL_DIR + "/" + AppGlobals.SETTINGS_FILE );
+        File fSettings = new File( MainActivity.sInstance.getFilesDir().getAbsolutePath() + "/" + AppGlobals.SETTINGS_FILE );
         boolean bLoaded = false;
         if(fSettings.exists()){
         	try{
         		AppGlobals.gGameSettings = GameSettings.readSettings(new ObjectInputStream( new FileInputStream(fSettings)));
         		bLoaded = true;
         		Log.D("Settings read from app data");
+        		return AppGlobals.gGameSettings;
         	}
         	catch(Exception e){
-        		Toast.makeText(ctx, "Settings data is corrupt. Resetting to defaults", Toast.LENGTH_LONG).show();
+        		Toast.makeText(parent, "Settings data is corrupt. Resetting to defaults", Toast.LENGTH_LONG).show();
         	}
         }
         
@@ -89,11 +101,13 @@ public class GameSettings implements Serializable {
         	AppGlobals.gGameSettings = new GameSettings();
         	try{
         		GameSettings.writeSettings(AppGlobals.gGameSettings, new ObjectOutputStream(new FileOutputStream(fSettings)));
+        		return AppGlobals.gGameSettings;
         	}
         	catch(Exception e){
         		throw new RuntimeException(e.getMessage());
         	}
         }
+        return null;
 	}
 	
 	/** isMute
@@ -222,6 +236,32 @@ public class GameSettings implements Serializable {
 	 */
 	public void setGameClock(long duration) {
 		m_nGameClockDuration = duration;
+	}
+	
+	
+	public void setStaffType( AppGlobals.STAFF type ){
+		assert ( type != null );
+		m_eStaffType = type;
+	}
+	
+	public AppGlobals.STAFF getStaffType(){
+		return m_eStaffType;
+	}
+	
+	public void setTeam( AppGlobals.TEAM team ){
+		m_eTeam = team;
+	}
+	
+	public AppGlobals.TEAM getTeam(){
+		return m_eTeam;
+	}
+	
+	public void setBTM( BluetoothManager btm ){
+		m_BTM = btm;
+	}
+	
+	public BluetoothManager getBTM(){
+		return m_BTM;
 	}
 	
 	/** writeSettings

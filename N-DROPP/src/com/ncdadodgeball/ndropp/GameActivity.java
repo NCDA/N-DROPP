@@ -27,6 +27,8 @@ import android.widget.Toast;
 public abstract class GameActivity extends Activity
 {
 //	private boolean m_bHasHalftime;					//can be acheived with GameSettings object in AppGlobals
+	
+	private GameSettings m_Settings;
 	private boolean m_bIsHalftime, m_bIsOvertime;
 	
 	/**	GameActivity -- CONSTRUCTOR
@@ -34,6 +36,7 @@ public abstract class GameActivity extends Activity
 	 */
 	public GameActivity(){
 //		m_bHasHalftime = true;
+		m_Settings = AppGlobals.gGameSettings;
 		m_bIsHalftime = m_bIsOvertime = false;
 	}
 	
@@ -80,7 +83,7 @@ public abstract class GameActivity extends Activity
 	protected void onRulebookPressed(){
 		//Rulebook - download/view
 		if(DownloadManager.DownloadRulebook()){
-			File fRulebook = new File(AppGlobals.EXTERNAL_DIR + "/" + AppGlobals.RULEBOOK_FILE);
+			File fRulebook = new File(AppGlobals.getExternalDir(MainActivity.sInstance) + "/" + AppGlobals.RULEBOOK_FILE);
 			Uri path = Uri.fromFile(fRulebook);
             Intent pdfViewIntent = new Intent(Intent.ACTION_VIEW);
             pdfViewIntent.setDataAndType(path, "application/pdf");
@@ -108,6 +111,10 @@ public abstract class GameActivity extends Activity
 	 */
 	protected void onPenaltyPressed(){
 		
+	}
+	
+	protected GameSettings getSettings(){
+		return m_Settings;
 	}
 	
 	//In-game event overrides

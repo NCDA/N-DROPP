@@ -14,15 +14,9 @@
 package com.ncdadodgeball.ndropp;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -40,12 +34,15 @@ import com.ncdadodgeball.ndropp.R;
  */
 public class MainActivity extends Activity {
     
-	ButtonListener btListener;
-	Button btStart;
-	Button btHistory;
-	Button btInfo;
-	Button btSettings;
+	private ButtonListener btListener;
+	private Button btStart;
+	private Button btHistory;
+	private Button btInfo;
+	private Button btSettings;
+	private GameSettings mSettings;
+	
 	public static MainActivity sInstance;
+	
 	
     @Override
     /** onCreate
@@ -71,7 +68,7 @@ public class MainActivity extends Activity {
         btInfo.setOnClickListener(btListener);
         btSettings.setOnClickListener(btListener);
         
-        GameSettings.loadSettings(this);
+        mSettings = GameSettings.loadSettings(this);
         
     }
     
@@ -104,46 +101,15 @@ public class MainActivity extends Activity {
     	 */
 		public void onClick(View view) {
 			//NEW GAME
-			if(view.getId() == MainActivity.sInstance.btStart.getId()){
-				AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.sInstance);
-				builder.setTitle("New Game");
-				builder.setMessage("Select shot clock ref or head ref view");
-				builder.setCancelable(true);
-				
-				//cancel
-				builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
-					public void onClick(DialogInterface dialog, int id){
-						dialog.cancel();
-					}					
-				});
-				
-				//shot clock referee option
-				builder.setPositiveButton("Shot Clock Referee", new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int id) {
-						Log.D("SCR selected");
-						MainActivity.sInstance.launchSCRActivity();
-					}
-				});
-				
-				//head referee option
-				builder.setNeutralButton("Head Referee", new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int id) {
-						Log.D("HR selected");
-						MainActivity.sInstance.launchHRActivity();
-					}
-				});
-				
-				//show the dialog
-				AlertDialog dialog = builder.create();
-				dialog.show();
-			}
+			if(view.getId() == MainActivity.sInstance.btStart.getId())
+				createNewGameDialog();
 			
 			//INFO
 			if(view.getId() == MainActivity.sInstance.btInfo.getId()){
 		
 				//Rulebook - download/view
 				if(DownloadManager.DownloadRulebook()){
-					File fRulebook = new File(AppGlobals.EXTERNAL_DIR + "/" + AppGlobals.RULEBOOK_FILE);
+					File fRulebook = new File(AppGlobals.getExternalDir(MainActivity.sInstance) + "/" + AppGlobals.RULEBOOK_FILE);
 					Uri path = Uri.fromFile(fRulebook);
 	                Intent pdfViewIntent = new Intent(Intent.ACTION_VIEW);
 	                pdfViewIntent.setDataAndType(path, "application/pdf");
@@ -160,6 +126,74 @@ public class MainActivity extends Activity {
 			}
 		}    	
     }
+    
+    //TODO -- make this into its own pretty dialog class or something
+    private void createNewGameDialog(){
+    	AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.sInstance);
+		builder.setTitle("New Game");
+		builder.setMessage("Select shot clock ref or head ref view");
+		builder.setCancelable(true);
+		
+		//cancel
+		builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
+			public void onClick(DialogInterface dialog, int id){
+				dialog.cancel();
+			}					
+		});
+		
+		//shot clock referee option
+		builder.setPositiveButton("Shot Clock Referee", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int id) {
+				Log.D("SCR selected");
+				
+				initBluetooth(BluetoothManager.eSocketType.CLIENT);
+				
+				// TODO -- team selection
+//				AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.sInstance);
+//				builder.setTitle("Team select");
+//				builder.setCancelable(false);
+//				builder.setNegativeButton("Home", new DialogInterface.OnClickListener(){
+//					public void onClick(DialogInterface dialog, int which) {
+//						mSettings.setTeam(AppGlobals.TEAM.HOME);
+//						MainActivity.sInstance.launchSCRActivity();
+//					}
+//				});
+//				builder.setPositiveButton("Away", new DialogInterface.OnClickListener() {
+//					
+//					public void onClick(DialogInterface dialog, int which) {
+//						mSettings.setTeam(AppGlobals.TEAM.AWAY);
+//						MainActivity.sInstance.launchSCRActivity();
+//					}
+//				});
+//				
+//				Dialog teamDialog = builder.create();
+//				teamDialog.setCanceledOnTouchOutside(false);
+//				teamDialog.show();
+			}
+		});
+		
+		//head referee option
+		builder.setNeutralButton("Head Referee", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int id) {
+				Log.D("HR selected");
+				mSettings.setStaffType( AppGlobals.STAFF.HR );
+				
+				//TODO - make dialog and stuff for pregame options
+				if(initBluetooth(BluetoothManager.eSocketType.SERVER).isConnected())
+					MainActivity.sInstance.launchHRActivity();
+			}
+		});
+		
+		//show the dialog
+		AlertDialog dialog = builder.create();
+		dialog.show();
+    }
+    
+    private BluetoothManager initBluetooth(BluetoothManager.eSocketType socktype){
+		BluetoothManager btm = new BluetoothManager(MainActivity.sInstance, socktype);
+		mSettings.setBTM(btm);
+		return btm;
+    }
 
 	
 //	 @Override
@@ -172,10 +206,14 @@ public class MainActivity extends Activity {
 //    	super.onResume();
 //    }
 //    
-//    @Override
-//    public void onDestroy(){
-//    	super.onDestroy();
-//    }
+    @Override
+    public void onDestroy(){
+    	if(mSettings.getBTM() != null){
+    		mSettings.getBTM().destroy();
+    		mSettings.setBTM(null);
+    	}
+    	super.onDestroy();
+    }
 //    
 //    @Override
 //    public void onBackPressed(){
