@@ -1,8 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-	<string name="hello">Welcome to N-DROPP!</string>
-	<string name="app_name">N-DROPP</string>
+	<!-- APP -->
+	<string name="app_name"		>N&#8211;DROPP</string>
+	<string name="app_package"	>com.ncdadodgeball.ndropp</string>
 	
-
+	<!-- USER -->
+	<string name="user_settings">game_settings</string>
+	
+	<!-- URL -->
+	<string name="url_ncda"		>http://www.ncdadodgeball.com</string>
+	<string name="url_rulebook"	>http://www.ncdadodgeball.com/rulebook/ncda&#8211;rules.pdf</string>
+	
+	<!-- UUID -->
+	<string name="uuid_bluetooth">04032014&#8211;0006&#8211;0005&#8211;0001&#8211;000D0D8EBA11</string>
+	<!-- 						<today-date> - <#MDCs> -<#Nationals>-<#Beast>  -  <dodgeball>  -->
+	
+	<!-- FILES -->
+	<string name="file_rulebook"	>ncda_rulebook.pdf</string>
+	<string name="file_settings"	>game_settings.ndr</string>
+	
+	<!-- RESOURCE FILES -->
+	<string name="file_ic_gvsu"		>ic_gvsu</string>
+	<string name="file_ic_msu"		>ic_msu</string>
+	<string name="file_sil_black"	>img_sil_black</string>
+	<string name="file_sil_blue"	>img_sil_blue</string>
+	<string name="file_sil_brown"	>img_sil_brown</string>
+	<string name="file_sil_green"	>img_sil_green</string>
+	<string name="file_sil_grey"	>img_sil_grey</string>
+	<string name="file_sil_lime"	>img_sil_lime</string>
+	<string name="file_sil_purple"	>img_sil_purple</string>
+	<string name="file_sil_orange"	>img_sil_orange</string>
+	<string name="file_sil_red"		>img_sil_red</string>
+	<string name="file_sil_sky_blue">img_sil_sky_blue</string>
+	<string name="file_sil_white"	>img_sil_white</string>
+	<string name="file_sil_yellow"	>img_sil_yellow</string>
+	
+	<!-- BUTTONS -->
+	<string name="bt_new_game"	>New Game</string>
+	<string name="bt_history"	>History</string>
+	<string name="bt_settings"	>Settings</string>
+	<string name="bt_info"		>Info</string>
+	<string name="bt_start"		>Start</string>
+	<string name="bt_pause"		>Pause</string>
+	<string name="bt_resume"	>Resume</string>
+	<string name="bt_reset"		>Reset</string>
+	<string name="bt_restart"	>Restart</string>
+	<string name="bt_edit"		>Edit</string>
+	<string name="bt_halftime"	>Halftime</string>
+	<string name="bt_overtime"	>Overtime</string>
+	<string name="bt_whistle"	>Whistle</string>
+	<string name="bt_add_player">+</string>
+	<string name="bt_rem_player">-</string>
+	
+	<!-- LABELS -->
+	<string name="lbl_home_team"	>HOME</string>
+	<string name="lbl_away_team"	>AWAY</string>
+	<string name="lbl_score"		>Score</string>
+	<string name="lbl_timeout"		>Timeouts</string>
+	
+	<!-- INIT TEXTS -->
+	<string name="txt_init_score"		>0</string>
+	<string name="txt_init_game_clock"	>25:00:00</string>
+	<string name="txt_init_shot_clock"	>00:00</string>
+	
+	<!-- DESCRIPTIONS -->
+	<string name="desc_ic_ncda"		>NCDA logo</string>
+	<string name="desc_ic_ndropp"	>N-DROPP logo</string>
+	<string name="desc_ic_rulebook"	>Open official NCDA rulebook</string>
+	<string name="desc_ic_settings"	>Change user settings</string>
+	<string name="desc_ic_penalty"	>Issue a penalty</string>
+	
 </resources>

@@ -13,7 +13,7 @@
 
 package com.ncdadodgeball.ndropp;
 
-import com.ncdadodgeball.ndropp.AppGlobals.*;
+import com.ncdadodgeball.ndropp.Global.*;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -48,7 +48,7 @@ public class GameSettings implements Serializable {
 	private STAFF	m_eStaffType;
 	private TEAM	m_eTeam;
 	
-	private BluetoothManager m_BTM;
+//	private BluetoothManager m_BTM;
 
 	/** GameSettings
 	 * 	Create default settings
@@ -82,14 +82,15 @@ public class GameSettings implements Serializable {
 	 */
 	public static GameSettings loadSettings(Activity parent){
 		//load settings from file
-        File fSettings = new File( MainActivity.sInstance.getFilesDir().getAbsolutePath() + "/" + AppGlobals.SETTINGS_FILE );
+		Activity main = MainActivity.sInstance;
+        File fSettings = new File( Global.getInternalDir(main) + "/" + main.getString(R.string.file_settings) );
         boolean bLoaded = false;
         if(fSettings.exists()){
         	try{
-        		AppGlobals.gGameSettings = GameSettings.readSettings(new ObjectInputStream( new FileInputStream(fSettings)));
+        		Global.gGameSettings = GameSettings.readSettings(new ObjectInputStream( new FileInputStream(fSettings)));
         		bLoaded = true;
         		Log.D("Settings read from app data");
-        		return AppGlobals.gGameSettings;
+        		return Global.gGameSettings;
         	}
         	catch(Exception e){
         		Toast.makeText(parent, "Settings data is corrupt. Resetting to defaults", Toast.LENGTH_LONG).show();
@@ -98,10 +99,10 @@ public class GameSettings implements Serializable {
         
         //if we didn't load settings (corrupt or doesn't exist), create new settings
         if(!bLoaded){
-        	AppGlobals.gGameSettings = new GameSettings();
+        	Global.gGameSettings = new GameSettings();
         	try{
-        		GameSettings.writeSettings(AppGlobals.gGameSettings, new ObjectOutputStream(new FileOutputStream(fSettings)));
-        		return AppGlobals.gGameSettings;
+        		GameSettings.writeSettings(Global.gGameSettings, new ObjectOutputStream(new FileOutputStream(fSettings)));
+        		return Global.gGameSettings;
         	}
         	catch(Exception e){
         		throw new RuntimeException(e.getMessage());
@@ -239,30 +240,30 @@ public class GameSettings implements Serializable {
 	}
 	
 	
-	public void setStaffType( AppGlobals.STAFF type ){
+	public void setStaffType( Global.STAFF type ){
 		assert ( type != null );
 		m_eStaffType = type;
 	}
 	
-	public AppGlobals.STAFF getStaffType(){
+	public Global.STAFF getStaffType(){
 		return m_eStaffType;
 	}
 	
-	public void setTeam( AppGlobals.TEAM team ){
+	public void setTeam( Global.TEAM team ){
 		m_eTeam = team;
 	}
 	
-	public AppGlobals.TEAM getTeam(){
+	public Global.TEAM getTeam(){
 		return m_eTeam;
 	}
 	
-	public void setBTM( BluetoothManager btm ){
-		m_BTM = btm;
-	}
-	
-	public BluetoothManager getBTM(){
-		return m_BTM;
-	}
+//	public void setBTM( BluetoothManager btm ){
+//		m_BTM = btm;
+//	}
+//	
+//	public BluetoothManager getBTM(){
+//		return m_BTM;
+//	}
 	
 	/** writeSettings
 	 * 

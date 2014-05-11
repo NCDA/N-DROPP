@@ -54,10 +54,10 @@ public class MainActivity extends Activity {
         sInstance = this;
         
         //grab buttons and set listener
-        btStart 	= (Button)findViewById(R.id.MAIN_btNewGame);
-        btHistory 	= (Button)findViewById(R.id.MAIN_btHistory);
-        btInfo		= (Button)findViewById(R.id.MAIN_btInfo);
-        btSettings	= (Button)findViewById(R.id.MAIN_btSettings);
+        btStart 	= (Button)findViewById(R.id.MAIN_bt_new_game);
+        btHistory 	= (Button)findViewById(R.id.MAIN_bt_history);
+        btInfo		= (Button)findViewById(R.id.MAIN_bt_info);
+        btSettings	= (Button)findViewById(R.id.MAIN_bt_settings);
         btStart.setVisibility(View.VISIBLE);
         btHistory.setVisibility(View.VISIBLE);
         btInfo.setVisibility(View.VISIBLE);
@@ -69,7 +69,6 @@ public class MainActivity extends Activity {
         btSettings.setOnClickListener(btListener);
         
         mSettings = GameSettings.loadSettings(this);
-        
     }
     
     /** launchSCRActivity
@@ -109,7 +108,7 @@ public class MainActivity extends Activity {
 		
 				//Rulebook - download/view
 				if(DownloadManager.DownloadRulebook()){
-					File fRulebook = new File(AppGlobals.getExternalDir(MainActivity.sInstance) + "/" + AppGlobals.RULEBOOK_FILE);
+					File fRulebook = new File(Global.getExternalDir(MainActivity.sInstance) + "/" + getString(R.string.file_rulebook));
 					Uri path = Uri.fromFile(fRulebook);
 	                Intent pdfViewIntent = new Intent(Intent.ACTION_VIEW);
 	                pdfViewIntent.setDataAndType(path, "application/pdf");
@@ -128,6 +127,7 @@ public class MainActivity extends Activity {
     }
     
     //TODO -- make this into its own pretty dialog class or something
+    //TODO - also, based on selection, have pre-game settings show up too
     private void createNewGameDialog(){
     	AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.sInstance);
 		builder.setTitle("New Game");
@@ -145,8 +145,9 @@ public class MainActivity extends Activity {
 		builder.setPositiveButton("Shot Clock Referee", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int id) {
 				Log.D("SCR selected");
-				
-				initBluetooth(BluetoothManager.eSocketType.CLIENT);
+				mSettings.setStaffType(Global.STAFF.SCR);
+				MainActivity.sInstance.launchSCRActivity();
+//				initBluetooth(BluetoothManager.eSocketType.CLIENT);
 				
 				// TODO -- team selection
 //				AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.sInstance);
@@ -176,11 +177,9 @@ public class MainActivity extends Activity {
 		builder.setNeutralButton("Head Referee", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int id) {
 				Log.D("HR selected");
-				mSettings.setStaffType( AppGlobals.STAFF.HR );
-				
-				//TODO - make dialog and stuff for pregame options
-				if(initBluetooth(BluetoothManager.eSocketType.SERVER).isConnected())
-					MainActivity.sInstance.launchHRActivity();
+				mSettings.setStaffType( Global.STAFF.HR );
+				MainActivity.sInstance.launchHRActivity();
+//				initBluetooth(BluetoothManager.eSocketType.SERVER);
 			}
 		});
 		
@@ -189,11 +188,10 @@ public class MainActivity extends Activity {
 		dialog.show();
     }
     
-    private BluetoothManager initBluetooth(BluetoothManager.eSocketType socktype){
-		BluetoothManager btm = new BluetoothManager(MainActivity.sInstance, socktype);
-		mSettings.setBTM(btm);
-		return btm;
-    }
+//    private void initBluetooth(BluetoothManager.eSocketType socktype){
+//		BluetoothManager btm = new BluetoothManager(MainActivity.sInstance, socktype);
+//		mSettings.setBTM(btm);
+//    }
 
 	
 //	 @Override
@@ -206,14 +204,15 @@ public class MainActivity extends Activity {
 //    	super.onResume();
 //    }
 //    
-    @Override
-    public void onDestroy(){
-    	if(mSettings.getBTM() != null){
-    		mSettings.getBTM().destroy();
-    		mSettings.setBTM(null);
-    	}
-    	super.onDestroy();
-    }
+//    @Override
+//    public void onDestroy(){
+//    	if(mSettings.getBTM() != null){
+//    		mSettings.getBTM().destroy();
+//    		mSettings.setBTM(null);
+//    	}
+//    	super.onDestroy();
+//    }
+    
 //    
 //    @Override
 //    public void onBackPressed(){

@@ -23,11 +23,6 @@ import android.widget.TextView;
  * based on input events from the user and timer.
  */
 public class GameClock extends Clock {
-	
-	//constants
-	private final String STR_START = "Start";
-	private final String STR_PAUSE = "Stop";
-	private final String STR_RESUME = "Resume";
 		
 	// States
 	private enum ClockState { PausedTop, Running, Paused, Expired };
@@ -57,7 +52,7 @@ public class GameClock extends Clock {
 		btHalftimeOvertime = halftimeOvertime;
 		btHalftimeOvertime.setClickable(false);
 		btHalftimeOvertime.setBackgroundColor(Color.GRAY);
-		bHasHalftime = AppGlobals.gGameSettings.isHalftimeEnabled();
+		bHasHalftime = Global.gGameSettings.isHalftimeEnabled();
 	}
 	
 //	public GameClock(Button startPauseResume, Button halftime, TextView clockText, long duration, boolean countDown) {
@@ -78,7 +73,7 @@ public class GameClock extends Clock {
 	public void onStartPauseResume(){
 		if( state == ClockState.PausedTop ){
 			state = ClockState.Running;
-			btStartPauseResume.setText(STR_PAUSE);
+			btStartPauseResume.setText(MainActivity.sInstance.getString(R.string.bt_pause));
 			startClock();
 			
 			//grey out halftimeOvertime button if it's clickable
@@ -89,7 +84,7 @@ public class GameClock extends Clock {
 		}
 		else if( state == ClockState.Running ){
 			state = ClockState.Paused;
-			btStartPauseResume.setText(STR_RESUME);
+			btStartPauseResume.setText(MainActivity.sInstance.getString(R.string.bt_resume));
 			pauseClock();
 			
 			//check time, if we're within halftime range (20% of duration of half), show halftime button
@@ -100,7 +95,7 @@ public class GameClock extends Clock {
 		}
 		else if ( state == ClockState.Paused ){
 			state = ClockState.Running;
-			btStartPauseResume.setText(STR_PAUSE);
+			btStartPauseResume.setText(MainActivity.sInstance.getString(R.string.bt_pause));
 			startClock();
 			
 			//disable halftimeOvertime button if it's showing
@@ -148,7 +143,7 @@ public class GameClock extends Clock {
 		
 		state = ClockState.PausedTop;
 		setTime(getTime() + getDuration());
-		btStartPauseResume.setText(STR_START);
+		btStartPauseResume.setText(MainActivity.sInstance.getString(R.string.bt_pause));
 		btStartPauseResume.setClickable(true);
 		btStartPauseResume.setBackgroundColor(Color.WHITE);
 		

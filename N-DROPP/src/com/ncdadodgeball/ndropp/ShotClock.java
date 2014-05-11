@@ -25,13 +25,6 @@ import android.widget.TextView;
  */
 public class ShotClock extends Clock {
 	
-	//constants
-	private final String STR_START = "Start";
-	private final String STR_RESET = "Reset";
-	private final String STR_PAUSE = "Pause";
-	private final String STR_RESUME = "Resume";
-	private final String STR_RESTART = "Restart";
-	
 	//states
 	private enum ClockState { PausedTop, RollingTop, Paused, Resumed, Expired };
 
@@ -52,9 +45,9 @@ public class ShotClock extends Clock {
 		btResetStart = resetStart;
 		btPauseResume = pauseResume;
 		state = ClockState.PausedTop;
-		btResetStart.setText("Start");
+		btResetStart.setText(MainActivity.sInstance.getString(R.string.bt_start));
 		btResetStart.setClickable(true);
-		btPauseResume.setText("Pause");
+		btPauseResume.setText(MainActivity.sInstance.getString(R.string.bt_pause));
 		btPauseResume.setClickable(false);
 	}
 	
@@ -72,9 +65,9 @@ public class ShotClock extends Clock {
 		btResetStart = resetStart;
 		btPauseResume = pauseResume;
 		state = ClockState.PausedTop;
-		btResetStart.setText("Start");
+		btResetStart.setText(MainActivity.sInstance.getString(R.string.bt_start));
 		btResetStart.setClickable(true);
-		btPauseResume.setText("Pause");
+		btPauseResume.setText(MainActivity.sInstance.getString(R.string.bt_pause));
 		btPauseResume.setClickable(false);
 	}
 	
@@ -88,8 +81,8 @@ public class ShotClock extends Clock {
 		
 		if(state == ClockState.PausedTop){
 			state = ClockState.RollingTop;
-			btResetStart.setText(STR_RESET);
-			btPauseResume.setText(STR_PAUSE);
+			btResetStart.setText(MainActivity.sInstance.getString(R.string.bt_reset));
+			btPauseResume.setText(MainActivity.sInstance.getString(R.string.bt_pause));
 			btPauseResume.setClickable(true);
 			btPauseResume.setBackgroundColor(Color.WHITE);
 			resetClock();
@@ -103,8 +96,8 @@ public class ShotClock extends Clock {
 		
 		else if(state == ClockState.Paused){
 			state = ClockState.PausedTop;
-			btResetStart.setText(STR_START);
-			btPauseResume.setText(STR_PAUSE);
+			btResetStart.setText(MainActivity.sInstance.getString(R.string.bt_start));
+			btPauseResume.setText(MainActivity.sInstance.getString(R.string.bt_pause));
 			btPauseResume.setClickable(false);
 			btPauseResume.setBackgroundColor(Color.GRAY);
 			resetClock();
@@ -117,8 +110,8 @@ public class ShotClock extends Clock {
 		}
 		else if(state == ClockState.Expired){
 			state = ClockState.RollingTop;
-			btResetStart.setText(STR_RESET);
-			btPauseResume.setText(STR_PAUSE);
+			btResetStart.setText(MainActivity.sInstance.getString(R.string.bt_reset));
+			btPauseResume.setText(MainActivity.sInstance.getString(R.string.bt_pause));
 			getClockText().setTextColor(Color.WHITE);
 			resetClock();
 			startClock();
@@ -141,25 +134,25 @@ public class ShotClock extends Clock {
 		
 		else if(state == ClockState.RollingTop){
 			state = ClockState.Paused;
-			btPauseResume.setText(STR_RESUME);
+			btPauseResume.setText(MainActivity.sInstance.getString(R.string.bt_resume));
 			pauseClock();
 		}
 		
 		else if(state == ClockState.Paused){
 			state = ClockState.Resumed;
-			btPauseResume.setText(STR_PAUSE);
+			btPauseResume.setText(MainActivity.sInstance.getString(R.string.bt_pause));
 			startClock();
 		}
 		
 		else if(state == ClockState.Resumed){
 			state = ClockState.Paused;
-			btPauseResume.setText(STR_RESUME);
+			btPauseResume.setText(MainActivity.sInstance.getString(R.string.bt_resume));
 			pauseClock();
 		}
 		
 		else if(state == ClockState.Expired){
 			state = ClockState.PausedTop;
-			btResetStart.setText(STR_START);
+			btResetStart.setText(MainActivity.sInstance.getString(R.string.bt_start));
 			btPauseResume.setClickable(false);
 			btPauseResume.setBackgroundColor(Color.GRAY);
 			getClockText().setTextColor(Color.WHITE);
@@ -174,8 +167,8 @@ public class ShotClock extends Clock {
 	@Override
 	protected void onClockExpired() {
 		state = ClockState.Expired;
-		btResetStart.setText(STR_RESTART);
-		btPauseResume.setText(STR_RESET);
+		btResetStart.setText(MainActivity.sInstance.getString(R.string.bt_restart));
+		btPauseResume.setText(MainActivity.sInstance.getString(R.string.bt_reset));
 		getClockText().setTextColor(Color.RED);
 	}
 }

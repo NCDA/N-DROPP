@@ -36,7 +36,7 @@ public abstract class GameActivity extends Activity
 	 */
 	public GameActivity(){
 //		m_bHasHalftime = true;
-		m_Settings = AppGlobals.gGameSettings;
+		m_Settings = Global.gGameSettings;
 		m_bIsHalftime = m_bIsOvertime = false;
 	}
 	
@@ -83,7 +83,8 @@ public abstract class GameActivity extends Activity
 	protected void onRulebookPressed(){
 		//Rulebook - download/view
 		if(DownloadManager.DownloadRulebook()){
-			File fRulebook = new File(AppGlobals.getExternalDir(MainActivity.sInstance) + "/" + AppGlobals.RULEBOOK_FILE);
+			Activity main = MainActivity.sInstance;
+			File fRulebook = new File(Global.getExternalDir(main) + "/" + main.getString(R.string.file_rulebook));
 			Uri path = Uri.fromFile(fRulebook);
             Intent pdfViewIntent = new Intent(Intent.ACTION_VIEW);
             pdfViewIntent.setDataAndType(path, "application/pdf");

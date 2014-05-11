@@ -1,77 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="fill_parent"
-	android:layout_height="fill_parent"
-	android:id="@+id/MAIN_RootView" >
+	android:id="@+id/MAIN_RootView"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent" >
 
 	<ImageView
-		android:id="@+id/MAIN_imgMenuLogo"
-		android:layout_width="100dp"
-		android:layout_height="100dp"
-		android:src="@drawable/app_logo"
-		android:padding="10dp"
-		android:layout_below="@+id/MAIN_RootView"
-		android:layout_centerHorizontal="true" />"
-	
-	<Button
-		android:id="@+id/MAIN_btNewGame"
+		android:id="@+id/MAIN_ic_ncda"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:text="Start New Game"
-		android:gravity="center"
-		android:padding="10dp"
-		android:layout_below="@+id/MAIN_imgMenuLogo"
+		android:layout_alignParentTop="true"
 		android:layout_centerHorizontal="true"
-	/>
+		android:padding="5dp"
+		android:src="@drawable/ic_ncda"
+		android:contentDescription="@string/desc_ic_ncda" />
 	
-	<Button
-		android:id="@+id/MAIN_btHistory"
+	<!-- Center of screen reference point -->
+	<View
+		android:id="@+id/MAIN_center"
+		android:layout_width="match_parent"
+		android:layout_height="0dp"
+		android:layout_centerInParent="true" />
+	
+	<ImageView
+		android:id="@+id/MAIN_ic_ndropp"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:text="View History"
-		android:gravity="center"
-		android:padding="10dp"
-		android:layout_below="@+id/MAIN_btNewGame"
+		android:layout_above="@id/MAIN_center"
+		android:layout_below="@id/MAIN_ic_ncda"
 		android:layout_centerHorizontal="true"
-	/>
-	
-	<Button
-		android:id="@+id/MAIN_btInfo"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:text="More Information"
-		android:gravity="center"
-		android:padding="10dp"
-		android:layout_below="@+id/MAIN_btHistory"
-		android:layout_centerHorizontal="true"
-	/>
-	
-	<Button
-		android:id="@+id/MAIN_btSettings"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:text="Change Settings"
-		android:gravity="center"
-		android:padding="10dp"
-		android:layout_below="@+id/MAIN_btInfo"
-		android:layout_centerHorizontal="true"
-	/>
-	
-	<ImageView 
-		android:id="@+id/MAIN_imgNCDALogo"
-		android:layout_width="250dp"
-		android:layout_height="75dp"
+		android:layout_margin="5dp"
 		android:src="@drawable/ic_launcher"
-		android:layout_alignParentBottom="true"
-		android:layout_centerHorizontal="true" />
+		android:contentDescription="@string/desc_ic_ndropp" />
 	
-	<TextView
-		android:layout_width="fill_parent"
+	<Button
+		android:id="@+id/MAIN_bt_new_game"
+		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:text="Brought to you by the"
-		android:gravity="center_horizontal"
-		android:layout_above="@+id/MAIN_imgNCDALogo"
-		android:layout_centerHorizontal="true" />
+		android:layout_below="@id/MAIN_center"
+		android:layout_centerHorizontal="true"
+		android:padding="10dp"
+		android:text="@string/bt_new_game" />
 	
+	<Button
+		android:id="@+id/MAIN_bt_history"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_below="@+id/MAIN_bt_new_game"
+		android:layout_centerHorizontal="true"
+		android:padding="10dp"
+		android:text="@string/bt_history"	/>
+	
+	<Button
+		android:id="@+id/MAIN_bt_info"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_below="@+id/MAIN_bt_history"
+		android:layout_centerHorizontal="true"
+		android:padding="10dp"
+		android:text="@string/bt_info" />
+	
+	<Button
+		android:id="@+id/MAIN_bt_settings"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_below="@+id/MAIN_bt_info"
+		android:layout_centerHorizontal="true"
+		android:padding="10dp"
+		android:text="@string/bt_settings" />
 	
 </RelativeLayout>
