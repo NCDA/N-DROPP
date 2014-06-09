@@ -1,4 +1,4 @@
-package com.ncdadodgeball.ndropp;
+package com.ncdadodgeball.comm;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -8,6 +8,12 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.UnknownHostException;
+
+import com.ncdadodgeball.ndropp.Global;
+import com.ncdadodgeball.ndropp.MainActivity;
+import com.ncdadodgeball.ndropp.R;
+import com.ncdadodgeball.ndropp.R.string;
+import com.ncdadodgeball.util.Log;
 
 import android.app.Activity;
 import android.content.Context;

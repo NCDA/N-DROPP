@@ -10,7 +10,10 @@
  * http://www.ncdadodgeball.com
  * Copyright 2014. All Rights Reserved.
  *************************************************************************************************/
-package com.ncdadodgeball.ndropp;
+package com.ncdadodgeball.util;
+
+import com.ncdadodgeball.ndropp.R;
+import com.ncdadodgeball.ndropp.R.string;
 
 import android.app.Activity;
 import android.content.Context;
@@ -24,7 +27,7 @@ import android.widget.ImageView;
 /*	GridImageAdapter
  * 	ListAdapter that keeps track of the image elements in the gridview
  */
-class GridImageAdapter extends BaseAdapter
+public class GridImageAdapter extends BaseAdapter
 {
 	private Activity	mParentActivity;
 	private ImageView 	images[];

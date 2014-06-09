@@ -12,6 +12,11 @@
  *************************************************************************************************/
 package com.ncdadodgeball.ndropp;
 
+import com.ncdadodgeball.util.Clock;
+import com.ncdadodgeball.util.GameClock;
+import com.ncdadodgeball.util.GridImageAdapter;
+import com.ncdadodgeball.util.ShotClock;
+
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.View;
@@ -54,7 +59,7 @@ public class HRGameActivity extends GameActivity {
 	 */
 	 public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.head_ref);
+        setContentView(R.layout.activity_hr);
         
         sInstance = this;
         

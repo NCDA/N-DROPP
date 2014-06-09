@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/PREGAME_new_root"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:orientation="horizontal" >
+	
+	<View
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:layout_weight="1" />
+	
+	<LinearLayout
+		android:id="@+id/PREGAME_layout_new_buttons"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:layout_weight="1"
+		android:orientation="vertical"
+		android:gravity="center" >
+		
+		<Button
+			android:id="@+id/PREGAME_headref"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center_horizontal"
+			android:text="Head Ref"
+			android:onClick="onHeadRefSelected" />
+		
+		<Button
+			android:id="@+id/PREGAME_shotclock"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center_horizontal"
+			android:text="Shot Clock"
+			android:onClick="launchSCRActivity"	/>
+		
+		<Button
+			android:id="@+id/PREGAME_hybrid"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center_horizontal"
+			android:text="Hybrid"
+			android:onClick="launchHybridRefActivity" />		
+	</LinearLayout>
+	
+	<View
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:layout_weight="1" />
+	
+</LinearLayout>

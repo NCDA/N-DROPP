@@ -13,6 +13,9 @@
 
 package com.ncdadodgeball.ndropp;
 
+import com.ncdadodgeball.comm.BluetoothManager;
+import com.ncdadodgeball.util.GameSettings;
+
 import android.app.Activity;
 
 /*	AppGlobals
@@ -41,7 +44,6 @@ public class Global {
 	
 	//GLOBAL OBJECTS
 	public static GameSettings gGameSettings = null;
-//	public static BluetoothManager gBTM = null;
 	
 	public static String getExternalDir(Activity parent){
 		return parent.getExternalFilesDir(null).getAbsolutePath();

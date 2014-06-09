@@ -14,6 +14,11 @@
 package com.ncdadodgeball.ndropp;
 
 import com.ncdadodgeball.ndropp.R;
+import com.ncdadodgeball.util.Clock;
+import com.ncdadodgeball.util.GameClock;
+import com.ncdadodgeball.util.GridImageAdapter;
+import com.ncdadodgeball.util.ShotClock;
+
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.pm.ActivityInfo;
@@ -66,7 +71,7 @@ public class SCRGameActivity extends  GameActivity{
 	 */
 	 public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-        setContentView(R.layout.shot_clock_ref);
+        setContentView(R.layout.activity_scr);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);
         
         sInstance = this;

@@ -10,7 +10,7 @@
  * http://www.ncdadodgeball.com
  * Copyright 2014. All Rights Reserved.
  *************************************************************************************************/
-package com.ncdadodgeball.ndropp;
+package com.ncdadodgeball.util;
 
 /*	Log
  *	Used to send log messages to the device's logcat with the N-DROPP tag.

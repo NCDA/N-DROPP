@@ -53,103 +53,141 @@ public final class R {
         public static final int HR_txt_home_acro=0x7f050007;
         public static final int HR_txt_home_score=0x7f05000d;
         public static final int HR_txt_score_label=0x7f05000b;
-        public static final int MAIN_RootView=0x7f05001e;
-        public static final int MAIN_bt_history=0x7f050023;
-        public static final int MAIN_bt_info=0x7f050024;
-        public static final int MAIN_bt_new_game=0x7f050022;
-        public static final int MAIN_bt_settings=0x7f050025;
+        public static final int MAIN_bt_history=0x7f050025;
+        public static final int MAIN_bt_info=0x7f050026;
+        public static final int MAIN_bt_new_game=0x7f050024;
+        public static final int MAIN_bt_settings=0x7f050027;
         public static final int MAIN_center=0x7f050020;
         public static final int MAIN_ic_ncda=0x7f05001f;
         public static final int MAIN_ic_ndropp=0x7f050021;
-        public static final int SCR_bt_add_player=0x7f050031;
-        public static final int SCR_bt_edit_sc=0x7f050037;
-        public static final int SCR_bt_pause_sc=0x7f050038;
-        public static final int SCR_bt_remove_player=0x7f050032;
-        public static final int SCR_bt_rulebook=0x7f050028;
-        public static final int SCR_bt_settings=0x7f050029;
-        public static final int SCR_bt_start_reset=0x7f050039;
-        public static final int SCR_grid=0x7f05002f;
-        public static final int SCR_ic_team=0x7f05002c;
-        public static final int SCR_layout_clock_buttons=0x7f050036;
-        public static final int SCR_layout_game_clock=0x7f05003a;
-        public static final int SCR_layout_options=0x7f050027;
-        public static final int SCR_layout_player_buttons=0x7f050030;
-        public static final int SCR_layout_shot_clock=0x7f050034;
-        public static final int SCR_layout_shot_clock_parent=0x7f050033;
-        public static final int SCR_layout_team=0x7f05002e;
-        public static final int SCR_layout_team_desc=0x7f05002a;
-        public static final int SCR_root=0x7f050026;
-        public static final int SCR_txt_game_clock=0x7f05003b;
-        public static final int SCR_txt_home_away=0x7f05002d;
-        public static final int SCR_txt_shot_clock=0x7f050035;
-        public static final int SCR_txt_team_acro=0x7f05002b;
+        public static final int MAIN_layout_buttons=0x7f050023;
+        public static final int MAIN_layout_horizontal_columns=0x7f050022;
+        public static final int MAIN_root=0x7f05001e;
+        public static final int PREGAME_broadcast_root=0x7f050047;
+        public static final int PREGAME_bt_back=0x7f05002c;
+        public static final int PREGAME_bt_bluetooth=0x7f05004a;
+        public static final int PREGAME_bt_continue=0x7f05002e;
+        public static final int PREGAME_bt_joinas_SCR=0x7f050050;
+        public static final int PREGAME_bt_local=0x7f050049;
+        public static final int PREGAME_bt_neutral=0x7f05002d;
+        public static final int PREGAME_connect_root=0x7f05004b;
+        public static final int PREGAME_connect_scroll=0x7f05004c;
+        public static final int PREGAME_headref=0x7f050053;
+        public static final int PREGAME_hybrid=0x7f050055;
+        public static final int PREGAME_ic_ncda=0x7f050029;
+        public static final int PREGAME_join=0x7f050059;
+        public static final int PREGAME_joinas_root=0x7f05004e;
+        public static final int PREGAME_layout_broadcast_buttons=0x7f050048;
+        public static final int PREGAME_layout_buttons=0x7f050057;
+        public static final int PREGAME_layout_connect_options=0x7f05004d;
+        public static final int PREGAME_layout_joinas_buttons=0x7f05004f;
+        public static final int PREGAME_layout_nav=0x7f05002b;
+        public static final int PREGAME_layout_new_buttons=0x7f050052;
+        public static final int PREGAME_layout_subview1=0x7f05002f;
+        public static final int PREGAME_layout_subview2=0x7f050030;
+        public static final int PREGAME_new=0x7f050058;
+        public static final int PREGAME_new_root=0x7f050051;
+        public static final int PREGAME_root=0x7f050028;
+        public static final int PREGAME_shotclock=0x7f050054;
+        public static final int PREGAME_start_root=0x7f050056;
+        public static final int PREGAME_txt_state_desc=0x7f05002a;
+        public static final int SCR_bt_add_player=0x7f05003c;
+        public static final int SCR_bt_edit_sc=0x7f050042;
+        public static final int SCR_bt_pause_sc=0x7f050043;
+        public static final int SCR_bt_remove_player=0x7f05003d;
+        public static final int SCR_bt_rulebook=0x7f050033;
+        public static final int SCR_bt_settings=0x7f050034;
+        public static final int SCR_bt_start_reset=0x7f050044;
+        public static final int SCR_grid=0x7f05003a;
+        public static final int SCR_ic_team=0x7f050037;
+        public static final int SCR_layout_clock_buttons=0x7f050041;
+        public static final int SCR_layout_game_clock=0x7f050045;
+        public static final int SCR_layout_options=0x7f050032;
+        public static final int SCR_layout_player_buttons=0x7f05003b;
+        public static final int SCR_layout_shot_clock=0x7f05003f;
+        public static final int SCR_layout_shot_clock_parent=0x7f05003e;
+        public static final int SCR_layout_team=0x7f050039;
+        public static final int SCR_layout_team_desc=0x7f050035;
+        public static final int SCR_root=0x7f050031;
+        public static final int SCR_txt_game_clock=0x7f050046;
+        public static final int SCR_txt_home_away=0x7f050038;
+        public static final int SCR_txt_shot_clock=0x7f050040;
+        public static final int SCR_txt_team_acro=0x7f050036;
     }
     public static final class layout {
-        public static final int head_ref=0x7f030000;
-        public static final int main=0x7f030001;
-        public static final int shot_clock_ref=0x7f030002;
+        public static final int activity_hr=0x7f030000;
+        public static final int activity_main=0x7f030001;
+        public static final int activity_pregame=0x7f030002;
+        public static final int activity_scr=0x7f030003;
+        public static final int pregame_broadcast=0x7f030004;
+        public static final int pregame_connect=0x7f030005;
+        public static final int pregame_join_as=0x7f030006;
+        public static final int pregame_new=0x7f030007;
+        public static final int pregame_start=0x7f030008;
     }
     public static final class string {
         /**  APP 
          */
         public static final int app_name=0x7f040000;
         public static final int app_package=0x7f040001;
-        public static final int bt_add_player=0x7f040023;
-        public static final int bt_edit=0x7f04001f;
-        public static final int bt_halftime=0x7f040020;
-        public static final int bt_history=0x7f040017;
-        public static final int bt_info=0x7f040019;
+        public static final int bt_add_player=0x7f040022;
+        public static final int bt_back=0x7f040024;
+        public static final int bt_continue=0x7f040025;
+        public static final int bt_edit=0x7f04001e;
+        public static final int bt_halftime=0x7f04001f;
+        public static final int bt_history=0x7f040016;
+        public static final int bt_info=0x7f040018;
         /**  BUTTONS 
          */
-        public static final int bt_new_game=0x7f040016;
-        public static final int bt_overtime=0x7f040021;
-        public static final int bt_pause=0x7f04001b;
-        public static final int bt_rem_player=0x7f040024;
-        public static final int bt_reset=0x7f04001d;
-        public static final int bt_restart=0x7f04001e;
-        public static final int bt_resume=0x7f04001c;
-        public static final int bt_settings=0x7f040018;
-        public static final int bt_start=0x7f04001a;
-        public static final int bt_whistle=0x7f040022;
+        public static final int bt_officiate=0x7f040015;
+        public static final int bt_overtime=0x7f040020;
+        public static final int bt_pause=0x7f04001a;
+        public static final int bt_rem_player=0x7f040023;
+        public static final int bt_reset=0x7f04001c;
+        public static final int bt_restart=0x7f04001d;
+        public static final int bt_resume=0x7f04001b;
+        public static final int bt_settings=0x7f040017;
+        public static final int bt_start=0x7f040019;
+        public static final int bt_whistle=0x7f040021;
         /**  DESCRIPTIONS 
          */
-        public static final int desc_ic_ncda=0x7f04002c;
-        public static final int desc_ic_ndropp=0x7f04002d;
-        public static final int desc_ic_penalty=0x7f040030;
-        public static final int desc_ic_rulebook=0x7f04002e;
-        public static final int desc_ic_settings=0x7f04002f;
+        public static final int desc_ic_ncda=0x7f04002d;
+        public static final int desc_ic_ndropp=0x7f04002e;
+        public static final int desc_ic_penalty=0x7f040031;
+        public static final int desc_ic_rulebook=0x7f04002f;
+        public static final int desc_ic_settings=0x7f040030;
         /**  RESOURCE FILES 
+ TODO: throw all these in a DB 
          */
-        public static final int file_ic_gvsu=0x7f040008;
-        public static final int file_ic_msu=0x7f040009;
-        /**  						<today-date> - <#MDCs> -<#Nationals>-<#Beast>  -  <dodgeball>  
- FILES 
+        public static final int file_ic_gvsu=0x7f040007;
+        public static final int file_ic_msu=0x7f040008;
+        /**  CREATED FILES 
          */
-        public static final int file_rulebook=0x7f040006;
-        public static final int file_settings=0x7f040007;
-        public static final int file_sil_black=0x7f04000a;
-        public static final int file_sil_blue=0x7f04000b;
-        public static final int file_sil_brown=0x7f04000c;
-        public static final int file_sil_green=0x7f04000d;
-        public static final int file_sil_grey=0x7f04000e;
-        public static final int file_sil_lime=0x7f04000f;
-        public static final int file_sil_orange=0x7f040011;
-        public static final int file_sil_purple=0x7f040010;
-        public static final int file_sil_red=0x7f040012;
-        public static final int file_sil_sky_blue=0x7f040013;
-        public static final int file_sil_white=0x7f040014;
-        public static final int file_sil_yellow=0x7f040015;
-        public static final int lbl_away_team=0x7f040026;
+        public static final int file_rulebook=0x7f040005;
+        public static final int file_settings=0x7f040006;
+        public static final int file_sil_black=0x7f040009;
+        public static final int file_sil_blue=0x7f04000a;
+        public static final int file_sil_brown=0x7f04000b;
+        public static final int file_sil_green=0x7f04000c;
+        public static final int file_sil_grey=0x7f04000d;
+        public static final int file_sil_lime=0x7f04000e;
+        public static final int file_sil_orange=0x7f040010;
+        public static final int file_sil_purple=0x7f04000f;
+        public static final int file_sil_red=0x7f040011;
+        public static final int file_sil_sky_blue=0x7f040012;
+        public static final int file_sil_white=0x7f040013;
+        public static final int file_sil_yellow=0x7f040014;
+        public static final int lbl_away_team=0x7f040027;
         /**  LABELS 
          */
-        public static final int lbl_home_team=0x7f040025;
-        public static final int lbl_score=0x7f040027;
-        public static final int lbl_timeout=0x7f040028;
-        public static final int txt_init_game_clock=0x7f04002a;
+        public static final int lbl_home_team=0x7f040026;
+        public static final int lbl_score=0x7f040028;
+        public static final int lbl_timeout=0x7f040029;
+        public static final int txt_init_game_clock=0x7f04002b;
         /**  INIT TEXTS 
          */
-        public static final int txt_init_score=0x7f040029;
-        public static final int txt_init_shot_clock=0x7f04002b;
+        public static final int txt_init_score=0x7f04002a;
+        public static final int txt_init_shot_clock=0x7f04002c;
         /**  URL 
          */
         public static final int url_ncda=0x7f040003;
@@ -157,8 +195,5 @@ public final class R {
         /**  USER 
          */
         public static final int user_settings=0x7f040002;
-        /**  UUID 
-         */
-        public static final int uuid_bluetooth=0x7f040005;
     }
 }

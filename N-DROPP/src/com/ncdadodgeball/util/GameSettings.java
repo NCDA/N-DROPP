@@ -11,9 +11,13 @@
  * Copyright 2014. All Rights Reserved.
  *************************************************************************************************/
 
-package com.ncdadodgeball.ndropp;
+package com.ncdadodgeball.util;
 
+import com.ncdadodgeball.ndropp.Global;
+import com.ncdadodgeball.ndropp.MainActivity;
+import com.ncdadodgeball.ndropp.R;
 import com.ncdadodgeball.ndropp.Global.*;
+import com.ncdadodgeball.ndropp.R.string;
 
 import java.io.File;
 import java.io.FileInputStream;

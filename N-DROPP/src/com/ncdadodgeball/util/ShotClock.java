@@ -10,7 +10,11 @@
  * http://www.ncdadodgeball.com
  * Copyright 2014. All Rights Reserved.
  *************************************************************************************************/
-package com.ncdadodgeball.ndropp;
+package com.ncdadodgeball.util;
+
+import com.ncdadodgeball.ndropp.MainActivity;
+import com.ncdadodgeball.ndropp.R;
+import com.ncdadodgeball.ndropp.R.string;
 
 import android.graphics.Color;
 import android.widget.Button;

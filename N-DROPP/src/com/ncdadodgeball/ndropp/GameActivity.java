@@ -14,6 +14,10 @@ package com.ncdadodgeball.ndropp;
 
 import java.io.File;
 
+import com.ncdadodgeball.comm.DownloadManager;
+import com.ncdadodgeball.util.GameSettings;
+import com.ncdadodgeball.util.Log;
+
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
