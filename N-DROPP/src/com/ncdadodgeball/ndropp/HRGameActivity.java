@@ -12,6 +12,7 @@
  *************************************************************************************************/
 package com.ncdadodgeball.ndropp;
 
+import com.ncdadodgeball.comm.BluetoothManager;
 import com.ncdadodgeball.util.Clock;
 import com.ncdadodgeball.util.GameClock;
 import com.ncdadodgeball.util.GridImageAdapter;
@@ -145,7 +146,12 @@ public class HRGameActivity extends GameActivity {
         if( getSettings().isHalftimeEnabled() )
         	m_btHalftimeOvertime.setText(getString(R.string.bt_halftime));
         else
-        	m_btHalftimeOvertime.setText(getString(R.string.bt_overtime));        
+        	m_btHalftimeOvertime.setText(getString(R.string.bt_overtime));
+        
+        if( BluetoothManager.instance().isBluetoothEnabled() ){
+        	BluetoothManager.instance().setParentActivity(this);
+			BluetoothManager.instance().initThread();
+        }
     }
 	
 	private void onStartTenCountEvent(){

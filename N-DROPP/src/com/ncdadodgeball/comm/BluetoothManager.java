@@ -43,7 +43,7 @@ import android.widget.Toast;
  * 
  * 	http://developer.android.com/guide/topics/connectivity/bluetooth.html
  */
-public class BluetoothManager implements Runnable{
+public class BluetoothManager{
 
 	public enum eSocketType { SERVER, CLIENT };
 	public static final String UUID_BT = "04032014-0006-0005-0001-000D0D8EBA11"; /* <today-date>-<#MDCs>-<#Nationals>-<#Beast>-<dodgeball> */
@@ -59,6 +59,8 @@ public class BluetoothManager implements Runnable{
 	
 //	private boolean					mbRequestBT;
 	private ArrayAdapter<String>	mArrayAdapter;
+	private Thread					mBTSendThread;
+	private Thread					mBTRecThread;
 
 
 	public static short BLUETOOTH_ENABLE_REQUEST = 100;
@@ -79,6 +81,7 @@ public class BluetoothManager implements Runnable{
 		mServerSocket = null;
 		mKnownDevices = null;
 		mConnectedDevices = null;
+		mBTSendThread = mBTRecThread = null;
 	}
 	
 	public void setConnectionType(eSocketType connectionType){
@@ -155,10 +158,14 @@ public class BluetoothManager implements Runnable{
 //		}
 //		super.onActivityResult(requestCode, resultCode, data);
 //	}
-
-	//TODO -- do the BT safeguard here?
-	public void run() {
-
+	
+	public void initThread(){
+		if( mBTSendThread == null && mBTRecThread == null){
+			mBTSendThread = new Thread( new BluetoothThread(true) );
+			mBTSendThread.start();
+			mBTRecThread = new Thread( new BluetoothThread(false) );
+			mBTRecThread.start();
+		}
 	}
 
 //	public boolean isRequestingBT(){
@@ -186,7 +193,7 @@ public class BluetoothManager implements Runnable{
 		
 		//if bluetooth is enabled, good
 		else{
-			Toast.makeText(mParent, "Bluetooth enabled", Toast.LENGTH_SHORT).show();
+			//Toast.makeText(mParent, "Bluetooth enabled", Toast.LENGTH_SHORT).show();
 			return true;
 		}
 	}

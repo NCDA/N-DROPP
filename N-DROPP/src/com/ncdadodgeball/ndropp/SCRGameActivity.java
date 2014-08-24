@@ -13,6 +13,7 @@
 
 package com.ncdadodgeball.ndropp;
 
+import com.ncdadodgeball.comm.BluetoothManager;
 import com.ncdadodgeball.ndropp.R;
 import com.ncdadodgeball.util.Clock;
 import com.ncdadodgeball.util.GameClock;
@@ -139,6 +140,11 @@ public class SCRGameActivity extends  GameActivity{
         m_bt_remove_player = (Button) findViewById(R.id.SCR_bt_remove_player);
         m_bt_add_player.setOnClickListener(m_Listener);
         m_bt_remove_player.setOnClickListener(m_Listener);
+        
+        if( BluetoothManager.instance().isBluetoothEnabled() ){
+        	BluetoothManager.instance().setParentActivity(this);
+			BluetoothManager.instance().initThread();
+        }
     }
 
 	@Override

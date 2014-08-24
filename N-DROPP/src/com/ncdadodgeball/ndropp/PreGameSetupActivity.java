@@ -342,6 +342,7 @@ public class PreGameSetupActivity extends Activity implements OnClickListener {
 			loadJoinAsState();
 		}
 		else if( BluetoothManager.instance().getConnectionType() == BluetoothManager.eSocketType.SERVER){
+			//TODO -- indicate the selected device is connected (highlight button)
 			mBtContinue.setVisibility(View.VISIBLE);
 		};
 	}
