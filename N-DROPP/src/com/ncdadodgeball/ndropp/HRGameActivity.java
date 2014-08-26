@@ -13,6 +13,7 @@
 package com.ncdadodgeball.ndropp;
 
 import com.ncdadodgeball.comm.BluetoothManager;
+import com.ncdadodgeball.comm.BluetoothThread;
 import com.ncdadodgeball.util.Clock;
 import com.ncdadodgeball.util.GameClock;
 import com.ncdadodgeball.util.GridImageAdapter;
@@ -187,8 +188,9 @@ public class HRGameActivity extends GameActivity {
 				onSettingsPressed();
 			
 			//START/PAUSE/RESUME BUTTON
-			else if( id == findViewById(R.id.HR_bt_start_pause_resume).getId() )
+			else if( id == findViewById(R.id.HR_bt_start_pause_resume).getId() ){
 				m_GameClock.onStartPauseResume();
+			}
 			
 			//TODO - HALFTIME/OVERTIME BUTTON
 			else if( id == m_btHalftimeOvertime.getId() )

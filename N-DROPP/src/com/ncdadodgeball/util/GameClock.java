@@ -12,6 +12,7 @@
  *************************************************************************************************/
 package com.ncdadodgeball.util;
 
+import com.ncdadodgeball.comm.BluetoothThread;
 import com.ncdadodgeball.ndropp.Global;
 import com.ncdadodgeball.ndropp.MainActivity;
 import com.ncdadodgeball.ndropp.R;
@@ -60,6 +61,15 @@ public class GameClock extends Clock {
 		bHasHalftime = Global.gGameSettings.isHalftimeEnabled();
 	}
 	
+	public GameClock( TextView clockText, long duration ){
+		super(clockText, ClockTextFormat.MinutesString, duration, true);
+		btStartPauseResume = null;
+		state = ClockState.PausedTop;
+		bIsFirstHalf = true;
+		btHalftimeOvertime = null;
+		bHasHalftime = Global.gGameSettings.isHalftimeEnabled();
+	}
+	
 //	public GameClock(Button startPauseResume, Button halftime, TextView clockText, long duration, boolean countDown) {
 //		super(clockText, ClockTextFormat.MinutesString, duration, tick, countDown);
 //		btStartPauseResume = startPauseResume;
@@ -80,6 +90,7 @@ public class GameClock extends Clock {
 			state = ClockState.Running;
 			btStartPauseResume.setText(MainActivity.sInstance.getString(R.string.bt_pause));
 			startClock();
+			BluetoothThread.CreateMessageForClient("start");
 			
 			//grey out halftimeOvertime button if it's clickable
 			if( btHalftimeOvertime.isClickable() ){
@@ -91,6 +102,7 @@ public class GameClock extends Clock {
 			state = ClockState.Paused;
 			btStartPauseResume.setText(MainActivity.sInstance.getString(R.string.bt_resume));
 			pauseClock();
+			BluetoothThread.CreateMessageForClient("pause");
 			
 			//check time, if we're within halftime range (20% of duration of half), show halftime button
 			if( bHasHalftime && bIsFirstHalf && (getTime() <= 0.2*getDuration()) ){
@@ -102,6 +114,7 @@ public class GameClock extends Clock {
 			state = ClockState.Running;
 			btStartPauseResume.setText(MainActivity.sInstance.getString(R.string.bt_pause));
 			startClock();
+			BluetoothThread.CreateMessageForClient("resume");
 			
 			//disable halftimeOvertime button if it's showing
 			if( btHalftimeOvertime.isClickable() ){

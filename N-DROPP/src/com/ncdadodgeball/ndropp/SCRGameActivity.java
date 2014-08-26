@@ -16,9 +16,9 @@ package com.ncdadodgeball.ndropp;
 import com.ncdadodgeball.comm.BluetoothManager;
 import com.ncdadodgeball.ndropp.R;
 import com.ncdadodgeball.util.Clock;
-import com.ncdadodgeball.util.GameClock;
 import com.ncdadodgeball.util.GridImageAdapter;
 import com.ncdadodgeball.util.ShotClock;
+import com.ncdadodgeball.util.Clock.ClockTextFormat;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -47,7 +47,7 @@ public class SCRGameActivity extends  GameActivity{
 	//class member variables
 	private ButtonListener	m_Listener;
 	private ShotClock		m_ShotClock;
-	private GameClock		m_GameClock;
+	private Clock			m_GameClock;
 	private Button			m_bt_start_reset;
 	private Button			m_btPauseResume;
 	private Button			m_bt_add_player;
@@ -145,6 +145,15 @@ public class SCRGameActivity extends  GameActivity{
         	BluetoothManager.instance().setParentActivity(this);
 			BluetoothManager.instance().initThread();
         }
+        
+        //Game Clock
+        m_GameClock = new Clock( (TextView)findViewById(R.id.SCR_txt_game_clock), ClockTextFormat.MinutesString, 25*Clock.MINUTE, true ){
+			@Override
+			protected void onClockExpired() {
+				
+			}
+        	
+        };
     }
 
 	@Override
@@ -173,7 +182,7 @@ public class SCRGameActivity extends  GameActivity{
 	 * 
 	 * @return GameClock representing the game timer
 	 */
-	public GameClock getGameTimer() {
+	public Clock getGameTimer() {
 		return m_GameClock;
 	}
 	

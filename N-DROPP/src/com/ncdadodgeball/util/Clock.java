@@ -84,7 +84,7 @@ public abstract class Clock {
 	/** startClock()
 	 * 	Starts the timer
 	 */
-	protected void startClock(){
+	public void startClock(){
 		tTimer.start();
 		bRunning = true;
 		bPaused = bFinished = false;
@@ -94,7 +94,7 @@ public abstract class Clock {
 	 * 	Halts the current timer, saves the current time, and creates a new timer
 	 * 	that will start at the last saved time.
 	 */
-	protected void pauseClock(){
+	public void pauseClock(){
 		//get the current time. if we're counting up, time is flipped
 		if(bCountDown)
 			pausedTime = getTime();
@@ -111,7 +111,7 @@ public abstract class Clock {
 	 * 	Starts the timer. Assumed to be invoked after the timer has been paused at
 	 *  least once beforehand.
 	 */
-	protected void resumeClock(){
+	public void resumeClock(){
 		tTimer.start();
 		bRunning = true;
 		bPaused = false;
@@ -121,7 +121,7 @@ public abstract class Clock {
 	 *  Halts the current timer. Creates a new timer to start from the top of the
 	 *  initially defined time (original timer duration).
 	 */
-	protected void resetClock(){
+	public void resetClock(){
 		tTimer.cancel();
 		if(bCountDown)
 			setClockText(duration);

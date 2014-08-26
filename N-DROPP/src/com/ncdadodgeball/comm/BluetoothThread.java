@@ -15,14 +15,23 @@ package com.ncdadodgeball.comm;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.concurrent.Semaphore;
 
 import com.ncdadodgeball.ndropp.MainActivity;
+import com.ncdadodgeball.ndropp.SCRGameActivity;
 import com.ncdadodgeball.util.Log;
 
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 
 public class BluetoothThread implements Runnable{
+	
+	private static ArrayList<String> sDATA_TO_SERVER = new ArrayList<String>();
+	private static ArrayList<String> sDATA_TO_CLIENT = new ArrayList<String>();
+	private static ArrayList<String> sDATA_FROM_SERVER = new ArrayList<String>();
+	private static ArrayList<String> sDATA_FROM_CLIENT = new ArrayList<String>();
+	private static Semaphore sem_DATA_TO_CLIENT = new Semaphore(2, true);
 	
 	private boolean m_bSendData;	//true to send data, false to receive
 	private BluetoothSocket m_BTServerSocket;
@@ -52,6 +61,37 @@ public class BluetoothThread implements Runnable{
 			else if( connectionType == BluetoothManager.eSocketType.CLIENT )
 				receiveDataFromServer();
 		}
+	}
+	
+	
+	public static void CreateMessageForClient(String message)
+	{
+		//try{
+			//BluetoothThread.sem_DATA_TO_CLIENT.acquire();
+			sDATA_TO_CLIENT.add(message);
+			//BluetoothThread.sem_DATA_TO_CLIENT.release();
+		//}
+		//catch(InterruptedException ie){
+			
+		//}
+	}
+	
+	public static String GetMessageForClient()
+	{
+		String message = null;
+		//try{
+			//BluetoothThread.sem_DATA_TO_CLIENT.acquire();
+			if( sDATA_TO_CLIENT.isEmpty() )
+				return null;
+			
+			message = sDATA_TO_CLIENT.get(0);
+			sDATA_TO_CLIENT.remove(0);
+			//BluetoothThread.sem_DATA_TO_CLIENT.release();
+		//}
+		//catch(InterruptedException ie){
+			
+		//}
+		return message;
 	}
 	
 	
@@ -92,11 +132,12 @@ public class BluetoothThread implements Runnable{
 				String message = "client's message to server";
 				byte [] buffer = message.getBytes();
 				ostream.write(buffer);
-				Log.D("CLIENT SENT MESSAGE");
+				//Log.D("CLIENT SENT MESSAGE");
 			}
 			catch(IOException ioe){
 				
 			}
+			Thread.yield();
 		}
 	}
 	
@@ -135,35 +176,54 @@ public class BluetoothThread implements Runnable{
 				if( input.available() > 0){
 					byte [] buffer = new byte [input.available()];
 					input.read(buffer);
-					Log.D("CLIENT RECEIVED: " + new String(buffer));
+					String message = new String(buffer);
+					Log.D("CLIENT RECEIVED: " + message);
+					
+					//process message
+					if( message.equalsIgnoreCase("start") ){
+						SCRGameActivity.sInstance.getGameTimer().startClock();
+					}
+					else if( message.equalsIgnoreCase("pause") ){
+						SCRGameActivity.sInstance.getGameTimer().pauseClock();
+					}
+					else if( message.equalsIgnoreCase("resume") )
+						SCRGameActivity.sInstance.getGameTimer().resumeClock();
 				}
 			}
 			catch(IOException ioe){
 
 			}
+			Thread.yield();
 		}
 	}
 	
 	private void sendDataToClients(){
 		//we are the server and need to send data to all clients
 		while( true ){
+			Thread.yield();
 			if( !BluetoothManager.instance().isBluetoothEnabled() ){
 				//TODO
 				continue;
 			}
+			
+			// are there any messages to send?
+			String message = BluetoothThread.GetMessageForClient();
+			if( message == null )
+				continue;
+			
 			for( BTDeviceDesc connection : BluetoothManager.instance().getConnectedDevices() ){
 				if( connection.getSocketType() == BluetoothManager.eSocketType.SERVER ){
 					//we are connected to this device as the server which means this device is client
 					OutputStream ostream = null;
 					try{
 						ostream = connection.getSocket().getOutputStream();
-						String message = "Server's message to client";
+						//String message = "Server's message to client";
 						ostream.write(message.getBytes());
-						Log.D("SERVER SENT MESSAGE TO CLIENT");
+						Log.D("SERVER SENT MESSAGE TO CLIENT: " + message);
 					}
 					catch(IOException ioe){}
 				}
-			}		
+			}
 		}
 	}
 	
@@ -190,7 +250,8 @@ public class BluetoothThread implements Runnable{
 					}
 					catch(IOException ioe){}
 				}
-			}		
+			}
+			Thread.yield();
 		}
 	}
 }
