@@ -19,12 +19,20 @@
 		android:gravity="center" >
 		
 		<Button
-			android:id="@+id/PREGAME_bt_joinas_SCR"
+			android:id="@+id/PREGAME_bt_joinas_Home_SCR"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:layout_gravity="center_horizontal"
-			android:text="Shot Clock"
-			android:onClick="launchSCRActivity" />
+			android:text="Home Team Shot-Clock"
+			android:onClick="launchHomeSCRActivity" />
+		
+		<Button
+			android:id="@+id/PREGAME_bt_joinas_Away_SCR"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center_horizontal"
+			android:text="Away Team Shot-Clock"
+			android:onClick="launchAwaySCRActivity" />
 	</LinearLayout>
 	
 	<View

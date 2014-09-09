@@ -12,10 +12,13 @@
  *************************************************************************************************/
 package com.ncdadodgeball.comm;
 
+import java.io.Serializable;
+
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 
-public class BTDeviceDesc{
+public class BTDeviceDesc implements Serializable{
+	private static final long serialVersionUID = 0xD0D83BA11L;
 	private BluetoothDevice					mDevice;
 	private BluetoothSocket 				mSocket;
 	private BluetoothManager.eSocketType 	mSocketType;

@@ -13,9 +13,10 @@
 package com.ncdadodgeball.ndropp;
 
 import com.ncdadodgeball.comm.BluetoothManager;
-import com.ncdadodgeball.comm.BluetoothThread;
 import com.ncdadodgeball.util.Clock;
+import com.ncdadodgeball.util.Event;
 import com.ncdadodgeball.util.GameClock;
+import com.ncdadodgeball.util.GameSettings;
 import com.ncdadodgeball.util.GridImageAdapter;
 import com.ncdadodgeball.util.ShotClock;
 
@@ -37,9 +38,9 @@ public class HRGameActivity extends GameActivity {
 	public static 	HRGameActivity	sInstance;
 	
 	ButtonListener	m_Listener;
-	GameClock		m_GameClock;
-	ShotClock		m_HomeShotClock;
-	ShotClock		m_AwayShotClock;
+//	GameClock		m_GameClock;
+//	ShotClock		m_HomeShotClock;
+//	ShotClock		m_AwayShotClock;
 	Button			m_btStartPauseResume;
 	Button			m_btHalftimeOvertime;
 	
@@ -47,10 +48,11 @@ public class HRGameActivity extends GameActivity {
 	 * 	
 	 */
 	public HRGameActivity(){
+		super();
 		m_Listener = new ButtonListener();
-		m_GameClock = null;
-		m_HomeShotClock = null;
-		m_AwayShotClock = null;
+//		m_GameClock = null;
+//		m_HomeShotClock = null;
+//		m_AwayShotClock = null;
 		m_btStartPauseResume = null;
 		m_btHalftimeOvertime = null;
 	}
@@ -137,23 +139,24 @@ public class HRGameActivity extends GameActivity {
         //set up game clock
         TextView clockText = (TextView)findViewById(R.id.HR_txt_game_clock);
         clockText.setTextSize(36);
+        GameModel.instance().getGameClock().bind(clockText, this);
         
         //set up clock buttons
         m_btStartPauseResume = (Button)findViewById(R.id.HR_bt_start_pause_resume);
         m_btHalftimeOvertime = (Button) findViewById(R.id.HR_bt_halftime_overtime);
-        m_GameClock = new GameClock(m_btStartPauseResume, m_btHalftimeOvertime, clockText, 25*Clock.MINUTE);
+//        m_GameClock = new GameClock(m_btStartPauseResume, m_btHalftimeOvertime, clockText, 25*Clock.MINUTE);
         m_btStartPauseResume.setOnClickListener(m_Listener);
         m_btHalftimeOvertime.setOnClickListener(m_Listener);
-        if( getSettings().isHalftimeEnabled() )
-        	m_btHalftimeOvertime.setText(getString(R.string.bt_halftime));
-        else
-        	m_btHalftimeOvertime.setText(getString(R.string.bt_overtime));
-        
-        if( BluetoothManager.instance().isBluetoothEnabled() ){
-        	BluetoothManager.instance().setParentActivity(this);
-			BluetoothManager.instance().initThread();
-        }
+//        if( getSettings().isHalftimeEnabled() )
+//        	m_btHalftimeOvertime.setText(getString(R.string.bt_halftime));
+//        else
+//        	m_btHalftimeOvertime.setText(getString(R.string.bt_overtime));
     }
+	
+	@Override
+	public void setContextAttributes() {
+		GameSettings.instance().setStaffType(GameSettings.STAFF.HR);
+	}
 	
 	private void onStartTenCountEvent(){
 		
@@ -189,12 +192,14 @@ public class HRGameActivity extends GameActivity {
 			
 			//START/PAUSE/RESUME BUTTON
 			else if( id == findViewById(R.id.HR_bt_start_pause_resume).getId() ){
-				m_GameClock.onStartPauseResume();
+				EventHandler.instance().postEvent(
+						new Event(Event.TYPE.GC_PAUSE_RESUME, GameSettings.STAFF.HR, null, null ) );
 			}
 			
 			//TODO - HALFTIME/OVERTIME BUTTON
-			else if( id == m_btHalftimeOvertime.getId() )
-				m_GameClock.onRolloverHalftime();
+			else if( id == m_btHalftimeOvertime.getId() ){
+				//TODO -- m_GameClock.onRolloverHalftime();
+			}
 		}
     }
 

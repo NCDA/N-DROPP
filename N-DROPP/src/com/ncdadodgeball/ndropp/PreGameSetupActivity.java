@@ -96,7 +96,7 @@ public class PreGameSetupActivity extends Activity implements OnClickListener {
     
     //displayed when joining a game or broadcasting as the bluetooth server
     private void loadConnectionState(BluetoothManager.eSocketType connectionType){
-    	BluetoothManager.instance().setParentActivity(this);
+//    	BluetoothManager.instance().setParentActivity(this);
     	BluetoothManager.instance().setConnectionType(connectionType);
     	mState = eMenuState.LIST_DEVICES;
     	mStateDescription.setText("Select a device to connect to");
@@ -295,9 +295,17 @@ public class PreGameSetupActivity extends Activity implements OnClickListener {
     /** launchSCRActivity
      * 	Fires an intent to start the Shot Clock Referee Activity in front of this Activity
      */
-    public void launchSCRActivity(View v){
+    public void launchHomeSCRActivity(View v){
     	Intent intent = new Intent(this, SCRGameActivity.class);
 		intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+		intent.putExtra("home", true);
+		startActivity(intent);
+    }
+    
+    public void launchAwaySCRActivity(View v){
+    	Intent intent = new Intent(this, SCRGameActivity.class);
+		intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+		intent.putExtra("home", false);
 		startActivity(intent);
     }
     

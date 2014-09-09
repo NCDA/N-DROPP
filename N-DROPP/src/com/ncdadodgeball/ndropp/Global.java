@@ -38,13 +38,6 @@ public class Global {
 	public static final double HR_GRID_HEIGHT_PERCENT	= 0.20;
 	public static final double HR_LOGO_WIDTH_PERCENT	= 0.40;
 	
-	//Enum
-	public static enum TEAM { HOME, AWAY };
-	public static enum STAFF { HR, SCR };		//TODO -- assistant ref, commentator, etc.
-	
-	//GLOBAL OBJECTS
-	public static GameSettings gGameSettings = null;
-	
 	public static String getExternalDir(Activity parent){
 		return parent.getExternalFilesDir(null).getAbsolutePath();
 	}

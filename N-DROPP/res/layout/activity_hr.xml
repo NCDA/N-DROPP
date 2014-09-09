@@ -205,8 +205,7 @@
 				android:layout_height="wrap_content"
 				android:gravity="center_horizontal"				
 				android:typeface="monospace"
-				android:textStyle="bold"
-				android:text="@string/txt_init_game_clock" />
+				android:textStyle="bold" />
 			
 			<!-- SIDE BY SIDE BUTTONS (START/STOP, EDIT, HALFTIME/OVERTIME  -->
 			<LinearLayout

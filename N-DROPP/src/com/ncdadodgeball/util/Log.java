@@ -33,6 +33,8 @@ public class Log {
 	 * @param errMessage : error message to print in the logcat
 	 */
 	public static void E(String errMessage){
+		if( errMessage == null )
+			errMessage = "";
 		android.util.Log.e(TAG_ERROR, "<<<<" );
 		android.util.Log.e(TAG_ERROR, errMessage);
 		android.util.Log.e(TAG_ERROR, ">>>>" );

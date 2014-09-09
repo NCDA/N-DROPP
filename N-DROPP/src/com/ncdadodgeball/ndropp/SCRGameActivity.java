@@ -16,6 +16,7 @@ package com.ncdadodgeball.ndropp;
 import com.ncdadodgeball.comm.BluetoothManager;
 import com.ncdadodgeball.ndropp.R;
 import com.ncdadodgeball.util.Clock;
+import com.ncdadodgeball.util.GameSettings;
 import com.ncdadodgeball.util.GridImageAdapter;
 import com.ncdadodgeball.util.ShotClock;
 import com.ncdadodgeball.util.Clock.ClockTextFormat;
@@ -46,24 +47,25 @@ public class SCRGameActivity extends  GameActivity{
 	
 	//class member variables
 	private ButtonListener	m_Listener;
-	private ShotClock		m_ShotClock;
-	private Clock			m_GameClock;
+//	private ShotClock		m_ShotClock;
+//	private Clock			m_GameClock;
 	private Button			m_bt_start_reset;
 	private Button			m_btPauseResume;
 	private Button			m_bt_add_player;
 	private Button			m_bt_remove_player;
 	private GridView		m_vTeamGrid;
-	private int				m_nPlayersOnCourt;
+//	private int				m_nPlayersOnCourt;
 	
 	/** SCRGameActivity -- CONSTRUCTOR
 	 *	Set up game
 	 */
 	public SCRGameActivity(){
+		super();
 		m_Listener = new ButtonListener();
-		m_ShotClock = null;
+//		m_ShotClock = null;
 		m_bt_start_reset = null;
 		m_btPauseResume = null;
-		m_nPlayersOnCourt = Global.NUM_MAX_STARTING_PLAYERS;
+//		m_nPlayersOnCourt = Global.NUM_MAX_STARTING_PLAYERS;
 	}
 	
 	@Override
@@ -95,12 +97,14 @@ public class SCRGameActivity extends  GameActivity{
         TextView clockText = (TextView)findViewById(R.id.SCR_txt_shot_clock);
         m_bt_start_reset 	= (Button)findViewById(R.id.SCR_bt_start_reset);
         m_btPauseResume	= (Button)findViewById(R.id.SCR_bt_pause_sc);
-        m_ShotClock = new ShotClock(m_bt_start_reset, m_btPauseResume, clockText, 15*Clock.SECOND, false);
+//        m_ShotClock = new ShotClock(m_bt_start_reset, m_btPauseResume, clockText, 15*Clock.SECOND, false);
         m_bt_start_reset.setOnClickListener(m_Listener);
         m_btPauseResume.setOnClickListener(m_Listener);
         m_btPauseResume.setClickable(false);
         m_btPauseResume.setBackgroundColor(Color.GRAY);
     	clockText.setTextSize(36);
+    	//TODO -- determine staff
+    	GameModel.instance().getHomeShotClock().bind(clockText, this);
         
         //set up GridView dimensions
         int colWidth = (int)(( screenW * Global.SCR_GRID_WIDTH_PERCENT) / 5 );
@@ -141,19 +145,14 @@ public class SCRGameActivity extends  GameActivity{
         m_bt_add_player.setOnClickListener(m_Listener);
         m_bt_remove_player.setOnClickListener(m_Listener);
         
-        if( BluetoothManager.instance().isBluetoothEnabled() ){
-        	BluetoothManager.instance().setParentActivity(this);
+        if( BluetoothManager.instance().isBluetoothEnabled() && BluetoothManager.instance().isConnectedToOtherDevices() ){
+//        	BluetoothManager.instance().setParentActivity(this);
 			BluetoothManager.instance().initThread();
         }
         
         //Game Clock
-        m_GameClock = new Clock( (TextView)findViewById(R.id.SCR_txt_game_clock), ClockTextFormat.MinutesString, 25*Clock.MINUTE, true ){
-			@Override
-			protected void onClockExpired() {
-				
-			}
-        	
-        };
+        TextView gameClock = (TextView)findViewById(R.id.SCR_txt_game_clock);
+        GameModel.instance().getGameClock().bind(gameClock, this);
     }
 
 	@Override
@@ -178,21 +177,21 @@ public class SCRGameActivity extends  GameActivity{
 		dialog.show();
 	}
 	
-	/** getGameTimer
-	 * 
-	 * @return GameClock representing the game timer
-	 */
-	public Clock getGameTimer() {
-		return m_GameClock;
-	}
-	
-	/** getShotClock
-	 * 
-	 * @return ShotClock object representing the shot clock
-	 */
-	public ShotClock getShotClock() {
-		return m_ShotClock;
-	}
+//	/** getGameTimer
+//	 * 
+//	 * @return GameClock representing the game timer
+//	 */
+//	public Clock getGameTimer() {
+//		return m_GameClock;
+//	}
+//	
+//	/** getShotClock
+//	 * 
+//	 * @return ShotClock object representing the shot clock
+//	 */
+//	public ShotClock getShotClock() {
+//		return m_ShotClock;
+//	}
 	
 
 	@Override
@@ -200,23 +199,23 @@ public class SCRGameActivity extends  GameActivity{
 	 * 	Add a player to the Gridview of players
 	 */
 	protected void onAddPlayerEvent(){
-		int maxPlayers = 0;
-		if( isOvertime() )
-			maxPlayers = Global.NUM_MAX_OVERTIME_PLAYERS;
-		else
-			maxPlayers = Global.NUM_MAX_STARTING_PLAYERS;
-		
-		//if the court is full, don't add a player
-		if( m_nPlayersOnCourt + 1 > maxPlayers )
-			Toast.makeText(SCRGameActivity.sInstance, "Max players on court", Toast.LENGTH_SHORT).show();
-		//court is not full, add a player
-		else{
-			//TODO - restore team's colored image
-			ImageView img = (ImageView)((BaseAdapter)m_vTeamGrid.getAdapter()).getItem(m_nPlayersOnCourt);
-			int imgID = getResources().getIdentifier(getString(R.string.file_sil_blue), "drawable", getString(R.string.app_package));
-			img.setImageResource(imgID);			
-			m_nPlayersOnCourt++;
-		}
+//		int maxPlayers = 0;
+//		if( isOvertime() )
+//			maxPlayers = Global.NUM_MAX_OVERTIME_PLAYERS;
+//		else
+//			maxPlayers = Global.NUM_MAX_STARTING_PLAYERS;
+//		
+//		//if the court is full, don't add a player
+//		if( m_nPlayersOnCourt + 1 > maxPlayers )
+//			Toast.makeText(SCRGameActivity.sInstance, "Max players on court", Toast.LENGTH_SHORT).show();
+//		//court is not full, add a player
+//		else{
+//			//TODO - restore team's colored image
+//			ImageView img = (ImageView)((BaseAdapter)m_vTeamGrid.getAdapter()).getItem(m_nPlayersOnCourt);
+//			int imgID = getResources().getIdentifier(getString(R.string.file_sil_blue), "drawable", getString(R.string.app_package));
+//			img.setImageResource(imgID);			
+//			m_nPlayersOnCourt++;
+//		}
 	}
 
 	@Override
@@ -224,15 +223,15 @@ public class SCRGameActivity extends  GameActivity{
 	 * 	remove player from the Gridview of players
 	 */
 	protected void onRemovePlayerEvent() {
-		if(m_nPlayersOnCourt > 0){
-			ImageView img = (ImageView)((BaseAdapter)m_vTeamGrid.getAdapter()).getItem(m_nPlayersOnCourt-1);
-			int greyID = getResources().getIdentifier(getString(R.string.file_sil_grey), "drawable", getString(R.string.app_package));
-			img.setImageResource(greyID);	
-			m_nPlayersOnCourt--;
-		}
-		
-		if( m_nPlayersOnCourt == 0 )
-			onRoundCompleteEvent();
+//		if(m_nPlayersOnCourt > 0){
+//			ImageView img = (ImageView)((BaseAdapter)m_vTeamGrid.getAdapter()).getItem(m_nPlayersOnCourt-1);
+//			int greyID = getResources().getIdentifier(getString(R.string.file_sil_grey), "drawable", getString(R.string.app_package));
+//			img.setImageResource(greyID);	
+//			m_nPlayersOnCourt--;
+//		}
+//		
+//		if( m_nPlayersOnCourt == 0 )
+//			onRoundCompleteEvent();
 	}
 
 	@Override
@@ -325,12 +324,14 @@ public class SCRGameActivity extends  GameActivity{
 				onSettingsPressed();
 			
 			//START/RESET BUTTON
-			else if(id == findViewById(R.id.SCR_bt_start_reset).getId())
-				(SCRGameActivity.sInstance.getShotClock()).onResetStartRestart();
+			else if(id == findViewById(R.id.SCR_bt_start_reset).getId()){
+//				(SCRGameActivity.sInstance.getShotClock()).onResetStartRestart();
+			}
 			
 			//PAUSE/RESUME BUTTON
-			else if(id == findViewById(R.id.SCR_bt_pause_sc).getId())
-				(SCRGameActivity.sInstance.getShotClock()).onPauseResumeReset();
+			else if(id == findViewById(R.id.SCR_bt_pause_sc).getId()){
+//				(SCRGameActivity.sInstance.getShotClock()).onPauseResumeReset();
+			}
 			
 			//ADD PLAYER BUTTON
 			else if( id == findViewById(R.id.SCR_bt_add_player).getId() )
@@ -341,4 +342,14 @@ public class SCRGameActivity extends  GameActivity{
 				onRemovePlayerEvent();
 		}
     }
+
+	@Override
+	public void setContextAttributes() {
+		Bundle bundle = getIntent().getExtras();
+		boolean homeTeam = bundle.getBoolean("home");
+		if( homeTeam )
+			GameSettings.instance().setStaffType(GameSettings.STAFF.HOME_SCR);
+		else
+			GameSettings.instance().setStaffType(GameSettings.STAFF.AWAY_SCR);
+	}
 }

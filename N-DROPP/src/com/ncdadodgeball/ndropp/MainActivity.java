@@ -62,8 +62,6 @@ public class MainActivity extends Activity implements View.OnClickListener {//Di
         btHistory.setOnClickListener(this);
         btInfo.setOnClickListener(this);
         btSettings.setOnClickListener(this);
-        
-        Global.gGameSettings = GameSettings.loadSettings(this);
     }
     
     /** launchSCRActivity

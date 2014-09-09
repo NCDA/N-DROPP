@@ -14,6 +14,7 @@ package com.ncdadodgeball.ndropp;
 
 import java.io.File;
 
+import com.ncdadodgeball.comm.BluetoothManager;
 import com.ncdadodgeball.comm.DownloadManager;
 import com.ncdadodgeball.util.GameSettings;
 import com.ncdadodgeball.util.Log;
@@ -22,6 +23,7 @@ import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 import android.widget.Toast;
 
 /*	GameActivity
@@ -32,7 +34,6 @@ public abstract class GameActivity extends Activity
 {
 //	private boolean m_bHasHalftime;					//can be acheived with GameSettings object in AppGlobals
 	
-	private GameSettings m_Settings;
 	private boolean m_bIsHalftime, m_bIsOvertime;
 	
 	/**	GameActivity -- CONSTRUCTOR
@@ -40,9 +41,30 @@ public abstract class GameActivity extends Activity
 	 */
 	public GameActivity(){
 //		m_bHasHalftime = true;
-		m_Settings = Global.gGameSettings;
 		m_bIsHalftime = m_bIsOvertime = false;
 	}
+	
+	@Override
+	public void onCreate(Bundle savedInstanceState){
+		super.onCreate(savedInstanceState);
+		//load personal game settings and context-specific settings
+		GameSettings.instance().init(this);
+		setContextAttributes();
+		
+		//create game model
+		GameModel.instance().init();
+		EventHandler.instance().init();
+		
+		//kick off bluetooth threads if we're connected
+		if( BluetoothManager.instance().isBluetoothEnabled() && BluetoothManager.instance().isConnectedToOtherDevices() ){
+//        	BluetoothManager.instance().setParentActivity(this);
+			BluetoothManager.instance().initThread();
+        }
+	}
+	
+	//every GameActivity needs to set context-specific attributes such as
+	// which referee you are, which team you're reffing for(if applicable), etc.
+	public abstract void setContextAttributes();
 	
 //	protected void setHasHalftime(boolean hasHalftime){
 //		m_bHasHalftime = hasHalftime;
@@ -118,9 +140,9 @@ public abstract class GameActivity extends Activity
 		
 	}
 	
-	protected GameSettings getSettings(){
-		return m_Settings;
-	}
+//	protected GameSettings getSettings(){
+//		return m_Settings;
+//	}
 	
 	//In-game event overrides
 	abstract protected void onAddPlayerEvent();
