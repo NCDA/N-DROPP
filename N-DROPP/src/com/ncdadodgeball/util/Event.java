@@ -18,9 +18,12 @@ public class Event implements Serializable
 {
 	private static final long serialVersionUID = 0xD0D83BA11L;
 
-	public static enum TYPE{ 	GC_PAUSE_RESUME, 
-								SC_RESUME, SC_PAUSE, SC_RESET, 
-								GAME_START, ADD_PLAYER, REMOVE_PLAYER };
+	public static enum TYPE{ 	NONE,
+								GC_PAUSE_RESUME, 
+								SC_PAUSE_RESUME_RESET, SC_START_RESTART_RESET, 
+								GAME_START, GAME_PENALTY,
+								PLAYER_ADD, PLAYER_REMOVE,
+								OPEN_SETTINGS, OPEN_RULEBOOK };
 								
 								
 	private TYPE 				m_eType;

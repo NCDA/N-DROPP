@@ -16,6 +16,7 @@ package com.ncdadodgeball.ndropp;
 import com.ncdadodgeball.comm.BluetoothManager;
 import com.ncdadodgeball.ndropp.R;
 import com.ncdadodgeball.util.Clock;
+import com.ncdadodgeball.util.Event;
 import com.ncdadodgeball.util.GameSettings;
 import com.ncdadodgeball.util.GridImageAdapter;
 import com.ncdadodgeball.util.ShotClock;
@@ -314,32 +315,34 @@ public class SCRGameActivity extends  GameActivity{
 		public void onClick(View view) {
 			
 			int id = view.getId();
+			Event e = new Event( Event.TYPE.NONE, GameSettings.instance().getStaffType(), null, null );
 			
 			//RULEBOOK BUTTON
 			if( id == findViewById(R.id.SCR_bt_rulebook).getId() )
-				onRulebookPressed();
+				e.setType( Event.TYPE.OPEN_RULEBOOK );
 			
 			//SETTINGS BUTTON
 			else if( id == findViewById(R.id.SCR_bt_settings).getId() )
-				onSettingsPressed();
+				e.setType( Event.TYPE.OPEN_SETTINGS );
 			
 			//START/RESET BUTTON
-			else if(id == findViewById(R.id.SCR_bt_start_reset).getId()){
-//				(SCRGameActivity.sInstance.getShotClock()).onResetStartRestart();
-			}
+			else if(id == findViewById(R.id.SCR_bt_start_reset).getId())
+				e.setType( Event.TYPE.SC_START_RESTART_RESET );
 			
 			//PAUSE/RESUME BUTTON
-			else if(id == findViewById(R.id.SCR_bt_pause_sc).getId()){
-//				(SCRGameActivity.sInstance.getShotClock()).onPauseResumeReset();
-			}
+			else if(id == findViewById(R.id.SCR_bt_pause_sc).getId())
+				e.setType( Event.TYPE.SC_PAUSE_RESUME_RESET );
 			
 			//ADD PLAYER BUTTON
 			else if( id == findViewById(R.id.SCR_bt_add_player).getId() )
-				onAddPlayerEvent();
+				e.setType( Event.TYPE.PLAYER_ADD );
 			
 			//REMOVE PLAYER BUTTON
 			else if( id == findViewById(R.id.SCR_bt_remove_player).getId() )
-				onRemovePlayerEvent();
+				e.setType( Event.TYPE.PLAYER_REMOVE );
+			
+			if( e.getType() != Event.TYPE.NONE )
+				EventHandler.instance().postEvent(e);
 		}
     }
 

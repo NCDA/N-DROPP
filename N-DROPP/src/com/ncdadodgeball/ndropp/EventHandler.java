@@ -95,9 +95,26 @@ public class EventHandler implements Runnable
 	}
 	
 	private void processEvent(Event e){
-		//what is event
-		if( e.getType() == Event.TYPE.GC_PAUSE_RESUME ){
-			onGameClockStartPauseResume(e);
+		
+		switch ( e.getType() ){
+			case GC_PAUSE_RESUME:
+				onGameClockStartPauseResume(e);
+				break;
+			case SC_PAUSE_RESUME_RESET:
+				onShotClockPauseResumeReset(e);
+				break;
+			case SC_START_RESTART_RESET:
+				onShotClockStartRestartReset(e);
+				break;
+				
+			case GAME_START:
+			case GAME_PENALTY:
+			case PLAYER_ADD:
+			case PLAYER_REMOVE:
+			case OPEN_SETTINGS:
+			case OPEN_RULEBOOK:
+			case NONE:
+			default:
 		}
 	}
 	
@@ -110,13 +127,17 @@ public class EventHandler implements Runnable
 		//update model
 		GameModel.instance().getGameClock().onStartPauseResume();
 		
-		//TODO -- record in database
+		//if we received this message from another device, set to the appropriate time
+		if( e.getSender() != GameSettings.instance().getStaffType() )
+			if( GameModel.instance().getGameClock().isRunning() )
+				GameModel.instance().getGameClock().setTime(e.getLongValue());
 		
+		//TODO -- record in database
 		// do we need to tell anyone about this event
 		if( BluetoothManager.instance().isConnectedToOtherDevices() ){
 			if( GameModel.instance().getCurrentStaffMember() == GameSettings.STAFF.HR ){				
 				//grab data from model and update event
-				e.setStringValue(GameModel.instance().getGameClock().getMinutesTimeString());
+				e.setLongValue(GameModel.instance().getGameClock().getTime());
 				
 				//send 1 event to Away-SCR
 				//TODO
@@ -130,4 +151,68 @@ public class EventHandler implements Runnable
 		}
 	}
 	
+	private void onShotClockPauseResumeReset(Event e){
+		//update model
+		if( e.getSender() == GameSettings.STAFF.AWAY_SCR )
+			GameModel.instance().getAwayShotClock().onPauseResumeReset();
+		else if( e.getSender() == GameSettings.STAFF.HOME_SCR )
+			GameModel.instance().getHomeShotClock().onPauseResumeReset();
+				
+		//TODO -- record in database
+		
+		// do we need to tell anyone about this event?
+		if( BluetoothManager.instance().isConnectedToOtherDevices() ){
+			
+			// TODO -- if we're head ref, send to the opposing SCR
+			
+			// if we're the initiator of the event, send to HR
+			if( GameModel.instance().getCurrentStaffMember() == e.getSender() ){	
+				long value = 0;
+				if( e.getSender() == GameSettings.STAFF.AWAY_SCR )
+					value = GameModel.instance().getAwayShotClock().getTime();
+				else if( e.getSender() == GameSettings.STAFF.HOME_SCR )
+					value = GameModel.instance().getHomeShotClock().getTime();
+				
+				//grab data from model and update event
+				e.setLongValue(value);
+
+				//send event to HR
+				e.setReceiver(GameSettings.STAFF.HR);
+				BluetoothManager.instance().postEvent(e);
+			}
+		}
+	}
+	
+	private void onShotClockStartRestartReset(Event e){
+		//update model
+		if( e.getSender() == GameSettings.STAFF.AWAY_SCR )
+			GameModel.instance().getAwayShotClock().onResetStartRestart();
+		else if( e.getSender() == GameSettings.STAFF.HOME_SCR )
+			GameModel.instance().getHomeShotClock().onResetStartRestart();
+
+		//TODO -- record in database
+
+		// do we need to tell anyone about this event?
+		if( BluetoothManager.instance().isConnectedToOtherDevices() ){
+
+			// TODO -- if we're head ref, send to the opposing SCR
+
+			// if we're the initiator of the event, send to HR
+			if( GameModel.instance().getCurrentStaffMember() == e.getSender() ){	
+				long value = 0;
+				if( e.getSender() == GameSettings.STAFF.AWAY_SCR )
+					value = GameModel.instance().getAwayShotClock().getTime();
+				else if( e.getSender() == GameSettings.STAFF.HOME_SCR )
+					value = GameModel.instance().getHomeShotClock().getTime();
+
+				//grab data from model and update event
+				e.setLongValue(value);
+
+				//send event to HR
+				e.setReceiver(GameSettings.STAFF.HR);
+				BluetoothManager.instance().postEvent(e);
+			}
+		}
+	}
+
 }

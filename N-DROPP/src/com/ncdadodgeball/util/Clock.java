@@ -222,7 +222,7 @@ public abstract class Clock {
 	/** getTime
 	 * @return time (milliseconds) : total time left on the timer before it expires
 	 */
-	protected long getTime(){
+	public long getTime(){
 		return (hours*HOUR) + (minutes*MINUTE) + (seconds*SECOND) + (centisec*CENTISEC);
 	}
 	

@@ -152,4 +152,16 @@ public class GameClock extends Clock {
 		
 		bIsFirstHalf=false;
 	}
+	
+	public void setTime(long value){
+		super.setTime(value);
+	}
+	
+	public ClockState getCurrentState(){
+		return state;
+	}
+	
+	public boolean isClockRunning(){
+		return (state == ClockState.Running);
+	}
 }

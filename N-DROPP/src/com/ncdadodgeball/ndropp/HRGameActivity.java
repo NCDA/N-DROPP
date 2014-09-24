@@ -38,9 +38,6 @@ public class HRGameActivity extends GameActivity {
 	public static 	HRGameActivity	sInstance;
 	
 	ButtonListener	m_Listener;
-//	GameClock		m_GameClock;
-//	ShotClock		m_HomeShotClock;
-//	ShotClock		m_AwayShotClock;
 	Button			m_btStartPauseResume;
 	Button			m_btHalftimeOvertime;
 	
@@ -50,9 +47,6 @@ public class HRGameActivity extends GameActivity {
 	public HRGameActivity(){
 		super();
 		m_Listener = new ButtonListener();
-//		m_GameClock = null;
-//		m_HomeShotClock = null;
-//		m_AwayShotClock = null;
 		m_btStartPauseResume = null;
 		m_btHalftimeOvertime = null;
 	}
@@ -144,13 +138,48 @@ public class HRGameActivity extends GameActivity {
         //set up clock buttons
         m_btStartPauseResume = (Button)findViewById(R.id.HR_bt_start_pause_resume);
         m_btHalftimeOvertime = (Button) findViewById(R.id.HR_bt_halftime_overtime);
-//        m_GameClock = new GameClock(m_btStartPauseResume, m_btHalftimeOvertime, clockText, 25*Clock.MINUTE);
         m_btStartPauseResume.setOnClickListener(m_Listener);
         m_btHalftimeOvertime.setOnClickListener(m_Listener);
-//        if( getSettings().isHalftimeEnabled() )
-//        	m_btHalftimeOvertime.setText(getString(R.string.bt_halftime));
-//        else
-//        	m_btHalftimeOvertime.setText(getString(R.string.bt_overtime));
+    }
+	
+	
+	/*	ButtonListener
+	 * 	onClickListener for GUI buttons
+	 */
+	class ButtonListener implements OnClickListener{
+
+		/** onClick
+		 * 	Find the view that was selected and initiate the associated event
+		 */
+		public void onClick(View view) {
+			
+			int id = view.getId();
+			Event e = new Event( Event.TYPE.NONE, GameSettings.instance().getStaffType(), null, null);
+			
+			//RULEBOOK BUTTON
+			if( id == findViewById(R.id.HR_bt_rulebook).getId() )
+				e.setType( Event.TYPE.OPEN_RULEBOOK );
+			
+			//PENALTY BUTTON
+			if( id == findViewById(R.id.HR_bt_penalty).getId() )
+				e.setType( Event.TYPE.GAME_PENALTY );
+				
+			//SETTINGS BUTTON
+			else if( id == findViewById(R.id.HR_bt_settings).getId() )
+				e.setType( Event.TYPE.OPEN_SETTINGS );
+			
+			//START/PAUSE/RESUME BUTTON
+			else if( id == findViewById(R.id.HR_bt_start_pause_resume).getId() )
+				e.setType(Event.TYPE.GC_PAUSE_RESUME);
+			
+			//TODO - HALFTIME/OVERTIME BUTTON
+			else if( id == m_btHalftimeOvertime.getId() ){
+				//TODO -- m_GameClock.onRolloverHalftime();
+			}
+			
+			if( e.getType() != Event.TYPE.NONE )
+				EventHandler.instance().postEvent( e );
+		}
     }
 	
 	@Override
@@ -165,43 +194,6 @@ public class HRGameActivity extends GameActivity {
 	private void onEndTenCountEvent(){
 		
 	}
-	
-	/*	ButtonListener
-	 * 	onClickListener for GUI buttons
-	 */
-	class ButtonListener implements OnClickListener{
-
-		/** onClick
-		 * 	Find the view that was selected and initiate the associated event
-		 */
-		public void onClick(View view) {
-			
-			int id = view.getId();
-			
-			//RULEBOOK BUTTON
-			if( id == findViewById(R.id.HR_bt_rulebook).getId() )
-				onRulebookPressed();
-			
-			//PENALTY BUTTON
-			if( id == findViewById(R.id.HR_bt_penalty).getId() )
-				onPenaltyPressed();
-				
-			//SETTINGS BUTTON
-			else if( id == findViewById(R.id.HR_bt_settings).getId() )
-				onSettingsPressed();
-			
-			//START/PAUSE/RESUME BUTTON
-			else if( id == findViewById(R.id.HR_bt_start_pause_resume).getId() ){
-				EventHandler.instance().postEvent(
-						new Event(Event.TYPE.GC_PAUSE_RESUME, GameSettings.STAFF.HR, null, null ) );
-			}
-			
-			//TODO - HALFTIME/OVERTIME BUTTON
-			else if( id == m_btHalftimeOvertime.getId() ){
-				//TODO -- m_GameClock.onRolloverHalftime();
-			}
-		}
-    }
 
 	@Override
 	/** onAddPlayerEvent
