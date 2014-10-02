@@ -105,7 +105,7 @@ public class SCRGameActivity extends  GameActivity{
         m_btPauseResume.setBackgroundColor(Color.GRAY);
     	clockText.setTextSize(36);
     	//TODO -- determine staff
-    	GameModel.instance().getHomeShotClock().bind(clockText, this);
+    	GameModel.instance().getHomeShotClock().bindTextView(clockText, this);
         
         //set up GridView dimensions
         int colWidth = (int)(( screenW * Global.SCR_GRID_WIDTH_PERCENT) / 5 );
@@ -129,6 +129,10 @@ public class SCRGameActivity extends  GameActivity{
         
         //establish GridView of players
         m_vTeamGrid = (GridView) findViewById(R.id.SCR_grid);
+        if( GameSettings.instance().getStaffType() == GameSettings.STAFF.AWAY_SCR )
+        	GameModel.instance().setAwayTeamGridView(m_vTeamGrid);
+        else if( GameSettings.instance().getStaffType() == GameSettings.STAFF.HOME_SCR )
+        	GameModel.instance().setHomeTeamGridView(m_vTeamGrid);
         layout = m_vTeamGrid.getLayoutParams();
         layout.width = gridWidth;
         layout.height = gridHeight;
@@ -153,7 +157,7 @@ public class SCRGameActivity extends  GameActivity{
         
         //Game Clock
         TextView gameClock = (TextView)findViewById(R.id.SCR_txt_game_clock);
-        GameModel.instance().getGameClock().bind(gameClock, this);
+        GameModel.instance().getGameClock().bindTextView(gameClock, this);
     }
 
 	@Override
@@ -315,7 +319,11 @@ public class SCRGameActivity extends  GameActivity{
 		public void onClick(View view) {
 			
 			int id = view.getId();
-			Event e = new Event( Event.TYPE.NONE, GameSettings.instance().getStaffType(), null, null );
+			Event e = new Event( 
+							Event.TYPE.NONE, 
+							GameSettings.instance().getStaffType(), 
+							GameSettings.STAFF.NONE, 
+							null );
 			
 			//RULEBOOK BUTTON
 			if( id == findViewById(R.id.SCR_bt_rulebook).getId() )

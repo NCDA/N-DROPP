@@ -107,6 +107,7 @@ public class HRGameActivity extends GameActivity {
         
         //set up GridViews of players
         GridView vGrid = (GridView) findViewById(R.id.HR_grid_home);
+        GameModel.instance().setHomeTeamGridView(vGrid);
         layout = vGrid.getLayoutParams();
         layout.width = gridWidth;
         layout.height = gridHeight;
@@ -119,6 +120,7 @@ public class HRGameActivity extends GameActivity {
         vGrid.setFocusable(false);
         
         vGrid = (GridView) findViewById(R.id.HR_grid_away);
+        GameModel.instance().setAwayTeamGridView(vGrid);
         layout = vGrid.getLayoutParams();
         layout.width = gridWidth;
         layout.height = gridHeight;
@@ -133,7 +135,7 @@ public class HRGameActivity extends GameActivity {
         //set up game clock
         TextView clockText = (TextView)findViewById(R.id.HR_txt_game_clock);
         clockText.setTextSize(36);
-        GameModel.instance().getGameClock().bind(clockText, this);
+        GameModel.instance().getGameClock().bindTextView(clockText, this);
         
         //set up clock buttons
         m_btStartPauseResume = (Button)findViewById(R.id.HR_bt_start_pause_resume);
@@ -154,7 +156,11 @@ public class HRGameActivity extends GameActivity {
 		public void onClick(View view) {
 			
 			int id = view.getId();
-			Event e = new Event( Event.TYPE.NONE, GameSettings.instance().getStaffType(), null, null);
+			Event e = new Event( 
+							Event.TYPE.NONE, 
+							GameSettings.instance().getStaffType(), 
+							GameSettings.STAFF.NONE, 
+							null);
 			
 			//RULEBOOK BUTTON
 			if( id == findViewById(R.id.HR_bt_rulebook).getId() )

@@ -21,6 +21,7 @@ import com.ncdadodgeball.util.Log;
 
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -35,6 +36,7 @@ public abstract class GameActivity extends Activity
 //	private boolean m_bHasHalftime;					//can be acheived with GameSettings object in AppGlobals
 	
 	private boolean m_bIsHalftime, m_bIsOvertime;
+	private static GameActivity sInstance = null;
 	
 	/**	GameActivity -- CONSTRUCTOR
 	 * 
@@ -47,6 +49,7 @@ public abstract class GameActivity extends Activity
 	@Override
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
+		sInstance = this;
 		//load personal game settings and context-specific settings
 		GameSettings.instance().init(this);
 		setContextAttributes();
@@ -60,6 +63,10 @@ public abstract class GameActivity extends Activity
 //        	BluetoothManager.instance().setParentActivity(this);
 			BluetoothManager.instance().initThread();
         }
+	}
+	
+	public static Activity currentActivity(){
+		return sInstance;
 	}
 	
 	//every GameActivity needs to set context-specific attributes such as

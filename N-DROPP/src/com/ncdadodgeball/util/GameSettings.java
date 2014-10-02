@@ -51,6 +51,8 @@ public class GameSettings implements Serializable {
 	private boolean m_bVibration;
 	private boolean m_bHasHalftime;
 	private int m_nTimeouts;
+	private int m_nMaxPlayers;
+	private int m_nMaxOvertimePlayers;
 	private long m_nShotClockDuration;	//shot clock in milliseconds
 	private long m_nGameClockDuration;	//game clock in milliseconds
 	private STAFF	m_eStaffType;
@@ -82,6 +84,8 @@ public class GameSettings implements Serializable {
 		m_bVibration = false;
 		m_bHasHalftime = true;
 		m_nTimeouts = 2;
+		m_nMaxPlayers = 15;
+		m_nMaxOvertimePlayers = 6;
 		m_nShotClockDuration = Clock.SECOND * 15;		//shot clock 15 seconds
 		m_nGameClockDuration = Clock.MINUTE * 50;		//game clock at 50 minutes
 		
@@ -225,6 +229,22 @@ public class GameSettings implements Serializable {
 	 */
 	public void setM_iTimeOuts(int timeouts) {
 		m_nTimeouts = timeouts;
+	}
+	
+	public int getMaxPlayers(){
+		return m_nMaxPlayers;
+	}
+	
+	public void setMaxPlayers(int players){
+		m_nMaxPlayers = players;
+	}
+	
+	public int getMaxOvertimePlayers(){
+		return m_nMaxOvertimePlayers;
+	}
+	
+	public void setMaxOvertimePlayers(int players){
+		m_nMaxOvertimePlayers = players;
 	}
 	
 	/** getShotClockDuration

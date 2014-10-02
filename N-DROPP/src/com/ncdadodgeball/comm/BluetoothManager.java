@@ -312,7 +312,31 @@ public class BluetoothManager implements Runnable {
 	
 	
 	private void sendDataToServer(Event e){
-	
+		//we are a client and need to send data to the server
+		GameSettings.STAFF staff = e.getReceiver();
+		BTDeviceDesc server = null;
+		//TODO -- need to know which connections are who (change BTDeviceDesc?)
+		for( BTDeviceDesc desc : getConnectedDevices() ){
+			if( desc.getSocketType() == eSocketType.CLIENT ){
+				server = desc;
+				break;
+			}
+		}
+
+		OutputStream ostream = null;
+		try{
+			ostream = server.getSocket().getOutputStream();
+			//					String message = "Server's message to client";
+			//					ostream.write(message.getBytes());
+			ObjectOutputStream oostream = new ObjectOutputStream(ostream);
+			oostream.writeObject(e);
+			oostream.flush();
+			Log.D("CLIENT SENT EVENT TO SERVER");
+		}
+		catch(IOException ioe){
+			Log.D("CLIENT FAILED TO SEND EVENT");
+			Log.E(ioe.getMessage());
+		}
 	}
 }
 

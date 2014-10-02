@@ -371,7 +371,7 @@ public abstract class Clock {
 	 */
 	abstract protected void onClockExpired();
 	
-	public void bind(TextView clockTextView, Activity parent){
+	public void bindTextView(TextView clockTextView, Activity parent){
 		if( clockTextView == null || parent == null )
 			return;
 		mParent = parent;
