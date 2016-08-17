@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/PREGAME_joinas_root"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:orientation="horizontal" >
+	
+	<View
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:layout_weight="1" />
+	
+	<LinearLayout
+		android:id="@+id/PREGAME_layout_joinas_buttons"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:layout_weight="1"
+		android:orientation="vertical"
+		android:gravity="center" >
+		
+		<Button
+			android:id="@+id/PREGAME_bt_joinas_Home_SCR"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center_horizontal"
+			android:text="Home Team Shot-Clock"
+			android:onClick="launchHomeSCRActivity" />
+		
+		<Button
+			android:id="@+id/PREGAME_bt_joinas_Away_SCR"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center_horizontal"
+			android:text="Away Team Shot-Clock"
+			android:onClick="launchAwaySCRActivity" />
+	</LinearLayout>
+	
+	<View
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:layout_weight="1" />
+	
+</LinearLayout>

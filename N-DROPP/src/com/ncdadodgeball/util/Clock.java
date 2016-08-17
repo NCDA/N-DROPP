@@ -10,8 +10,9 @@
  * http://www.ncdadodgeball.com
  * Copyright 2014. All Rights Reserved.
  *************************************************************************************************/
-package com.ncdadodgeball.ndropp;
+package com.ncdadodgeball.util;
 
+import android.app.Activity;
 import android.os.CountDownTimer;
 import android.widget.TextView;
 
@@ -33,6 +34,7 @@ public abstract class Clock {
 	
 	// class member variables
 	private Timer tTimer;
+	private Activity mParent;
 	private TextView vClockText;
 	private ClockTextFormat clockFormat;
 	private int hours, minutes, seconds, centisec = 0;		//current time values
@@ -50,13 +52,14 @@ public abstract class Clock {
 	 * 
 	 * Initialize clock variables. Default to count down timer.
 	 */
-	public Clock(TextView clockText, ClockTextFormat format, long duration){
-		vClockText = clockText;
+	public Clock( /*TextView clockText,*/ ClockTextFormat format, long duration){
+		vClockText = null;
+		mParent = null;
 		clockFormat = format;
 		tTimer = new Timer(duration, CENTISEC);
 		this.duration = duration;
 		bCountDown = true;
-		setClockText(duration);
+//		setClockText(duration);
 		bPaused = bFinished = false;
 	}
 	
@@ -68,75 +71,100 @@ public abstract class Clock {
 	 * 
 	 * Initialize clock variables.
 	 */
-	public Clock(TextView clockText, ClockTextFormat format, long duration, boolean countDown){
-		vClockText = clockText;
+	public Clock( /*TextView clockText,*/ ClockTextFormat format, long duration, boolean countDown){
+		vClockText = null;
+		mParent = null;
 		clockFormat = format;
 		tTimer = new Timer(duration, CENTISEC);
 		this.duration = duration;
 		bCountDown = countDown;
 		bPaused = bFinished = false;
-		if(bCountDown)
-			setClockText(duration);
-		else
-			setClockText(0);
+//		if(bCountDown)
+//			setClockText(duration);
+//		else
+//			setClockText(0);
 	}
 	
 	/** startClock()
 	 * 	Starts the timer
 	 */
-	protected void startClock(){
-		tTimer.start();
-		bRunning = true;
-		bPaused = bFinished = false;
+	public synchronized void startClock(){
+		if( mParent != null ){
+			mParent.runOnUiThread(new Runnable(){
+				public void run(){
+					tTimer.start();
+					bRunning = true;
+					bPaused = bFinished = false;
+				}
+			});
+		}
 	}
 	
 	/** pauseClock
 	 * 	Halts the current timer, saves the current time, and creates a new timer
 	 * 	that will start at the last saved time.
 	 */
-	protected void pauseClock(){
-		//get the current time. if we're counting up, time is flipped
-		if(bCountDown)
-			pausedTime = getTime();
-		else
-			pausedTime = duration-getTime();
-		
-		tTimer.cancel();
-		tTimer = new Timer( pausedTime, CENTISEC );
-		bRunning = false;
-		bPaused = true;
+	public synchronized void pauseClock(){
+		if( mParent != null ){
+			mParent.runOnUiThread(new Runnable(){
+				public void run(){
+					//get the current time. if we're counting up, time is flipped
+					if(bCountDown)
+						pausedTime = getTime();
+					else
+						pausedTime = duration-getTime();
+					
+					tTimer.cancel();
+					tTimer = new Timer( pausedTime, CENTISEC );
+					bRunning = false;
+					bPaused = true;
+				}
+			});
+		}
 	}
 
 	/** resumeClock
 	 * 	Starts the timer. Assumed to be invoked after the timer has been paused at
 	 *  least once beforehand.
 	 */
-	protected void resumeClock(){
-		tTimer.start();
-		bRunning = true;
-		bPaused = false;
+	public void resumeClock(){
+		if( mParent != null ){
+			mParent.runOnUiThread(new Runnable(){
+				public void run(){
+					tTimer.start();
+					bRunning = true;
+					bPaused = false;
+				}
+			});
+		}
 	}
 	
 	/** resetClock()
 	 *  Halts the current timer. Creates a new timer to start from the top of the
 	 *  initially defined time (original timer duration).
 	 */
-	protected void resetClock(){
-		tTimer.cancel();
-		if(bCountDown)
-			setClockText(duration);
-		else
-			setClockText(0L);
-		tTimer = new Timer(duration, CENTISEC);
-		bPaused = bFinished = bRunning = false;
+	public synchronized void resetClock(){
+		if( mParent != null ){
+			mParent.runOnUiThread(new Runnable(){
+				public void run(){
+					tTimer.cancel();
+					if(bCountDown)
+						setClockText(duration);
+					else
+						setClockText(0L);
+					tTimer = new Timer(duration, CENTISEC);
+					bPaused = bFinished = bRunning = false;
+				}
+			});
+		}
 	}
 	
 	/** getClockText()
 	 * @return vClockText : TextView displaying the time of the clock
 	 */
-	protected TextView getClockText(){
-		return vClockText;
-	}
+//	private TextView getClockText(){
+//		return vClockText;
+//	}
 	
 	/** isRunning()
 	 * @return bRunning : true if the timer is currently running
@@ -194,7 +222,7 @@ public abstract class Clock {
 	/** getTime
 	 * @return time (milliseconds) : total time left on the timer before it expires
 	 */
-	protected long getTime(){
+	public long getTime(){
 		return (hours*HOUR) + (minutes*MINUTE) + (seconds*SECOND) + (centisec*CENTISEC);
 	}
 	
@@ -214,10 +242,19 @@ public abstract class Clock {
 	 *  was invoked)
 	 */
 	protected void setTime(long time){
-		tTimer.cancel();
-		tTimer = new Timer(time, CENTISEC);
-		setClockText(time);
-		bFinished = bPaused = bRunning = false;
+		if( mParent != null ){
+			class MyRunnable implements Runnable{
+				private long time;
+				public MyRunnable(long time){this.time = time;}
+				public void run(){
+					tTimer.cancel();
+					tTimer = new Timer(time, CENTISEC);
+					setClockText(time);
+					bFinished = bPaused = bRunning = false;
+				}
+			}
+			mParent.runOnUiThread(new MyRunnable(time));
+		}
 	}
 
 	/** setNewDuration
@@ -334,36 +371,48 @@ public abstract class Clock {
 	 */
 	abstract protected void onClockExpired();
 	
+	public void bindTextView(TextView clockTextView, Activity parent){
+		if( clockTextView == null || parent == null )
+			return;
+		mParent = parent;
+		vClockText = clockTextView;
+		if( bCountDown )
+			setClockText(getDuration());
+		else
+			setClockText(0L);
+	}
+	
 	/** setClockText
 	 * @param time : duration of time (milliseconds) to set the clock text to
 	 * This method detects the format the string should be displayed in. If
 	 * <time> == 0, text displays as all zeros in the clock's denoted format.
 	 */
 	private void setClockText(long time){
-		
-		if(time>0){
-			if( clockFormat == ClockTextFormat.HoursString )
-				vClockText.setText(getHoursTimeString(time));
-			else if( clockFormat == ClockTextFormat.MinutesString )
-				vClockText.setText(getMinutesTimeString(time));
-			else if( clockFormat == ClockTextFormat.SecondsString)
-				vClockText.setText(getSecondsTimeString(time));
+		if(vClockText == null || mParent == null)
+			return;
+
+		class MyRunnable implements Runnable{
+			private long time;
+			public MyRunnable(long time){this.time = time;}
+			public void run(){
+				if(time>0){
+					if( clockFormat == ClockTextFormat.HoursString )
+						vClockText.setText(getHoursTimeString(time));
+					else if( clockFormat == ClockTextFormat.MinutesString )
+						vClockText.setText(getMinutesTimeString(time));
+					else if( clockFormat == ClockTextFormat.SecondsString)
+						vClockText.setText(getSecondsTimeString(time));
+				}
+				else{
+					if( clockFormat == ClockTextFormat.SecondsString )
+						vClockText.setText( "00:00" );
+					else
+						vClockText.setText( "00:00:00" );
+				}
+			}
 		}
-		else{
-			if( clockFormat == ClockTextFormat.SecondsString )
-				vClockText.setText( "00:00" );
-			else
-				vClockText.setText( "00:00:00" );
-		}
+		mParent.runOnUiThread(new MyRunnable(time));
 	}
-	
-	///** setClockText
-	// * TODO ??
-	// * @param clockText : String indicating the text the clock should read
-	// */
-	//private void setClockText(String clockText){
-	//	vClockText.setText(clockText);
-	//}
 	
 	/* Timer extends CountDownTimer
 	 * Private Timer class. This creates a new thread to run the timer.
@@ -389,7 +438,6 @@ public abstract class Clock {
 
 		@Override
 		public void onTick(long tte) {
-			
 			//update time values
 			if(!bCountDown)			//if we're counting up, flip the remaining time
 				tte = duration-tte;
@@ -409,4 +457,3 @@ public abstract class Clock {
 		}
 	}
 }
-

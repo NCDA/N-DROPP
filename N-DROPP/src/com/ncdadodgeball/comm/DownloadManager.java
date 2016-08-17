@@ -1,4 +1,4 @@
-package com.ncdadodgeball.ndropp;
+package com.ncdadodgeball.comm;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -8,6 +8,12 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.UnknownHostException;
+
+import com.ncdadodgeball.ndropp.Global;
+import com.ncdadodgeball.ndropp.MainActivity;
+import com.ncdadodgeball.ndropp.R;
+import com.ncdadodgeball.ndropp.R.string;
+import com.ncdadodgeball.util.Log;
 
 import android.app.Activity;
 import android.content.Context;
@@ -20,7 +26,6 @@ import android.widget.Toast;
  */
 public class DownloadManager
 {
-	
 //	/**	establishDirectory
 //	 * 	Creates this application's personal directory on the device's "external" (sdcard)
 //	 * 	storage device if it currently does not exist.  If it does exist, function returns.
@@ -42,7 +47,9 @@ public class DownloadManager
 	 */
 	public static boolean DownloadRulebook(){
 //		establishDirectory(context);
-		File fRulebook = new File(AppGlobals.EXTERNAL_DIR + "/" + AppGlobals.RULEBOOK_FILE);
+		Activity main = MainActivity.sInstance;
+		File fRulebook = new File(
+				Global.getExternalDir(main) + "/" + main.getString(R.string.file_rulebook));
 		
 		//Download the rulebook if it's not on the device
 		if(!fRulebook.exists()){
@@ -79,18 +86,18 @@ public class DownloadManager
 			
 			while(bTryAgain){
 				try {
-					url = new URL(AppGlobals.RULEBOOK_URL);
+					url = new URL(MainActivity.sInstance.getString(R.string.url_rulebook));
 					socket = (HttpURLConnection) url.openConnection();
 					socket.setInstanceFollowRedirects(true);
 					socket.setDoInput(true);
 					socket.connect();
 					InputStream istream = new BufferedInputStream(socket.getInputStream(), 8*1024);
 					OutputStream ostream = new FileOutputStream(fRulebook.getAbsolutePath(), false);
-					byte [] input = new byte[AppGlobals.NUM_DL_BUFF_SIZE];
-					int numBytes = istream.read(input, 0, AppGlobals.NUM_DL_BUFF_SIZE); 
+					byte [] input = new byte[Global.NUM_DL_BUFF_SIZE];
+					int numBytes = istream.read(input, 0, Global.NUM_DL_BUFF_SIZE); 
 					while(numBytes != -1){
 						ostream.write(input, 0, numBytes);
-						numBytes = istream.read(input, 0, AppGlobals.NUM_DL_BUFF_SIZE); 
+						numBytes = istream.read(input, 0, Global.NUM_DL_BUFF_SIZE); 
 					}
 					
 					bTryAgain = false;

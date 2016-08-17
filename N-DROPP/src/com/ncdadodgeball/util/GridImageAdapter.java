@@ -10,8 +10,12 @@
  * http://www.ncdadodgeball.com
  * Copyright 2014. All Rights Reserved.
  *************************************************************************************************/
-package com.ncdadodgeball.ndropp;
+package com.ncdadodgeball.util;
 
+import com.ncdadodgeball.ndropp.R;
+import com.ncdadodgeball.ndropp.R.string;
+
+import android.app.Activity;
 import android.content.Context;
 import android.view.Display;
 import android.view.View;
@@ -23,9 +27,9 @@ import android.widget.ImageView;
 /*	GridImageAdapter
  * 	ListAdapter that keeps track of the image elements in the gridview
  */
-class GridImageAdapter extends BaseAdapter
+public class GridImageAdapter extends BaseAdapter
 {
-	private Context		context;
+	private Activity	mParentActivity;
 	private ImageView 	images[];
 	private String		strResource;
 	private double		nScreenWPercent;	//percent of width of screen the entire grid should occupy
@@ -37,8 +41,8 @@ class GridImageAdapter extends BaseAdapter
 	 * 
 	 * Create an adapter list of 15 elements
 	 */
-	public GridImageAdapter(Context ctx, String resourceName, double widthPercent, double heightPercent){
-		context=ctx;
+	public GridImageAdapter(Activity parent, String resourceName, double widthPercent, double heightPercent){
+		mParentActivity = parent;
 		images = new ImageView[15];
 		strResource = resourceName;
 		nScreenWPercent = widthPercent;
@@ -80,16 +84,16 @@ class GridImageAdapter extends BaseAdapter
 	 *
 	 *	@return the created ImageView at the specific location
 	 */
-	public View getView(int index, View view, ViewGroup parent) {
+	public View getView(int index, View view, ViewGroup vParent) {
 		
 		ImageView imageView = images[index];
 		
 		if( imageView == null ){
-			imageView = new ImageView(context);
-			int imgID = ((android.app.Activity)context).getResources().getIdentifier(strResource, "drawable", AppGlobals.PACKAGE);
+			imageView = new ImageView(mParentActivity);
+			int imgID = (mParentActivity.getResources().getIdentifier(strResource, "drawable", mParentActivity.getString(R.string.app_package) ) );
 	        imageView.setImageResource(imgID);
 	        imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-	        Display display = ((android.app.Activity)context).getWindowManager().getDefaultDisplay();
+	        Display display = mParentActivity.getWindowManager().getDefaultDisplay();
 	        imageView.setLayoutParams(new GridView.LayoutParams(
 	        		(int)(( display.getWidth() * nScreenWPercent) / 5 ), 
 	        		(int)(( display.getHeight() * nScreenHPercent) / 3 )));

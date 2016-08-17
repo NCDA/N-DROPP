@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/PREGAME_start_root"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:orientation="horizontal" >
+	
+	<View
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:layout_weight="1" />
+	
+	<LinearLayout
+		android:id="@+id/PREGAME_layout_buttons"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:layout_weight="1"
+		android:orientation="vertical"
+		android:gravity="center" >
+		
+		<Button
+			android:id="@+id/PREGAME_new"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center_horizontal"
+			android:text="New Game"
+			android:onClick="onNewGameSelected"	/>
+		
+		<Button
+			android:id="@+id/PREGAME_join"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center_horizontal"
+			android:text="Join Game"
+			android:onClick="onJoinGameSelected" />
+	</LinearLayout>
+	
+	<View
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:layout_weight="1" />
+	
+</LinearLayout>

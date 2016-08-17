@@ -11,7 +11,14 @@
  * Copyright 2014. All Rights Reserved.
  *************************************************************************************************/
 
-package com.ncdadodgeball.ndropp;
+package com.ncdadodgeball.util;
+
+import com.ncdadodgeball.ndropp.GameActivity;
+import com.ncdadodgeball.ndropp.Global;
+import com.ncdadodgeball.ndropp.MainActivity;
+import com.ncdadodgeball.ndropp.R;
+import com.ncdadodgeball.ndropp.Global.*;
+import com.ncdadodgeball.ndropp.R.string;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -21,6 +28,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
+import android.app.Activity;
 import android.content.Context;
 import android.widget.Toast;
 
@@ -29,24 +37,44 @@ import android.widget.Toast;
  */
 public class GameSettings implements Serializable {
 
-	private static final long serialVersionUID = 0L;
+	//Global constants
+//	public static enum TEAM { NONE, HOME, AWAY };
+	public static enum STAFF { NONE, HR, HOME_SCR, AWAY_SCR, HYBRID_HR };		//TODO -- assistant ref, commentator, etc.
+		
+	//Class member vars
+	private static GameSettings sInstance = null;
+	private static final long serialVersionUID = 0xD0D83BA11L;
 	
 	private boolean m_bMute;
 	private boolean m_bShotClockCountDown;
 	private boolean m_bShotClockAudio;
 	private boolean m_bVibration;
 	private boolean m_bHasHalftime;
-	
 	private int m_nTimeouts;
-	
+	private int m_nMaxPlayers;
+	private int m_nMaxOvertimePlayers;
 	private long m_nShotClockDuration;	//shot clock in milliseconds
 	private long m_nGameClockDuration;	//game clock in milliseconds
+	private STAFF	m_eStaffType;
+//	private TEAM	m_eTeam;
+	
 
 	/** GameSettings
 	 * 	Create default settings
 	 */
-	public GameSettings(){
+	private GameSettings(){
 		resetToDefaults();
+	}
+	
+	public static GameSettings instance(){
+		if( sInstance == null )
+			sInstance = new GameSettings();
+		return sInstance;
+	}
+	
+	public void init(GameActivity activity){
+		if( activity != null )
+			loadSettings(activity);
 	}
 	
 	public void resetToDefaults(){
@@ -56,8 +84,13 @@ public class GameSettings implements Serializable {
 		m_bVibration = false;
 		m_bHasHalftime = true;
 		m_nTimeouts = 2;
+		m_nMaxPlayers = 15;
+		m_nMaxOvertimePlayers = 6;
 		m_nShotClockDuration = Clock.SECOND * 15;		//shot clock 15 seconds
-		m_nGameClockDuration = Clock.MINUTE * 25;		//game clock at 25 minutes
+		m_nGameClockDuration = Clock.MINUTE * 50;		//game clock at 50 minutes
+		
+		m_eStaffType = STAFF.NONE;
+//		m_eTeam = TEAM.NONE;
 	}
 	
 	
@@ -69,31 +102,37 @@ public class GameSettings implements Serializable {
 	 * settings object if it doesn't exist/is corrupt.  The GameSettings object is loaded
 	 * into AppGlobals.mGameSettings.
 	 */
-	public static void loadSettings(Context ctx){
+	public boolean loadSettings(Activity parent){
 		//load settings from file
-        File fSettings = new File( AppGlobals.INTERNAL_DIR + "/" + AppGlobals.SETTINGS_FILE );
-        boolean bLoaded = false;
+        File fSettings = new File( Global.getInternalDir(parent) + "/" + parent.getString(R.string.file_settings) );
         if(fSettings.exists()){
         	try{
-        		AppGlobals.gGameSettings = GameSettings.readSettings(new ObjectInputStream( new FileInputStream(fSettings)));
-        		bLoaded = true;
+        		readSettings(new ObjectInputStream( new FileInputStream(fSettings)));
         		Log.D("Settings read from app data");
+        		return true;
         	}
         	catch(Exception e){
-        		Toast.makeText(ctx, "Settings data is corrupt. Resetting to defaults", Toast.LENGTH_LONG).show();
+        		Toast.makeText(parent, "Settings data is corrupt. Resetting to defaults", Toast.LENGTH_LONG).show();
         	}
         }
-        
-        //if we didn't load settings (corrupt or doesn't exist), create new settings
-        if(!bLoaded){
-        	AppGlobals.gGameSettings = new GameSettings();
+        return false;
+	}
+	
+	
+	public boolean saveSettings(Activity parent){
+		//delete existing file
+        File fSettings = new File( Global.getInternalDir(parent) + "/" + parent.getString(R.string.file_settings) );
+        if(fSettings.exists()){
         	try{
-        		GameSettings.writeSettings(AppGlobals.gGameSettings, new ObjectOutputStream(new FileOutputStream(fSettings)));
+        		writeSettings(sInstance, new ObjectOutputStream( new FileOutputStream(fSettings)));
+        		Log.D("Settings saved to app data");
+        		return true;
         	}
         	catch(Exception e){
-        		throw new RuntimeException(e.getMessage());
+        		Toast.makeText(parent, "Could not save settings", Toast.LENGTH_LONG).show();
         	}
         }
+        return false;
 	}
 	
 	/** isMute
@@ -192,6 +231,22 @@ public class GameSettings implements Serializable {
 		m_nTimeouts = timeouts;
 	}
 	
+	public int getMaxPlayers(){
+		return m_nMaxPlayers;
+	}
+	
+	public void setMaxPlayers(int players){
+		m_nMaxPlayers = players;
+	}
+	
+	public int getMaxOvertimePlayers(){
+		return m_nMaxOvertimePlayers;
+	}
+	
+	public void setMaxOvertimePlayers(int players){
+		m_nMaxOvertimePlayers = players;
+	}
+	
 	/** getShotClockDuration
 	 * 
 	 * @return time (milliseconds) of the duration of the shotclock
@@ -224,13 +279,39 @@ public class GameSettings implements Serializable {
 		m_nGameClockDuration = duration;
 	}
 	
+	
+	public void setStaffType( GameSettings.STAFF type ){
+		assert ( type != null );
+		m_eStaffType = type;
+	}
+	
+	public GameSettings.STAFF getStaffType(){
+		return m_eStaffType;
+	}
+	
+//	public void setTeam( GameSettings.TEAM team ){
+//		m_eTeam = team;
+//	}
+//	
+//	public GameSettings.TEAM getTeam(){
+//		return m_eTeam;
+//	}
+	
+//	public void setBTM( BluetoothManager btm ){
+//		m_BTM = btm;
+//	}
+//	
+//	public BluetoothManager getBTM(){
+//		return m_BTM;
+//	}
+	
 	/** writeSettings
 	 * 
 	 * @param out
 	 * @throws IOException
 	 */
-	public static void writeSettings(GameSettings settings, ObjectOutputStream out) throws IOException {
-		     out.writeObject(settings);
+	private void writeSettings(GameSettings settings, ObjectOutputStream out) throws IOException {
+		out.writeObject(settings);
 	}  
 
 	/** readSettings
@@ -239,7 +320,7 @@ public class GameSettings implements Serializable {
 	 * @throws IOException
 	 * @throws ClassNotFoundException
 	 */
-	public static GameSettings readSettings(ObjectInputStream in) throws IOException, ClassNotFoundException {
-		return (GameSettings) in.readObject();
+	private void readSettings(ObjectInputStream in) throws IOException, ClassNotFoundException {
+		sInstance = (GameSettings) in.readObject();
 	}
 }

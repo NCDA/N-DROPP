@@ -14,10 +14,17 @@ package com.ncdadodgeball.ndropp;
 
 import java.io.File;
 
+import com.ncdadodgeball.comm.BluetoothManager;
+import com.ncdadodgeball.comm.DownloadManager;
+import com.ncdadodgeball.util.GameSettings;
+import com.ncdadodgeball.util.Log;
+
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 import android.widget.Toast;
 
 /*	GameActivity
@@ -27,7 +34,9 @@ import android.widget.Toast;
 public abstract class GameActivity extends Activity
 {
 //	private boolean m_bHasHalftime;					//can be acheived with GameSettings object in AppGlobals
+	
 	private boolean m_bIsHalftime, m_bIsOvertime;
+	private static GameActivity sInstance = null;
 	
 	/**	GameActivity -- CONSTRUCTOR
 	 * 
@@ -36,6 +45,33 @@ public abstract class GameActivity extends Activity
 //		m_bHasHalftime = true;
 		m_bIsHalftime = m_bIsOvertime = false;
 	}
+	
+	@Override
+	public void onCreate(Bundle savedInstanceState){
+		super.onCreate(savedInstanceState);
+		sInstance = this;
+		//load personal game settings and context-specific settings
+		GameSettings.instance().init(this);
+		setContextAttributes();
+		
+		//create game model
+		GameModel.instance().init();
+		EventHandler.instance().init();
+		
+		//kick off bluetooth threads if we're connected
+		if( BluetoothManager.instance().isBluetoothEnabled() && BluetoothManager.instance().isConnectedToOtherDevices() ){
+//        	BluetoothManager.instance().setParentActivity(this);
+			BluetoothManager.instance().initThread();
+        }
+	}
+	
+	public static Activity currentActivity(){
+		return sInstance;
+	}
+	
+	//every GameActivity needs to set context-specific attributes such as
+	// which referee you are, which team you're reffing for(if applicable), etc.
+	public abstract void setContextAttributes();
 	
 //	protected void setHasHalftime(boolean hasHalftime){
 //		m_bHasHalftime = hasHalftime;
@@ -80,7 +116,8 @@ public abstract class GameActivity extends Activity
 	protected void onRulebookPressed(){
 		//Rulebook - download/view
 		if(DownloadManager.DownloadRulebook()){
-			File fRulebook = new File(AppGlobals.EXTERNAL_DIR + "/" + AppGlobals.RULEBOOK_FILE);
+			Activity main = MainActivity.sInstance;
+			File fRulebook = new File(Global.getExternalDir(main) + "/" + main.getString(R.string.file_rulebook));
 			Uri path = Uri.fromFile(fRulebook);
             Intent pdfViewIntent = new Intent(Intent.ACTION_VIEW);
             pdfViewIntent.setDataAndType(path, "application/pdf");
@@ -109,6 +146,10 @@ public abstract class GameActivity extends Activity
 	protected void onPenaltyPressed(){
 		
 	}
+	
+//	protected GameSettings getSettings(){
+//		return m_Settings;
+//	}
 	
 	//In-game event overrides
 	abstract protected void onAddPlayerEvent();

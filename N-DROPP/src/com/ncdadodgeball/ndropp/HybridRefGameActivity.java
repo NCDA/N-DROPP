@@ -90,4 +90,10 @@ public class HybridRefGameActivity extends GameActivity {
 	protected void onGameOverEvent() {
 		
 	}
+
+	@Override
+	public void setContextAttributes() {
+		// TODO Auto-generated method stub
+		
+	}
 }

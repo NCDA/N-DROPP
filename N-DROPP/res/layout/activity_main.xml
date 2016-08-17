@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/MAIN_root"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent" >
+
+	<ImageView
+		android:id="@+id/MAIN_ic_ncda"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_alignParentTop="true"
+		android:layout_centerHorizontal="true"
+		android:padding="5dp"
+		android:src="@drawable/ic_ncda"
+		android:contentDescription="@string/desc_ic_ncda" />
+	
+	<!-- Center of screen reference point -->
+	<View
+		android:id="@+id/MAIN_center"
+		android:layout_width="match_parent"
+		android:layout_height="0dp"
+		android:layout_centerInParent="true" />
+	
+	<ImageView
+		android:id="@+id/MAIN_ic_ndropp"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_above="@id/MAIN_center"
+		android:layout_below="@id/MAIN_ic_ncda"
+		android:layout_centerHorizontal="true"
+		android:layout_margin="5dp"
+		android:src="@drawable/ic_launcher"
+		android:contentDescription="@string/desc_ic_ndropp" />
+	
+	<LinearLayout
+		android:id="@+id/MAIN_layout_horizontal_columns"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_below="@id/MAIN_ic_ndropp"
+		android:orientation="horizontal" >
+		
+		<View
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:layout_weight="1" />
+		
+		<LinearLayout 
+			android:id="@+id/MAIN_layout_buttons"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:layout_weight="1"
+			android:gravity="center"
+			android:orientation="vertical" >
+			
+			<Button
+				android:id="@+id/MAIN_bt_new_game"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_gravity="center_horizontal"
+				android:text="@string/bt_officiate" />
+			
+			<Button
+				android:id="@+id/MAIN_bt_history"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_gravity="center_horizontal"
+				android:text="@string/bt_history"	/>
+			
+			<Button
+				android:id="@+id/MAIN_bt_info"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_gravity="center_horizontal"
+				android:text="@string/bt_info" />
+			
+			<Button
+				android:id="@+id/MAIN_bt_settings"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_gravity="center_horizontal"
+				android:text="@string/bt_settings" />
+		</LinearLayout>
+		
+		<View
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:layout_weight="1" />
+		
+	</LinearLayout>
+</RelativeLayout>

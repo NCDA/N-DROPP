@@ -10,7 +10,7 @@
  * http://www.ncdadodgeball.com
  * Copyright 2014. All Rights Reserved.
  *************************************************************************************************/
-package com.ncdadodgeball.ndropp;
+package com.ncdadodgeball.util;
 
 /*	Log
  *	Used to send log messages to the device's logcat with the N-DROPP tag.
@@ -25,13 +25,7 @@ public class Log {
 	 * @param debugMessage : debug message to print in the logcat
 	 */
 	public static void D(String debugMessage){
-		android.util.Log.d(TAG_DEBUG, " ");
-		android.util.Log.d(TAG_DEBUG, "+++++++++++++++++++++++++++++++++++++++++++++++++++");
-		android.util.Log.d(TAG_DEBUG, " ");
-		android.util.Log.d(TAG_DEBUG, "<<<<<<<<<  " + debugMessage + "  >>>>>>>>");
-		android.util.Log.d(TAG_DEBUG, " ");
-		android.util.Log.d(TAG_DEBUG, "+++++++++++++++++++++++++++++++++++++++++++++++++++");
-		android.util.Log.d(TAG_DEBUG, " ");
+		android.util.Log.d(TAG_DEBUG, "<<    " + debugMessage + "    >>");
 	}
 	
 	/** E
@@ -39,7 +33,11 @@ public class Log {
 	 * @param errMessage : error message to print in the logcat
 	 */
 	public static void E(String errMessage){
-		android.util.Log.e(TAG_ERROR, "--------  " + errMessage + "  --------" );
+		if( errMessage == null )
+			errMessage = "";
+		android.util.Log.e(TAG_ERROR, "<<<<" );
+		android.util.Log.e(TAG_ERROR, errMessage);
+		android.util.Log.e(TAG_ERROR, ">>>>" );
 	}
 	
 
