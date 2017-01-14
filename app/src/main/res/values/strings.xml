@@ -2,6 +2,7 @@
     <string name="app_name">NDROPP</string>
 
     <string name="title_activity_start_screen">Start Game</string>
-    <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">NDROPP APP</string>
+  - <string name="create_game">Create Game</string>
+    - <string name="join_game">Join Game</string>
+
 </resources>
