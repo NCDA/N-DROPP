@@ -17,8 +17,6 @@
         </activity>
         <activity android:name=".ShotClock" />
         <activity android:name=".Referee" />
-
-
     </application>
     <uses-permission android:name="android.permission.VIBRATE"></uses-permission>
 
