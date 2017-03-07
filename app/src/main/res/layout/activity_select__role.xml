@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_select__role"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="nick.ncdareferee.Select_Role">
+
+    <TextView
+        android:text="Select Your Officiating Role"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/Label_Officiating_Role"
+        android:textAppearance="@android:style/TextAppearance.Material.Headline" />
+
+    <Button
+        android:text="Head Referee"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/Label_Officiating_Role"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="60dp"
+        android:id="@+id/button_HeadRef" />
+
+    <Button
+        android:text="Assistant Referee"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/button_HeadRef"
+        android:layout_alignEnd="@+id/button_HeadRef"
+        android:layout_marginTop="30dp"
+        android:id="@+id/button_AsstRef" />
+
+    <Button
+        android:text="Shot Clock 1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:id="@+id/button_ShotClock1"
+        android:layout_below="@+id/button_AsstRef"
+        android:layout_alignStart="@+id/button_AsstRef" />
+
+    <Button
+        android:text="Shot Clock 2"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/button_ShotClock1"
+        android:layout_alignStart="@+id/button_ShotClock1"
+        android:layout_marginTop="30dp"
+        android:id="@+id/button_ShotClock2" />
+</RelativeLayout>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.percent.PercentRelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="nick.ncdareferee.ShotClock">
+
+    <Button
+        android:id="@+id/button15"
+        android:text="15 Seconds"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        app:layout_widthPercent="45%"/>
+    <Button
+        android:id="@+id/button10"
+        android:text="10 Seconds"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        app:layout_widthPercent="45%"/>
+
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        android:id="@+id/spinner2"
+        android:entries="@array/spinner_numbers"
+        android:layout_alignParentBottom="true"
+        android:layout_alignEnd="@+id/button15" />
+
+    <Button
+        android:text="Reset"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_widthPercent="40%"
+        android:id="@+id/reset"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:inputType="numberDecimal"
+        android:ems="10"
+        android:id="@+id/clockText"
+        app:layout_widthPercent="90%"
+        android:gravity="center"
+        app:layout_heightPercent="70%"
+        android:textSize="80sp"
+        android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"
+        android:layout_below="@+id/button15"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="31dp"
+        android:layout_alignParentEnd="true" />
+
+
+</android.support.percent.PercentRelativeLayout>
+
